@@ -1,4 +1,4 @@
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.jpg";
 
@@ -11,38 +11,74 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
+      {/* Subtle background elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto relative z-10">
+        <div className="grid md:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+          {/* Profile Image with Frame */}
+          <div className="flex justify-center md:justify-start animate-fade-in order-2 md:order-1">
+            <div className="relative">
+              {/* White frame effect */}
+              <div className="bg-white/95 p-8 shadow-2xl">
+                <img
+                  src={profileImage}
+                  alt="Chitkul Lakshya"
+                  className="w-80 h-96 md:w-96 md:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                />
+                {/* Name label */}
+                <div className="mt-6 space-y-1">
+                  <h3 className="text-2xl font-bold text-black tracking-tight">CHITKUL</h3>
+                  <h3 className="text-2xl font-bold text-black tracking-tight">LAKSHYA</h3>
+                </div>
+              </div>
+              
+              {/* Subtle glow behind frame */}
+              <div className="absolute -inset-4 bg-primary/10 blur-2xl -z-10"></div>
+            </div>
+          </div>
+
           {/* Text Content */}
-          <div className="flex-1 space-y-6 animate-fade-in">
-            <div className="space-y-2">
-              <p className="text-primary text-lg font-medium">Hi, I'm</p>
-              <h1 className="text-5xl md:text-7xl font-bold gradient-text">
-                CHITKUL LAKSHYA
+          <div className="space-y-8 animate-fade-in order-1 md:order-2">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider leading-tight text-foreground">
+                FULL STACK DEVELOPER
+                <br />
+                <span className="text-muted-foreground">WILL CREATE THE</span>
+                <br />
+                <span className="font-normal">BEST</span> <span className="text-primary">SOLUTIONS</span>
+                <br />
+                <span className="text-muted-foreground">FOR YOU</span>
               </h1>
-              <h2 className="text-2xl md:text-3xl text-muted-foreground">
-                Full Stack Developer & AI Enthusiast
-              </h2>
             </div>
 
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              Passionate about building modern web and mobile applications with cutting-edge technologies. 
-              Leveraging AI tools and automation to enhance productivity and create innovative solutions.
-            </p>
+            <div className="space-y-4 text-muted-foreground max-w-xl leading-relaxed">
+              <p>
+                Passionate about building modern web and mobile applications with cutting-edge technologies. 
+                Specializing in React, Next.js, and AI integration to create innovative solutions.
+              </p>
+              <p>
+                From intuitive user interfaces to robust backend systems, I bring ideas to life with clean code 
+                and attention to detail. Let's build something extraordinary together.
+              </p>
+            </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 pt-4">
               <Button 
                 size="lg" 
-                className="bg-primary hover:bg-primary/90 glow-primary"
+                className="bg-foreground text-background hover:bg-foreground/90 px-8 rounded-sm"
                 onClick={() => scrollToSection("portfolio")}
               >
-                View My Work
-                <ArrowRight className="ml-2 h-5 w-5" />
+                View Portfolio
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
+                className="border-foreground/20 hover:bg-foreground/5 px-8 rounded-sm"
                 onClick={() => scrollToSection("contact")}
               >
                 Get In Touch
@@ -55,36 +91,27 @@ const Hero = () => {
                 href="https://github.com/ChitkulLakshya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-lg bg-card hover:bg-card/80 transition-colors glow-primary"
+                className="p-3 border border-border hover:border-foreground/30 transition-all duration-300 group"
+                aria-label="GitHub"
               >
-                <Github className="h-5 w-5" />
+                <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="https://www.linkedin.com/in/chitkul-lakshya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-lg bg-card hover:bg-card/80 transition-colors glow-primary"
+                className="p-3 border border-border hover:border-foreground/30 transition-all duration-300 group"
+                aria-label="LinkedIn"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="mailto:Chitkullakshya@gmail.com"
-                className="p-3 rounded-lg bg-card hover:bg-card/80 transition-colors glow-primary"
+                className="p-3 border border-border hover:border-foreground/30 transition-all duration-300 group"
+                aria-label="Email"
               >
-                <Mail className="h-5 w-5" />
+                <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </a>
-            </div>
-          </div>
-
-          {/* Profile Image */}
-          <div className="flex-1 flex justify-center animate-slide-in-right">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-3xl opacity-30 animate-glow-pulse"></div>
-              <img
-                src={profileImage}
-                alt="Chitkul Lakshya"
-                className="relative rounded-full w-64 h-64 md:w-96 md:h-96 object-cover border-4 border-primary/20 shadow-2xl"
-              />
             </div>
           </div>
         </div>
