@@ -15,20 +15,25 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Services", href: "#services" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "#home", isRoute: false },
+    { name: "About", href: "#about", isRoute: false },
+    { name: "Skills", href: "#skills", isRoute: false },
+    { name: "Services", href: "#services", isRoute: false },
+    { name: "Portfolio", href: "#portfolio", isRoute: false },
+    { name: "Projects", href: "/projects", isRoute: true },
+    { name: "Contact", href: "#contact", isRoute: false },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
+  const handleNavClick = (href: string, isRoute: boolean) => {
+    if (isRoute) {
+      window.location.href = href;
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -48,7 +53,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.name}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => handleNavClick(link.href, link.isRoute)}
                 className="text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors uppercase"
               >
                 {link.name}
@@ -73,7 +78,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.name}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => handleNavClick(link.href, link.isRoute)}
                 className="block w-full text-left text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors py-2 uppercase"
               >
                 {link.name}
