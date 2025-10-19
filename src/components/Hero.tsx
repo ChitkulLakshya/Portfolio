@@ -1,6 +1,5 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "./ui/button";
-import profileImage from "@/assets/profile.jpg";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -26,14 +25,13 @@ const Hero = () => {
               {/* White frame effect */}
               <div className="bg-white/95 p-8 shadow-2xl">
                 <img
-                  src={profileImage}
+                  src="https://i.postimg.cc/BQN5KYQZ/29defd38-ae12-49c5-968c-56a2192e7000-1.jpg"
                   alt="Chitkul Lakshya"
                   className="w-80 h-96 md:w-96 md:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
                 {/* Name label */}
                 <div className="mt-6 space-y-1">
-                  <h3 className="text-2xl font-bold text-black tracking-tight">CHITKUL</h3>
-                  <h3 className="text-2xl font-bold text-black tracking-tight">LAKSHYA</h3>
+                  <h3 className="text-3xl font-textile text-black tracking-tight text-center">CHITKUL LAKSHYA</h3>
                 </div>
               </div>
               
@@ -45,7 +43,7 @@ const Hero = () => {
           {/* Text Content */}
           <div className="space-y-8 animate-fade-in order-1 md:order-2">
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider leading-tight text-foreground">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wider leading-tight text-foreground">
                 FULL STACK DEVELOPER
                 <br />
                 <span className="text-muted-foreground">WILL CREATE THE</span>
@@ -70,15 +68,8 @@ const Hero = () => {
             <div className="flex flex-wrap gap-4 pt-4">
               <Button 
                 size="lg" 
-                className="bg-foreground text-background hover:bg-foreground/90 px-8 rounded-sm"
-                onClick={() => scrollToSection("portfolio")}
-              >
-                View Portfolio
-              </Button>
-              <Button 
-                size="lg" 
                 variant="outline"
-                className="border-foreground/20 hover:bg-foreground/5 px-8 rounded-sm"
+                className="bg-foreground text-background hover:bg-foreground/90 px-8 rounded-sm"
                 onClick={() => scrollToSection("contact")}
               >
                 Get In Touch
