@@ -1,40 +1,65 @@
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+
+// Add your Google Sheet ID and API Key here
+const SHEET_ID = "YOUR_SHEET_ID_HERE";
+const API_KEY = "YOUR_API_KEY_HERE";
+const SHEET_NAME = "Projects";
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  liveUrl: string;
+  githubUrl: string;
+  imageUrl: string;
+  tags: string[];
+}
+
+const fetchProjects = async (): Promise<Project[]> => {
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch projects");
+    }
+
+    const data = await response.json();
+    const rows = data.values;
+
+    // Skip header row and map data
+    return rows.slice(1).map((row: string[], index: number) => ({
+      id: index + 1,
+      title: row[0] || "",
+      description: row[1] || "",
+      liveUrl: row[2] || "",
+      githubUrl: row[3] || "",
+      imageUrl: row[4] || "/placeholder.svg",
+      tags: row[5] ? row[5].split(",").map((tag: string) => tag.trim()) : [],
+    }));
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
+};
 
 const Projects = () => {
-  // Example projects - replace with your actual projects
-  const projects = [
-    {
-      id: 1,
-      title: "Project Name 1",
-      description: "Brief description of your project showcasing key features and technologies used.",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/ChitkulLakshya",
-      previewImage: "/placeholder.svg",
-      tags: ["React", "TypeScript", "Tailwind CSS"],
-    },
-    {
-      id: 2,
-      title: "Project Name 2",
-      description: "Another amazing project demonstrating your full stack development skills.",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/ChitkulLakshya",
-      previewImage: "/placeholder.svg",
-      tags: ["Next.js", "AI Integration", "Python"],
-    },
-    {
-      id: 3,
-      title: "Project Name 3",
-      description: "Innovative AI automation project showcasing modern web technologies.",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/ChitkulLakshya",
-      previewImage: "/placeholder.svg",
-      tags: ["Node.js", "Automation", "Java"],
-    },
-  ];
+  const { data: projects = [], isLoading, isError } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+    refetchInterval: 60000, // Refetch every minute
+    retry: 2,
+  });
+
+  if (isError) {
+    toast.error("Failed to load projects. Please check your configuration.");
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,9 +77,27 @@ const Projects = () => {
             </p>
           </div>
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <Loader2 className="h-12 w-12 animate-spin text-primary" />
+              <p className="text-muted-foreground">Loading projects...</p>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && projects.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg">
+                No projects found. Add projects to your Google Sheet to get started.
+              </p>
+            </div>
+          )}
+
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+          {!isLoading && projects.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
               <Card 
                 key={project.id} 
                 className="group hover:border-primary/50 transition-all duration-300 overflow-hidden animate-fade-in"
@@ -63,7 +106,7 @@ const Projects = () => {
                 {/* Project Preview */}
                 <div className="relative h-48 bg-muted overflow-hidden">
                   <img 
-                    src={project.previewImage} 
+                    src={project.imageUrl} 
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -141,8 +184,9 @@ const Projects = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Coming Soon Section */}
           <div className="mt-16 text-center">
