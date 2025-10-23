@@ -1,112 +1,85 @@
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Menu, X, Home, User, Code, Briefcase, MessageSquare } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Scroll to section on home page if hash exists
-  useEffect(() => {
-    if (location.pathname === "/" && location.hash) {
-      const id = location.hash.replace("#", "");
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => element.scrollIntoView({ behavior: "smooth" }), 50);
-      }
-    }
-  }, [location]);
-
   const navLinks = [
-    { name: "Home", href: "/#home" },
-    { name: "About", href: "/#about" },
-    { name: "Skills", href: "/#skills" },
-    { name: "Services", href: "/#services" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/#contact" },
+    { name: "Home", href: "/#home", icon: <Home /> },
+    { name: "About", href: "/#about", icon: <User /> },
+    { name: "Skills", href: "/#skills", icon: <Code /> },
+    { name: "Services", href: "/#services", icon: <Briefcase /> },
+    { name: "Projects", href: "/projects", icon: <Briefcase /> },
+    { name: "Contact", href: "/#contact", icon: <MessageSquare /> },
   ];
 
   const handleNavClick = (href: string) => {
     const [path, hash] = href.split("#");
 
     if (path === "/projects") {
-      navigate("/projects"); // Multi-page, just navigate
-    } else if (location.pathname !== "/") {
-      // Navigate to home with hash
+      navigate("/projects");
+    } else {
       navigate("/" + (hash ? `#${hash}` : ""));
-    } else if (hash) {
-      // Already on home, scroll smoothly
-      const element = document.getElementById(hash);
-      if (element) element.scrollIntoView({ behavior: "smooth" });
+      if (hash) {
+        const element = document.getElementById(hash);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      }
     }
 
     setIsMobileMenuOpen(false);
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md border-b border-border/50" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-5">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => handleNavClick("/#home")}
-            className="text-xl font-light tracking-widest hover:text-primary transition-colors"
-          >
-            CHITKUL LAKSHYA
-          </button>
+    <>
+      {/* Desktop Navbar */}
+      <nav className="hidden md:flex fixed top-0 left-0 right-0 z-50 bg-black text-white px-4 py-4 items-center justify-between">
+        <button
+          onClick={() => handleNavClick("/#home")}
+          className="text-xl font-stencil tracking-widest"
+        >
+          CHITKUL LAKSHYA
+        </button>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-10">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => handleNavClick(link.href)}
-                className="text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors uppercase"
-              >
-                {link.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </Button>
+        <div className="flex space-x-6">
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => handleNavClick(link.href)}
+              className="text-white uppercase hover:text-red-600 font-stencil"
+            >
+              {link.name}
+            </button>
+          ))}
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4 border-t border-border/50 pt-4">
-            {navLinks.map((link) => (
+      {/* Mobile Bottom Navbar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-black md:hidden border-t border-gray-800">
+        <div className="flex justify-around items-center py-2">
+          {navLinks.map((item) => {
+            const isActive =
+              location.hash === `#${item.href.split("#")[1]}` ||
+              location.pathname === item.href;
+            return (
               <button
-                key={link.name}
-                onClick={() => handleNavClick(link.href)}
-                className="block w-full text-left text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors py-2 uppercase"
+                key={item.name}
+                onClick={() => handleNavClick(item.href)}
+                className={`flex flex-col items-center text-white text-xs ${
+                  isActive ? "text-red-400" : "text-gray-300"
+                }`}
               >
-                {link.name}
+                {item.icon}
+                <span className="mt-1 font-stencil">{item.name}</span>
               </button>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
       </div>
-    </nav>
+    </>
   );
 };
 

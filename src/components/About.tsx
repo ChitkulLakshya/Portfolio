@@ -21,12 +21,18 @@ const About = () => {
       organization: "Sreenidhi Institute of Science and Technology",
       description: "3rd Year - Computer Science & Engineering",
     },
+    {
+      icon: Users,
+      title: "Active Member",
+      organization: "Swecha organization",
+      description: "Contributing to Telugu LLM project and open-source initiatives",
+    },
   ];
 
   return (
     <section id="about" className="py-20 px-4">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-6xl mx-auto space-y-12">
           {/* Section Header */}
           <div className="text-center space-y-4 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text">About Me</h2>
@@ -60,7 +66,7 @@ const About = () => {
           </Card>
 
           {/* Experience & Education */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-4 gap-6">
             {experiences.map((exp, index) => (
               <Card
                 key={index}
