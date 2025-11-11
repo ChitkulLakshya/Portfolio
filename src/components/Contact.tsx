@@ -1,88 +1,49 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { Github, Linkedin, Mail } from "lucide-react";
 
-const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const navLinks = [
-    { name: "Home", href: "/#home" },
-    { name: "About", href: "/#about" },
-    { name: "Skills", href: "/#skills" },
-    { name: "Services", href: "/#services" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/#contact" },
-  ];
-
-  const handleNavClick = (href: string) => {
-    const [path, hash] = href.split("#");
-
-    if (path === "/projects") {
-      navigate("/projects");
-    } else {
-      navigate("/" + (hash ? `#${hash}` : ""));
-      if (hash) {
-        const element = document.getElementById(hash);
-        if (element) element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-
-    setIsMobileMenuOpen(false);
-  };
-
+const Contact = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Brand */}
-        <button
-          onClick={() => handleNavClick("/#home")}
-          className="text-xl font-semibold tracking-widest text-white hover:text-red-500 transition-colors"
-        >
-          CHITKUL LAKSHYA
-        </button>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => handleNavClick(link.href)}
-              className="text-sm uppercase text-white hover:text-red-500 transition-colors"
+    <section id="contact" className="py-32 px-4 border-t border-white/10 bg-black">
+      <div className="container mx-auto max-w-5xl">
+        <div className="text-center space-y-12">
+          <h2 className="text-5xl md:text-7xl font-light text-white leading-tight">
+            Let's Work Together
+          </h2>
+          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
+            Ready to bring your ideas to life? Get in touch and let's create something amazing.
+          </p>
+          
+          {/* Contact Links */}
+          <div className="flex flex-wrap justify-center gap-8 pt-8">
+            <a
+              href="mailto:Chitkullakshya@gmail.com"
+              className="flex items-center gap-3 text-white hover:opacity-70 transition-opacity"
             >
-              {link.name}
-            </button>
-          ))}
+              <Mail className="h-5 w-5" />
+              <span className="font-light">Chitkullakshya@gmail.com</span>
+            </a>
+            <a
+              href="https://github.com/ChitkulLakshya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-white hover:opacity-70 transition-opacity"
+            >
+              <Github className="h-5 w-5" />
+              <span className="font-light">GitHub</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/chitkul-lakshya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-white hover:opacity-70 transition-opacity"
+            >
+              <Linkedin className="h-5 w-5" />
+              <span className="font-light">LinkedIn</span>
+            </a>
+          </div>
         </div>
-
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X /> : <Menu />}
-        </Button>
       </div>
-
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden flex flex-col space-y-2 px-4 pb-4 bg-black">
-          {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => handleNavClick(link.href)}
-              className="text-sm uppercase text-white hover:text-red-500 transition-colors"
-            >
-              {link.name}
-            </button>
-          ))}
-        </div>
-      )}
-    </nav>
+    </section>
   );
 };
 
-export default Navbar;
+export default Contact;

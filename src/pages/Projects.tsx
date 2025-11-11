@@ -18,6 +18,7 @@ interface Project {
   image: string;
   tech: string[];
   url: string;
+  github: string;
 }
 
 // Ensure URLs start with http/https
@@ -36,6 +37,7 @@ const fetchProjects = async (): Promise<Project[]> => {
       image: row.image || "/placeholder.svg",
       tech: row.tech ? row.tech.split(",").map((t: string) => t.trim()) : [],
       url: row.url || "#",
+      github: row.github || "",
     }));
 
     return projects;
@@ -56,14 +58,14 @@ const Projects = () => {
   if (isError) toast.error("Failed to load projects. Please check your configuration.");
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       <Navbar />
-      <main className="pt-24 pb-20 px-4">
+      <main className="pt-20 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Header */}
           <div className="text-center space-y-4 mb-16 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold gradient-text">Live Projects</h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold text-white">Live Projects</h1>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Explore interactive previews of my work in web development, AI integration, and automation.
             </p>
           </div>
@@ -100,7 +102,7 @@ const Projects = () => {
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-2">
                       <Button size="sm" variant="secondary" asChild>
                         <a
                           href={safeUrl(project.url)}
@@ -112,6 +114,18 @@ const Projects = () => {
                           <ExternalLink className="h-4 w-4" />
                         </a>
                       </Button>
+                      {project.github && (
+                        <Button size="sm" variant="secondary" asChild>
+                          <a
+                            href={safeUrl(project.github)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2"
+                          >
+                            <Github className="h-4 w-4" />
+                          </a>
+                        </Button>
+                      )}
                     </div>
                   </div>
 
@@ -131,6 +145,21 @@ const Projects = () => {
                         </span>
                       ))}
                     </div>
+                    {project.github && (
+                      <div className="flex items-center gap-2 pt-2">
+                        <Button size="sm" variant="outline" asChild>
+                          <a
+                            href={safeUrl(project.github)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2"
+                          >
+                            <Github className="h-4 w-4" />
+                            GitHub
+                          </a>
+                        </Button>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}
