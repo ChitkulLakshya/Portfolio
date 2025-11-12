@@ -58,14 +58,14 @@ const Projects = () => {
   if (isError) toast.error("Failed to load projects. Please check your configuration.");
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: '#D3D3D3' }}>
       <Navbar />
       <main className="pt-20 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Header */}
           <div className="text-center space-y-4 mb-16 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold text-white">Live Projects</h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold text-black">Live Projects</h1>
+            <p className="text-black text-lg max-w-2xl mx-auto">
               Explore interactive previews of my work in web development, AI integration, and automation.
             </p>
           </div>
@@ -74,14 +74,14 @@ const Projects = () => {
           {isLoading && (
             <div className="flex flex-col items-center justify-center py-20 space-y-4">
               <Loader2 className="h-12 w-12 animate-spin text-primary" />
-              <p className="text-muted-foreground">Loading projects...</p>
+              <p className="text-black">Loading projects...</p>
             </div>
           )}
 
           {/* Empty */}
           {!isLoading && projects.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">
+              <p className="text-black text-lg">
                 No projects found. Add projects to your Google Sheet to get started.
               </p>
             </div>

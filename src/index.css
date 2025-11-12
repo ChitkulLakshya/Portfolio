@@ -59,8 +59,9 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-black text-white;
+    @apply text-black;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #D3D3D3;
   }
 
   html {

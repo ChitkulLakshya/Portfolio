@@ -19,6 +19,7 @@ export default {
     extend: {
       fontFamily: {
         stencil: ["'Staatliches'", "sans-serif"], // Add stencil font
+        sixcaps: ["'Six Caps'", "sans-serif"], // Add Six Caps font
       },
       colors: {
         border: "hsl(var(--border))",
