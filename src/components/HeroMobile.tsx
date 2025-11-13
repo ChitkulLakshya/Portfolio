@@ -2,17 +2,15 @@ const HeroMobile = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-20 px-4 relative"
+      className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-x-hidden"
     >
       <div
-        className="w-full max-w-7xl mx-auto rounded-lg relative flex items-center justify-center"
+        className="w-full rounded-lg relative flex items-center justify-center overflow-hidden"
         style={{
           backgroundColor: "transparent",
           minHeight: "80vh",
-          width: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          marginRight: "calc(50% - 50vw)",
-          overflow: "visible",
+          maxWidth: "100%",
+          width: "100%",
         }}
       >
         <img
@@ -23,7 +21,8 @@ const HeroMobile = () => {
             top: "10%",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "750px",
+            width: "min(750px, 90vw)",
+            maxWidth: "100%",
             height: "auto",
             objectFit: "contain",
             pointerEvents: "none",
@@ -33,8 +32,8 @@ const HeroMobile = () => {
 
         <div className="relative w-full h-full z-10">
           <div
-            className="absolute top-[-350px] left-[260px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit"
-            style={{ transform: "scale(1.0)" }}
+            className="absolute top-[-350px] left-[50%] flex items-center gap-2 px-3 py-1.5 bg-black/20 rounded-full w-fit"
+            style={{ transform: "translateX(-50%) scale(1.0)", maxWidth: "90vw" }}
           >
             <div className="w-2 h-2 bg-black rounded-full"></div>
             <span className="text-sm text-black font-medium">
@@ -49,8 +48,10 @@ const HeroMobile = () => {
               fontStyle: "italic",
               fontWeight: "200",
               top: "-400px",
-              left: "20px",
-              fontSize: "80px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "clamp(40px, 15vw, 80px)",
+              width: "fit-content",
             }}
           >
             Hey,
@@ -63,9 +64,11 @@ const HeroMobile = () => {
               fontStyle: "italic",
               fontWeight: "200",
               top: "-270px",
-              left: "20px",
-              fontSize: "40px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "clamp(20px, 8vw, 40px)",
               letterSpacing: "5px",
+              width: "fit-content",
             }}
           >
             I'm
@@ -76,10 +79,12 @@ const HeroMobile = () => {
               className="font-black"
               style={{
                 top: "-240px",
-                left: "14px",
-                fontSize: "90px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                fontSize: "clamp(40px, 15vw, 80px)",
                 position: "absolute",
-                width: "500px",
+                width: "min(500px, 90vw)",
+                maxWidth: "100%",
               }}
             >
               LAKSHYA
@@ -89,10 +94,12 @@ const HeroMobile = () => {
           <div
             className="absolute font-sixcaps font-bold leading-tight"
             style={{
-              top: "-100px",
-              left: "430px",
-              width: "600px",
-              fontSize: "40px",
+              top: "-130px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "min(600px, 85vw)",
+              maxWidth: "100%",
+              fontSize: "clamp(24px, 5vw, 40px)",
               textAlign: "left",
               color: "black",
               lineHeight: "1.0",
@@ -108,9 +115,12 @@ const HeroMobile = () => {
             className="absolute text-black font-light leading-relaxed"
             style={{
               bottom: "40px",
-              left: "20px",
-              width: "500px",
-              fontSize: "12px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "min(500px, 90vw)",
+              maxWidth: "100%",
+              fontSize: "clamp(10px, 3vw, 12px)",
+              padding: "0 16px",
             }}
           >
             <p>

@@ -62,10 +62,12 @@ All colors MUST be HSL.
     @apply text-black;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: #D3D3D3;
+    overflow-x: hidden;
   }
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {

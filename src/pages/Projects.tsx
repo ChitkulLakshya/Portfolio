@@ -58,7 +58,7 @@ const Projects = () => {
   if (isError) toast.error("Failed to load projects. Please check your configuration.");
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#D3D3D3' }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
       <Navbar />
       <main className="pt-20 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">

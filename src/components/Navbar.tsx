@@ -56,12 +56,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-black/10" style={{ backgroundColor: '#D3D3D3' }}>
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-black/10 overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
+      <div className="container mx-auto px-2 md:px-4 py-4 flex items-center justify-between w-full max-w-full overflow-x-hidden">
         {/* Left - Brand */}
         <button
           onClick={navigateHome}
-          className="text-lg font-bold tracking-wide text-black transition-opacity hover:opacity-80"
+          className="text-xs md:text-lg font-bold tracking-wide text-black transition-opacity hover:opacity-80 whitespace-nowrap truncate max-w-[120px] md:max-w-none"
         >
           CHITKUL LAKSHYA
         </button>
@@ -101,7 +101,7 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsMobileOpen((prev) => !prev)}
-          className="md:hidden text-black transition-opacity hover:opacity-80"
+          className="md:hidden text-black transition-opacity hover:opacity-80 flex-shrink-0 ml-2"
           aria-label="Toggle navigation"
         >
           {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

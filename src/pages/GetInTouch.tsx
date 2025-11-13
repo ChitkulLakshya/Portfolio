@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 const GetInTouch = () => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#D3D3D3' }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
       <Navbar />
       <section className="min-h-screen flex flex-col items-center justify-center pt-20 px-4">
         <div className="container mx-auto max-w-5xl text-center space-y-12">

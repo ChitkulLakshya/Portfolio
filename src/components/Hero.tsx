@@ -25,7 +25,7 @@ const HeroDesktop = () => {
         {/* Content Container */}
         <div className="relative w-full h-full">
           {/* Availability Badge */}
-          <div className="absolute top-[150px] left-[60px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-160">
+          <div className="absolute top-[150px] left-[60px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-1">
             <div className="w-2 h-2 bg-black rounded-full"></div>
             <span className="text-sm text-black font-medium">
               Available for new opportunities
