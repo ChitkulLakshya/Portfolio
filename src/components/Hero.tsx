@@ -146,10 +146,10 @@ const Hero = () => {
             }}
           >
             <p>
-              I’m a passionate <b>UI/UX Designer</b> who loves crafting modern,
-              user-friendly web and app interfaces. I enjoy 
+              I’m a passionate <b>UI/UX Designer</b> who loves crafting 
+              <br />  modern, user-friendly web and app interfaces. 
               <br />
-              building interactive digital experiences and 
+              I enjoy building interactive digital websites
               <br /> exploring new creative tools
               that push 
               <br /> design and technology together.
