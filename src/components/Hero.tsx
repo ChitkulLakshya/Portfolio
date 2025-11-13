@@ -16,9 +16,12 @@ const Hero = () => {
           backgroundImage: "url('/image/pro.png')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center top",
-          backgroundSize: "contain",
-          backgroundColor: "#D3D3D3",
+          backgroundSize: "cover",
+          backgroundColor: "transparent",
           minHeight: "80vh",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
         }}
       >
         {/* Content Container */}
@@ -84,12 +87,15 @@ const Hero = () => {
             className="absolute text-white font-light text-right"
             style={{
               fontFamily: "cursive",
-              top: "-200px",
-              right: "50px",
-              fontSize: "90px",
+              position: "absolute",
+              top: "50px",
+              right: "220px",
+              fontSize: "70px",
+              width: "100px",
+              whiteSpace: "nowrap", 
             }}
           >
-            there
+            AI TOOLS
           </div>
 
           {/* Specialization Text */}
