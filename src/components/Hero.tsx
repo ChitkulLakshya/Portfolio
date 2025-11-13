@@ -1,9 +1,7 @@
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import HeroMobile from "./HeroMobile";
 
-const Hero = () => {
-  const navigate = useNavigate();
-
+const HeroDesktop = () => {
   return (
     <section
       id="home"
@@ -27,7 +25,7 @@ const Hero = () => {
         {/* Content Container */}
         <div className="relative w-full h-full">
           {/* Availability Badge */}
-          <div className="absolute top-[150px] left-[60px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit">
+          <div className="absolute top-[150px] left-[60px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-160">
             <div className="w-2 h-2 bg-black rounded-full"></div>
             <span className="text-sm text-black font-medium">
               Available for new opportunities
@@ -126,7 +124,7 @@ const Hero = () => {
             className="absolute font-sixcaps font-bold leading-tight"
             style={{
               position: "absolute",
-              top: "600px", // move up/down if needed
+              top: "600px",
               left: "120px",
               width: "600px",
               fontSize: "80px",
@@ -165,6 +163,23 @@ const Hero = () => {
       </div>
     </section>
   );
+};
+
+const Hero = () => {
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isMobile ? <HeroMobile /> : <HeroDesktop />;
 };
 
 export default Hero;

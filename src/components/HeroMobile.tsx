@@ -1,15 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-
-const MobileView = () => {
-  const navigate = useNavigate();
-
+const HeroMobile = () => {
   return (
     <section
       id="home"
       className="min-h-screen flex items-center justify-center pt-20 px-4 relative"
     >
-      {/* Hero Section */}
       <div
         className="w-full max-w-7xl mx-auto rounded-lg relative flex items-center justify-center"
         style={{
@@ -21,16 +15,15 @@ const MobileView = () => {
           overflow: "visible",
         }}
       >
-        {/* Profile Image */}
         <img
           src="/image/profile.png"
           alt="Chitkul Lakshya"
           style={{
             position: "absolute",
-            top: "10%", // adjust vertical position
+            top: "10%",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "750px", // ⬅️ increase or decrease this freely
+            width: "750px",
             height: "auto",
             objectFit: "contain",
             pointerEvents: "none",
@@ -38,17 +31,17 @@ const MobileView = () => {
           }}
         />
 
-        {/* Content Container */}
         <div className="relative w-full h-full z-10">
-          {/* Availability Badge */}
-          <div className="absolute top-[-350px] left-[260px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-450">
+          <div
+            className="absolute top-[-350px] left-[260px] flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit"
+            style={{ transform: "scale(1.0)" }}
+          >
             <div className="w-2 h-2 bg-black rounded-full"></div>
             <span className="text-sm text-black font-medium">
               Available for new opportunities
             </span>
           </div>
 
-          {/* Greeting - Hey */}
           <div
             className="absolute text-black"
             style={{
@@ -63,7 +56,6 @@ const MobileView = () => {
             Hey,
           </div>
 
-          {/* Greeting - I'm */}
           <div
             className="absolute text-black"
             style={{
@@ -73,13 +65,12 @@ const MobileView = () => {
               top: "-270px",
               left: "20px",
               fontSize: "40px",
-              letterSpacing: "5px", // ⬅️ adds spacing between Hey and I’m
+              letterSpacing: "5px",
             }}
           >
             I'm
           </div>
 
-          {/* Main Title - LAKSHYA */}
           <div className="absolute font-sixcaps text-black">
             <div
               className="font-black"
@@ -95,8 +86,6 @@ const MobileView = () => {
             </div>
           </div>
 
-
-          {/* Title - WEB & APP DEVELOPER */}
           <div
             className="absolute font-sixcaps font-bold leading-tight"
             style={{
@@ -115,7 +104,6 @@ const MobileView = () => {
             DEVELOPER
           </div>
 
-          {/* About / Description */}
           <div
             className="absolute text-black font-light leading-relaxed"
             style={{
@@ -126,11 +114,10 @@ const MobileView = () => {
             }}
           >
             <p>
-              I’m a passionate <b>UI/UX </b> 
-              <br /> Designer who loves crafting 
-              <br /> modern, user-friendly web 
+              I’m a passionate <b>UI/UX </b>
+              <br /> Designer who loves crafting
+              <br /> modern, user-friendly web
               <br /> and app interfaces.
-
             </p>
           </div>
         </div>
@@ -139,4 +126,4 @@ const MobileView = () => {
   );
 };
 
-export default MobileView;
+export default HeroMobile;
