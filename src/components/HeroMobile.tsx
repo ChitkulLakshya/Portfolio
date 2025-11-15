@@ -118,11 +118,11 @@ const HeroMobile = () => {
           <div
             className="absolute text-black font-light leading-relaxed"
             style={{
-              bottom: "40px",
+              bottom: "50px",
               left: "-17px",
               width: "min(500px, 90vw)",
               maxWidth: "100%",
-              fontSize: "clamp(10px, 3vw, 12px)",
+              fontSize: "11px",
               padding: "0 16px",
             }}
           >
