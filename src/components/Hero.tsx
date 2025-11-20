@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import HeroMobile from "./HeroMobile";
 
+const px = (value: number) => `${value / 16}rem`; // convert px→rem
+
 const HeroDesktop = () => {
   return (
     <section
@@ -28,8 +30,8 @@ const HeroDesktop = () => {
           <div
             className="absolute flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-1"
             style={{
-              top: "9.375rem",   // 150px
-              left: "3.75rem"    // 60px
+              top: px(150),
+              left: px(60),
             }}
           >
             <div className="w-2 h-2 bg-black rounded-full"></div>
@@ -45,9 +47,9 @@ const HeroDesktop = () => {
               fontFamily: "cursive",
               fontStyle: "italic",
               fontWeight: "200",
-              top: "-21.875rem",  // -350px
-              left: "11.875rem",  // 190px
-              fontSize: "5rem",   // 80px
+              top: px(-350),
+              left: px(150),
+              fontSize: px(70),
               transform: "scaleX(1.0)",
               transformOrigin: "left",
             }}
@@ -62,11 +64,12 @@ const HeroDesktop = () => {
             <div
               className="font-black"
               style={{
-                top: "10rem",        // 160px
-                left: "63.75rem",    // 1020px
-                fontSize: "6.25rem", // 100px
+                top: px(160),
+                left: px(1020),
+                fontSize: px(100),
                 position: "absolute",
                 lineHeight: "1",
+                width: px(100000),
               }}
             >
               WEB & APP
@@ -78,11 +81,11 @@ const HeroDesktop = () => {
             <div
               className="font-black"
               style={{
-                top: "-18.75rem",   // -300px
-                left: "9.375rem",   // 150px
-                fontSize: "12.5rem", // 200px
+                top: px(-300),
+                left: px(150),
+                fontSize: px(200),
                 position: "absolute",
-                width: "31.25rem",   // 500px
+                width: px(500),
               }}
             >
               LAKSHYA
@@ -94,10 +97,11 @@ const HeroDesktop = () => {
             className="absolute text-white font-light text-right"
             style={{
               fontFamily: "cursive",
-              top: "3.125rem",     // 50px
-              right: "13.75rem",   // 220px
-              fontSize: "4.375rem", // 70px
-              width: "6.25rem",     // 100px
+              position: "absolute",
+              top: px(50),
+              right: px(220),
+              fontSize: px(60),
+              width: px(100),
               whiteSpace: "nowrap",
             }}
           >
@@ -108,15 +112,15 @@ const HeroDesktop = () => {
           <div
             className="absolute text-right"
             style={{
-              top: "25rem",     // 400px
-              right: "3.125rem", // 50px
-              width: "18.75rem", // 300px
+              top: px(400),
+              right: px(50),
+              width: px(300),
             }}
           >
             <p
               className="text-black font-light leading-relaxed"
               style={{
-                fontSize: "1rem", // 16px
+                fontSize: px(16),
               }}
             >
               Specialized in Web Development,
@@ -131,10 +135,10 @@ const HeroDesktop = () => {
           <div
             className="absolute font-sixcaps font-bold leading-tight"
             style={{
-              top: "37.5rem",      // 600px
-              left: "7.5rem",      // 120px
-              width: "37.5rem",    // 600px
-              fontSize: "5rem",    // 80px
+              top: px(600),
+              left: px(120),
+              width: px(600),
+              fontSize: px(80),
               textAlign: "left",
               color: "white",
               textShadow: "3px 3px 10px rgba(0,0,0,0.6)",
@@ -150,10 +154,10 @@ const HeroDesktop = () => {
           <div
             className="absolute text-black font-light leading-relaxed"
             style={{
-              bottom: "-7.5rem",   // -120px
-              left: "4.375rem",    // 70px
-              width: "31.25rem",   // 500px
-              fontSize: "1.125rem", // 18px
+              bottom: px(-120),
+              left: px(70),
+              width: px(500),
+              fontSize: px(18),
             }}
           >
             <p>
@@ -166,6 +170,7 @@ const HeroDesktop = () => {
               <br /> design and technology together.
             </p>
           </div>
+
         </div>
       </div>
     </section>
