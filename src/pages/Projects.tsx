@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Papa from "papaparse";
 
-// CSV URL from Google Sheets (Published)
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRBmzSsSKZVU9PIdlTUsaeB63RDOOESI3ekrf-argndAUBT39kUeJDy_J6Mt4tQv96iCcDXLBPl8g99/pub?output=csv";
 
@@ -21,7 +20,6 @@ interface Project {
   github: string;
 }
 
-// Ensure URLs start with http/https
 const safeUrl = (url: string) => (url.startsWith("http") ? url : `https://${url}`);
 
 const fetchProjects = async (): Promise<Project[]> => {
@@ -61,10 +59,10 @@ const Projects = () => {
     <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
       <Navbar />
       <main className="pt-20 pb-20 px-4">
-        <div className="container mx-auto max-w-7xl">
+        <div className="mx-auto w-full px-4">
+
           {/* Header */}
           <div className="text-center space-y-4 mb-16 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold text-black">Live Projects</h1>
             <p className="text-black text-lg max-w-2xl mx-auto">
               Explore interactive previews of my work in web development, AI integration, and automation.
             </p>
@@ -89,21 +87,33 @@ const Projects = () => {
 
           {/* Projects Grid */}
           {!isLoading && projects.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {projects.map((project, index) => (
                 <Card
                   key={project.id}
-                  className="group hover:border-primary/50 transition-all duration-300 overflow-hidden animate-fade-in"
+                  className="group bg-white hover:border-primary/50 transition-all duration-300 overflow-hidden animate-fade-in rounded-2xl shadow-md"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="relative h-48 bg-muted overflow-hidden">
+                  <div className="relative h-48 bg-muted overflow-hidden rounded-t-2xl">
                     <img
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-2">
-                      <Button size="sm" variant="secondary" asChild>
+
+                    {/* Hover Buttons — Rounded Pebble */}
+                    <div className="absolute inset-0 bg-gradient-to-t 
+                            from-background/80 to-transparent opacity-0 
+                            group-hover:opacity-100 transition-opacity duration-300 
+                            flex items-end justify-center pb-4 gap-2">
+
+                      {/* Live Button */}
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="rounded-full px-4 py-1 shadow-md"
+                        asChild
+                      >
                         <a
                           href={safeUrl(project.url)}
                           target="_blank"
@@ -114,8 +124,15 @@ const Projects = () => {
                           <ExternalLink className="h-4 w-4" />
                         </a>
                       </Button>
+
+                      {/* GitHub Button */}
                       {project.github && (
-                        <Button size="sm" variant="secondary" asChild>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="rounded-full px-4 py-1 shadow-md"
+                          asChild
+                        >
                           <a
                             href={safeUrl(project.github)}
                             target="_blank"
@@ -145,21 +162,8 @@ const Projects = () => {
                         </span>
                       ))}
                     </div>
-                    {project.github && (
-                      <div className="flex items-center gap-2 pt-2">
-                        <Button size="sm" variant="outline" asChild>
-                          <a
-                            href={safeUrl(project.github)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2"
-                          >
-                            <Github className="h-4 w-4" />
-                            GitHub
-                          </a>
-                        </Button>
-                      </div>
-                    )}
+
+                    {/* 🔥 Removed GitHub button from bottom */}
                   </CardContent>
                 </Card>
               ))}
