@@ -67,7 +67,6 @@ const HeroDesktop = () => {
                 fontSize: "6.25rem", // 100px
                 position: "absolute",
                 lineHeight: "1",
-                width: "6250rem",    // 100000px
               }}
             >
               WEB & APP
