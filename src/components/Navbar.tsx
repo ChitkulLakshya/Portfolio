@@ -1,23 +1,20 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const closeMobileMenu = () => setIsMobileOpen(false);
-
+  // Home button
   const navigateHome = () => {
     if (location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       navigate("/");
+      window.scrollTo({ top: 0 }); // scroll to top after navigation
     }
-    closeMobileMenu();
   };
 
+  // Scroll to Skills section
   const scrollToSkillsSection = () => {
     const section = document.getElementById("skills");
     if (section) {
@@ -25,24 +22,26 @@ const Navbar = () => {
     }
   };
 
+  // Skills button
   const handleSkillsClick = () => {
     if (location.pathname === "/") {
       scrollToSkillsSection();
     } else {
       navigate("/");
-      setTimeout(scrollToSkillsSection, 300);
+      setTimeout(scrollToSkillsSection, 300); // wait for navigation then scroll
     }
-    closeMobileMenu();
   };
 
+  // Projects button
   const handleProjectsClick = () => {
     navigate("/projects");
-    closeMobileMenu();
+    window.scrollTo({ top: 0 }); // always scroll to top
   };
 
+  // Get in Touch button
   const handleGetInTouchClick = () => {
     navigate("/get-in-touch");
-    closeMobileMenu();
+    window.scrollTo({ top: 0 }); // always scroll to top
   };
 
   const navLinkClass = (isActive = false) =>
@@ -50,90 +49,77 @@ const Navbar = () => {
       isActive ? "opacity-100" : "opacity-70 hover:opacity-100"
     }`;
 
-  const isRouteActive = (path: string) => {
-    if (path === "/") return location.pathname === "/";
-    return location.pathname === path;
-  };
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-black/10 overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
-      <div className="container mx-auto px-2 md:px-4 py-4 flex items-center justify-between w-full max-w-full overflow-x-hidden">
-        {/* Left - Brand */}
-        <button
-          onClick={navigateHome}
-          className="text-xs md:text-lg font-bold tracking-wide text-black transition-opacity hover:opacity-80 whitespace-nowrap truncate max-w-[120px] md:max-w-none"
-        >
-          CHITKUL LAKSHYA
-        </button>
+    <>
+      {/* Floating Name */}
+      <button
+        onClick={navigateHome}
+        className="text-xs md:text-lg font-bold tracking-wide text-black transition-opacity hover:opacity-80 whitespace-nowrap truncate max-w-[120px] md:max-w-none fixed z-[9999]"
+        style={{
+          top: "20px",
+          left: "20px",
+        }}
+      >
+        CHITKUL LAKSHYA
+      </button>
 
-        {/* Center - Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={navigateHome}
-            className={navLinkClass(isRouteActive("/"))}
-          >
-            Home
-          </button>
-          <button
-            onClick={handleSkillsClick}
-            className={navLinkClass(false)}
-          >
-            Skills
-          </button>
-          <button
-            onClick={handleProjectsClick}
-            className={navLinkClass(isRouteActive("/projects"))}
-          >
-            Projects
-          </button>
-        </div>
+      {/* Floating Home */}
+      <button
+        onClick={navigateHome}
+        className={navLinkClass()}
+        style={{
+          position: "fixed",
+          top: "25px",
+          left: "820px",
+          zIndex: 9999,
+          fontSize:"1rem",
+        }}
+      >
+        Home
+      </button>
 
-        {/* Right - Desktop CTA */}
-        <div className="hidden md:flex">
-          <button
-            onClick={handleGetInTouchClick}
-            className="text-sm uppercase tracking-wide px-4 py-2 border border-black/20 rounded-full text-black transition-all duration-200 hover:border-black/40 hover:opacity-90"
-          >
-            Get in Touch
-          </button>
-        </div>
+      {/* Floating Skills */}
+      <button
+        onClick={handleSkillsClick}
+        className={navLinkClass()}
+        style={{
+          position: "fixed",
+          top: "25px",
+          left: "900px",
+          fontSize:"1rem",
+          zIndex: 9999,
+        }}
+      >
+        Skills
+      </button>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setIsMobileOpen((prev) => !prev)}
-          className="md:hidden text-black transition-opacity hover:opacity-80 flex-shrink-0 ml-2"
-          aria-label="Toggle navigation"
-        >
-          {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
+      {/* Floating Projects */}
+      <button
+        onClick={handleProjectsClick}
+        className={navLinkClass()}
+        style={{
+          position: "fixed",
+          top: "25px",
+          left: "980px",
+          zIndex: 9999,
+          fontSize:"1rem",
+        }}
+      >
+        Projects
+      </button>
 
-      {/* Mobile Navigation */}
-      {isMobileOpen && (
-        <div className="md:hidden border-t border-black/10" style={{ backgroundColor: '#D3D3D3' }}>
-          <div className="px-4 py-4 flex flex-col gap-3">
-            <button onClick={navigateHome} className={navLinkClass(isRouteActive("/"))}>
-              Home
-            </button>
-            <button
-              onClick={handleSkillsClick}
-              className={navLinkClass(false)}
-            >
-              Skills
-            </button>
-            <button onClick={handleProjectsClick} className={navLinkClass(isRouteActive("/projects"))}>
-              Projects
-            </button>
-            <button
-              onClick={handleGetInTouchClick}
-              className="text-sm uppercase tracking-wide transition-opacity duration-200 opacity-70 hover:opacity-100"
-            >
-              Get in Touch
-            </button>
-          </div>
-        </div>
-      )}
-    </nav>
+      {/* Floating Get in Touch */}
+      <button
+        onClick={handleGetInTouchClick}
+        className="text-sm uppercase tracking-wide px-4 py-2 border border-black/20 rounded-full text-black transition-all duration-200 hover:border-black/40 hover:opacity-90 fixed z-[9999]"
+        style={{
+          top: "860px",
+          right: "40px",
+        }}
+      >
+        Get in Touch
+      </button>
+    </>
   );
 };
 
