@@ -18,7 +18,7 @@ const CTA_TEXT_SIZE = "text-sm";
 
 // Navbar styling
 const NAVBAR_PADDING = "px-5 py-1";
-const NAVBAR_BORDER = "border-neutral-800";
+const NAVBAR_BORDER = "border border-neutral-700/30";
 const NAVBAR_BG = "bg-transparent backdrop-blur-md";
 
 // Active / inactive colors
