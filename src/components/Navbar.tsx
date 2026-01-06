@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 ================================ */
 
 // Logo
-const LOGO_TEXT = "CHITKUL LAKSHYA";
-const LOGO_SIZE = "text-lg"; // text-sm | text-base | text-lg | text-xl | text-2xl
+const LOGO_TEXT = "Chitkul Lakshya";
+const LOGO_SIZE = "text-3xl"; // Increased size for Script readability
 
 // Nav item text size
 const NAV_TEXT_SIZE = "text-base"; // text-xs | text-sm | text-base | text-lg
@@ -22,8 +22,11 @@ const NAVBAR_BORDER = "border border-neutral-700/30";
 const NAVBAR_BG = "bg-transparent backdrop-blur-md";
 
 // Active / inactive colors
-const ACTIVE_TEXT = "text-black hover:text-white";
-const INACTIVE_TEXT = "text-black hover:text-white";
+const ACTIVE_TEXT_DARK = "text-silver hover:opacity-80";
+const INACTIVE_TEXT_DARK = "text-silver opacity-70 hover:opacity-100";
+
+const ACTIVE_TEXT_LIGHT = "text-black hover:opacity-80";
+const INACTIVE_TEXT_LIGHT = "text-black/60 hover:text-black";
 
 // Button styles
 const CTA_BG = "bg-white hover:bg-neutral-200";
@@ -36,6 +39,7 @@ const CTA_TEXT_COLOR = "text-black";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isDarkPage = location.pathname === "/get-in-touch" || location.pathname === "/certificates";
 
   /* ---------- Navigation Helpers ---------- */
 
@@ -96,13 +100,13 @@ const Navbar = () => {
 
   return (
     <>
-      {/* LOGO */}
+          {/* LOGO */}
       <button
         onClick={navigateHome}
         className={cn(
-          "fixed top-6 left-6 z-50 font-bold tracking-wide transition-opacity hover:opacity-80 mix-blend-difference",
+          "fixed top-6 left-6 z-50 font-script tracking-wide transition-opacity hover:opacity-80",
           LOGO_SIZE,
-          "text-white"
+          isDarkPage ? "text-silver" : "mix-blend-difference text-white"
         )}
       >
         {LOGO_TEXT}
@@ -126,7 +130,9 @@ const Navbar = () => {
               className={cn(
                 "relative px-2 py-2 font-medium transition-colors duration-200",
                 NAV_TEXT_SIZE,
-                item.active ? ACTIVE_TEXT : INACTIVE_TEXT
+                item.active 
+                  ? (isDarkPage ? ACTIVE_TEXT_DARK : ACTIVE_TEXT_LIGHT)
+                  : (isDarkPage ? INACTIVE_TEXT_DARK : INACTIVE_TEXT_LIGHT)
               )}
             >
               {item.name}
@@ -134,7 +140,11 @@ const Navbar = () => {
           ))}
 
           {/* Divider */}
-          <div className="mx-2 h-4 w-[1px] bg-neutral-800" />
+          <div className={cn(
+              "mx-2 h-4 w-[1px]", 
+              isDarkPage ? "bg-silver opacity-50" : "bg-black/20"
+            )} 
+          />
 
           {/* CTA */}
           <button
@@ -144,7 +154,7 @@ const Navbar = () => {
               CTA_TEXT_SIZE,
               CTA_BG,
               CTA_TEXT_COLOR,
-              location.pathname === "/get-in-touch" && "bg-neutral-200"
+              (location.pathname === "/get-in-touch" || location.pathname === "/certificates") && "bg-neutral-200"
             )}
           >
             {CTA_TEXT}

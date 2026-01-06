@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Projects from "./pages/Projects";
 import GetInTouch from "./pages/GetInTouch";
+import Certificates from "./pages/Certificates";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/get-in-touch" element={<GetInTouch />} />
+          <Route path="/certificates" element={<Certificates />} />
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>

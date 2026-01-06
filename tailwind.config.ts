@@ -3,10 +3,8 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./index.html",
+    "./src/**/*.{ts,tsx,js,jsx}",
   ],
   theme: {
     container: {
@@ -20,8 +18,11 @@ export default {
       fontFamily: {
         stencil: ["'Staatliches'", "sans-serif"], // Add stencil font
         sixcaps: ["'Six Caps'", "sans-serif"], // Add Six Caps font
+        fraktur: ["'UnifrakturMaguntia'", "cursive"], // Add Fraktur font
+        script: ["'Great Vibes'", "cursive"], // Add script font
       },
       colors: {
+        silver: "#d2d3d3", // Custom silver color
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
