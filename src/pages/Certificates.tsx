@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import JustifiedGrid from "@/components/JustifiedGrid";
-import { Loader2, X } from "lucide-react";
+import { Loader2, X, RotateCcw } from "lucide-react";
 
 // CONFIGURATION
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3gvm-IhQKnIPfxoxYw7yxqLrPGcq02iyBhTrnAXJTD38-v7O6c2THItokLe4m92Fv/exec";
 const CACHE_KEY = "certificates_cache_v2";
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 interface DriveFile {
   data: string;
@@ -25,99 +25,99 @@ const Certificates = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<GridImage | null>(null);
 
-  useEffect(() => {
-    let isMounted = true;
+  const fetchCertificates = useCallback(async (forceRefresh = false) => {
+    setIsLoading(true);
+    setError(null);
 
-    const fetchCertificates = async () => {
-      // Prevent double fetching in strict mode development
-      if (!isMounted) return;
+    // If forcing refresh, clear cache immediately
+    if (forceRefresh) {
+        localStorage.removeItem(CACHE_KEY);
+        setImages([]);
+    }
 
-      setIsLoading(true);
-      setError(null);
-      // setImages([]); // Clear previous images? No, keep them while loading new ones?
+    try {
+      // 1. Check Local Cache
+      const cachedData = localStorage.getItem(CACHE_KEY);
 
-      try {
-        // 1. Check Local Cache
-        const cachedData = localStorage.getItem(CACHE_KEY);
-        // FORCE NETWORK FETCH FOR DEBUGGING (Toggle carefully)
-        // const cachedData = null; 
+      if (cachedData && !forceRefresh) {
+        try {
+          const { data, timestamp } = JSON.parse(cachedData);
+          const isFresh = Date.now() - timestamp < CACHE_DURATION;
 
-        if (cachedData) {
-          try {
-            const { data, timestamp } = JSON.parse(cachedData);
-            const isFresh = Date.now() - timestamp < CACHE_DURATION;
-
-            if (isFresh && Array.isArray(data) && data.length > 0) {
-              // Validate that the cache actually has the new data structure (with 'data' property for base64)
-              const isValidCache = data.every((item: any) => item.data && typeof item.data === 'string');
-              
-              if (isValidCache) {
-                console.log("Using cached certificates:", data.length);
-                if (isMounted) {
-                    const transformed = transformData(data);
-                    setImages(transformed);
-                    setIsLoading(false);
-                }
-                return; // Exit if cache is valid
-              } else {
-                console.log("Detail: Cache structure mismatch (v1 vs v2). invalidating.");
-                localStorage.removeItem(CACHE_KEY);
-              }
+          if (isFresh && Array.isArray(data) && data.length > 0) {
+            // Validate that the cache actually has the new data structure (with 'data' property for base64)
+            const isValidCache = data.every((item: any) => item.data && typeof item.data === 'string');
+            
+            if (isValidCache) {
+              console.log("Using cached certificates:", data.length);
+              setImages(transformData(data));
+              setIsLoading(false);
+              return; // Exit if cache is valid
             } else {
-               console.log("Cache invalid or empty");
+              console.log("Detail: Cache structure mismatch (v1 vs v2). invalidating.");
+              localStorage.removeItem(CACHE_KEY);
             }
-          } catch (e) {
-            console.error("Cache parsing error", e);
-            localStorage.removeItem(CACHE_KEY);
+          } else {
+             console.log("Cache invalid or empty");
           }
-        }
-
-        // 2. Fetch from Network if cache miss
-        console.log("Fetching certificates from script:", GOOGLE_SCRIPT_URL);
-        const response = await fetch(GOOGLE_SCRIPT_URL);
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log("Raw API Response:", data);
-
-        if (Array.isArray(data)) {
-          // 3. Save to Cache
-          localStorage.setItem(CACHE_KEY, JSON.stringify({
-            data: data,
-            timestamp: Date.now()
-          }));
-          
-          if (isMounted) {
-            const transformed = transformData(data);
-            console.log("Transformed Images:", transformed);
-            setImages(transformed);
-          }
-        } else {
-             console.error("Invalid data format:", data);
-            throw new Error("Invalid data format received from script. Expected Array.");
-        }
-
-      } catch (err) {
-        if (isMounted) {
-            console.error(err);
-            setError(err instanceof Error ? err.message : "Unknown error");
-        }
-      } finally {
-        if (isMounted) {
-            setIsLoading(false);
+        } catch (e) {
+          console.error("Cache parsing error", e);
+          localStorage.removeItem(CACHE_KEY);
         }
       }
-    };
 
+      // 2. Fetch from Network if cache miss
+      console.log("Fetching certificates from script:", GOOGLE_SCRIPT_URL);
+      const response = await fetch(GOOGLE_SCRIPT_URL);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Raw API Response:", data);
+
+      if (Array.isArray(data)) {
+        // 3. Save to Cache
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: data,
+          timestamp: Date.now()
+        }));
+        
+        setImages(transformData(data));
+      } else {
+           console.error("Invalid data format:", data);
+          throw new Error("Invalid data format received from script. Expected Array.");
+      }
+
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchCertificates();
-
-    return () => {
-      isMounted = false;
+    
+    // Background sync: Check freshness on window focus? 
+    const handleFocus = () => {
+        // Check if cache is stale without clearing it first
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+            const { timestamp } = JSON.parse(cachedData);
+            if (Date.now() - timestamp > CACHE_DURATION) {
+                console.log("Cache expired during session, refreshing...");
+                fetchCertificates();
+            }
+        }
     };
-  }, []); // Empty dependency array ensures this runs only ONCE
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+
+  }, [fetchCertificates]);
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -145,12 +145,19 @@ const Certificates = () => {
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
       <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
 
-      <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl">
+      <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl flex flex-col items-center">
         
         {/* Header */}
-        <div className="text-center space-y-6 mb-20 animate-fade-in">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-silver">
+        <div className="text-center space-y-6 mb-20 animate-fade-in relative">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-silver flex items-center justify-center gap-4">
             Certificates
+            <button 
+              onClick={() => fetchCertificates(true)}
+              className="p-2 rounded-full hover:bg-white/10 transition-colors"
+              title="Refresh Certificates"
+            >
+              <RotateCcw className={`w-6 h-6 md:w-8 md:h-8 text-silver/50 hover:text-silver transition-all ${isLoading ? 'animate-spin' : ''}`} />
+            </button>
           </h1>
           <p className="text-silver/80 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
             A validation of my journey and expertise.
@@ -190,6 +197,8 @@ const Certificates = () => {
                   images={images} 
                   targetRowHeight={280} 
                   onImageClick={(img) => setSelectedImage(img as GridImage)}
+                  className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto"
+                  style={{ justifyItems: "center" }}
                 />
             )}
 
