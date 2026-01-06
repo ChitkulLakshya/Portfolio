@@ -102,8 +102,8 @@ const Certificates = () => {
   const transformData = (files: DriveFile[]): GridImage[] => {
     return files.map((file) => ({
       id: file.id,
-      // Use Google Drive Thumbnail endpoint for reliable access and high quality (sz=w1000)
-      src: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
+      // Use Google Drive Thumbnail endpoint with high resolution (sz=w1200)
+      src: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1200`,
       alt: file.name.replace(/\.[^/.]+$/, "") // Remove extension
     }));
   };

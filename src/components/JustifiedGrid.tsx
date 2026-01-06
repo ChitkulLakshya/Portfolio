@@ -158,12 +158,20 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
                     alt={img.alt}
                     width={img.width}
                     height={img.height}
-                    className="block w-full h-full object-cover rounded-lg shadow-sm border border-gray-200"
+                    className="block w-full h-full object-cover rounded-lg shadow-sm border border-gray-200 opacity-100 relative z-10"
                     referrerPolicy="no-referrer"
+                    crossOrigin="anonymous"
                     onError={(e) => {
                       const target = e.currentTarget;
+                      const uniqueId = Math.random().toString(36).substring(7);
                       if (!target.src.includes("&t=")) {
-                        target.src = target.src + "&t=" + Date.now();
+                        target.src = target.src + "&t=" + uniqueId;
+                      } else {
+                        // If it already failed with a timestamp, maybe try a different param or just give up to avoid loops
+                        // But user asked for random string to bypass cache
+                        const url = new URL(target.src);
+                        url.searchParams.set("t", uniqueId);
+                        target.src = url.toString();
                       }
                     }}
                   />
