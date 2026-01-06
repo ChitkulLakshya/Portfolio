@@ -4,12 +4,12 @@ import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2 } from "lucide-react";
 
 // CONFIGURATION
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTzWVE9JLKY7xU3xtMYeadozDX9xZXs769gjUcAVQZ7_cb5pTeh0cqEFxbTS3Ub9fa/exec";
-const CACHE_KEY = "certificates_cache_v1";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3gvm-IhQKnIPfxoxYw7yxqLrPGcq02iyBhTrnAXJTD38-v7O6c2THItokLe4m92Fv/exec";
+const CACHE_KEY = "certificates_cache_v2";
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 interface DriveFile {
-  id: string;
+  data: string;
   name: string;
 }
 
@@ -23,6 +23,7 @@ const Certificates = () => {
   const [images, setImages] = useState<GridImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<GridImage | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -33,22 +34,37 @@ const Certificates = () => {
 
       setIsLoading(true);
       setError(null);
+      // setImages([]); // Clear previous images? No, keep them while loading new ones?
 
       try {
         // 1. Check Local Cache
         const cachedData = localStorage.getItem(CACHE_KEY);
+        // FORCE NETWORK FETCH FOR DEBUGGING (Toggle carefully)
+        // const cachedData = null; 
+
         if (cachedData) {
           try {
             const { data, timestamp } = JSON.parse(cachedData);
             const isFresh = Date.now() - timestamp < CACHE_DURATION;
 
             if (isFresh && Array.isArray(data) && data.length > 0) {
-              console.log("Using cached certificates");
-              if (isMounted) {
-                setImages(transformData(data));
-                setIsLoading(false);
+              // Validate that the cache actually has the new data structure (with 'data' property for base64)
+              const isValidCache = data.every((item: any) => item.data && typeof item.data === 'string');
+              
+              if (isValidCache) {
+                console.log("Using cached certificates:", data.length);
+                if (isMounted) {
+                    const transformed = transformData(data);
+                    setImages(transformed);
+                    setIsLoading(false);
+                }
+                return; // Exit if cache is valid
+              } else {
+                console.log("Detail: Cache structure mismatch (v1 vs v2). invalidating.");
+                localStorage.removeItem(CACHE_KEY);
               }
-              return; // Exit if cache is valid
+            } else {
+               console.log("Cache invalid or empty");
             }
           } catch (e) {
             console.error("Cache parsing error", e);
@@ -57,14 +73,15 @@ const Certificates = () => {
         }
 
         // 2. Fetch from Network if cache miss
-        console.log("Fetching certificates from script...");
+        console.log("Fetching certificates from script:", GOOGLE_SCRIPT_URL);
         const response = await fetch(GOOGLE_SCRIPT_URL);
 
         if (!response.ok) {
-          throw new Error("Failed to fetch certificates from Drive Script");
+          throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
+        console.log("Raw API Response:", data);
 
         if (Array.isArray(data)) {
           // 3. Save to Cache
@@ -74,10 +91,13 @@ const Certificates = () => {
           }));
           
           if (isMounted) {
-            setImages(transformData(data));
+            const transformed = transformData(data);
+            console.log("Transformed Images:", transformed);
+            setImages(transformed);
           }
         } else {
-            throw new Error("Invalid data format received from script");
+             console.error("Invalid data format:", data);
+            throw new Error("Invalid data format received from script. Expected Array.");
         }
 
       } catch (err) {
@@ -99,11 +119,19 @@ const Certificates = () => {
     };
   }, []); // Empty dependency array ensures this runs only ONCE
 
+  // Disable scrolling when modal is open
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [selectedImage]);
+
   const transformData = (files: DriveFile[]): GridImage[] => {
-    return files.map((file) => ({
-      id: file.id,
-      // Use Google Drive Thumbnail endpoint with high resolution (sz=w1200)
-      src: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1200`,
+    return files.map((file, index) => ({
+      id: `cert-${index}`,
+      src: file.data, // Use base64 string directly
       alt: file.name.replace(/\.[^/.]+$/, "") // Remove extension
     }));
   };
@@ -158,7 +186,11 @@ const Certificates = () => {
 
             {/* Success State */}
             {!isLoading && !error && images.length > 0 && (
-                <JustifiedGrid images={images} targetRowHeight={280} />
+                <JustifiedGrid 
+                  images={images} 
+                  targetRowHeight={280} 
+                  onImageClick={(img) => setSelectedImage(img as GridImage)}
+                />
             )}
 
             {/* Empty State */}
@@ -170,6 +202,32 @@ const Certificates = () => {
         </div>
 
       </main>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-50 rounded-full hover:bg-white/10"
+          >
+            <X className="w-8 h-8 md:w-10 md:h-10" />
+          </button>
+          
+          <div 
+            className="relative max-w-7xl w-full max-h-screen p-4 flex items-center justify-center pointer-events-none"
+          >
+            <img 
+              src={selectedImage.src} 
+              alt={selectedImage.alt}
+              className="max-h-[90vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

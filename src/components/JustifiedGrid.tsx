@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 interface JustifiedGridProps {
   images: { id: string | number; src: string; alt?: string }[];
   targetRowHeight?: number;
+  onImageClick?: (image: { id: string | number; src: string; alt?: string }) => void;
 }
 
 interface ProcessedImage {
@@ -16,7 +17,7 @@ interface ProcessedImage {
   aspectRatio: number;
 }
 
-const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) => {
+const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: JustifiedGridProps) => {
   const [processedImages, setProcessedImages] = useState<ProcessedImage[]>([]);
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,17 +32,21 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
       const promises = images.map((img) => {
         return new Promise<ProcessedImage>((resolve, reject) => {
           const image = new Image();
-          image.src = img.src;
+          
           image.onload = () => {
+             const width = image.naturalWidth || 1;
+             const height = image.naturalHeight || 1;
+             // console.log(`Loaded image ${img.id}: ${width}x${height}`);
             resolve({
               ...img,
-              width: image.naturalWidth,
-              height: image.naturalHeight,
-              aspectRatio: image.naturalWidth / image.naturalHeight,
+              width: width,
+              height: height,
+              aspectRatio: width / height,
             });
           };
+
           image.onerror = () => {
-             // Fallback for failed loads to prevent breaking the grid
+             console.error("Failed to load image for grid:", img.id);
             resolve({
               ...img,
               width: 300,
@@ -49,6 +54,19 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
               aspectRatio: 1.5,
             });
           };
+
+          if (img.src) {
+              image.src = img.src;
+          } else {
+             // Handle missing src gracefully
+             resolve({
+              ...img,
+              width: 300,
+              height: 200,
+              aspectRatio: 1.5,
+              src: "",
+            });
+          }
         });
       });
 
@@ -88,7 +106,10 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
 
   // 3. Compute Rows
   const rows: ProcessedImage[][] = [];
-  if (processedImages.length > 0 && containerWidth > 0) {
+  // Fallback to window width if containerWidth is 0 (e.g. initial render issue)
+  const effectiveWidth = containerWidth > 0 ? containerWidth : (typeof window !== 'undefined' ? window.innerWidth - 48 : 1000);
+
+  if (processedImages.length > 0 && effectiveWidth > 0) {
     let currentRow: ProcessedImage[] = [];
     let currentWidth = 0;
 
@@ -98,7 +119,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
       currentWidth += img.aspectRatio * targetRowHeight;
 
       // If the row is wider than container, break it
-      if (currentWidth >= containerWidth) {
+      if (currentWidth >= effectiveWidth) {
         rows.push(currentRow);
         currentRow = [];
         currentWidth = 0;
@@ -127,7 +148,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
         
         const gapSize = 16; 
         const totalGapWidth = (row.length - 1) * gapSize;
-        const availableWidth = containerWidth - totalGapWidth;
+        const availableWidth = effectiveWidth - totalGapWidth;
         
         let finalHeight = availableWidth / rowAspectRatioSum;
 
@@ -146,7 +167,8 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
             {row.map((img) => (
                <div 
                  key={img.id}
-                 className="relative group"
+                 className="relative group cursor-pointer"
+                 onClick={() => onImageClick?.(img)}
                  style={{
                     width: `${finalHeight * img.aspectRatio}px`,
                     flexGrow: 0, 
@@ -158,22 +180,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
                     alt={img.alt}
                     width={img.width}
                     height={img.height}
-                    className="block w-full h-full object-cover rounded-lg shadow-sm border border-gray-200 opacity-100 relative z-10"
-                    referrerPolicy="no-referrer"
-                    crossOrigin="anonymous"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      const uniqueId = Math.random().toString(36).substring(7);
-                      if (!target.src.includes("&t=")) {
-                        target.src = target.src + "&t=" + uniqueId;
-                      } else {
-                        // If it already failed with a timestamp, maybe try a different param or just give up to avoid loops
-                        // But user asked for random string to bypass cache
-                        const url = new URL(target.src);
-                        url.searchParams.set("t", uniqueId);
-                        target.src = url.toString();
-                      }
-                    }}
+                    className="block w-full h-full object-cover rounded-lg shadow-sm border border-gray-200 opacity-100 relative z-10 min-h-[50px]"
                   />
                </div>
             ))}
