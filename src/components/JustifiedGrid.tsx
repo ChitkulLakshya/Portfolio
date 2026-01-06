@@ -156,7 +156,9 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
                   <img
                     src={img.src}
                     alt={img.alt}
-                    className="w-full h-auto rounded-lg shadow-sm border border-gray-200"
+                    width={img.width}
+                    height={img.height}
+                    className="block w-full h-full object-cover rounded-lg shadow-sm border border-gray-200"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       const target = e.currentTarget;
