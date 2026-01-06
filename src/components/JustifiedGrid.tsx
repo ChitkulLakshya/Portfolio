@@ -122,26 +122,16 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
   return (
     <div ref={containerRef} className="w-full space-y-4">
       {rows.map((row, rowIndex) => {
-        // Calculate the height needed for this row to fill containerWidth
-        // Sum of aspect ratios in this row
+        const isLastRow = rowIndex === rows.length - 1;
         const rowAspectRatioSum = row.reduce((sum, img) => sum + img.aspectRatio, 0);
         
-        // Final height = Container Width / Sum of Aspect Ratios
-        // Adjust container width to account for gaps: (numItems - 1) * gapSize
-        // We subtract the total gap width from the container width before calculating height
-        const gapSize = 16; // 1rem
+        const gapSize = 16; 
         const totalGapWidth = (row.length - 1) * gapSize;
         const availableWidth = containerWidth - totalGapWidth;
         
-        // Final height = Available Width / Sum of Aspect Ratios
         let finalHeight = availableWidth / rowAspectRatioSum;
 
-        // Cap the height for the last row
         if (isLastRow) {
-             // If the row isn't "full" (e.g. huge height calculated), cap it.
-             // But also, if it's Justified, we usually WANT it to line up.
-             // Google Images usually just lets the last row end early (left aligned) instead of expanding.
-             // So if calculated height > targetRowHeight * 1.25, reset to target.
              if (finalHeight > targetRowHeight * 1.25) finalHeight = targetRowHeight;
         }
 
@@ -156,11 +146,9 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
             {row.map((img) => (
                <div 
                  key={img.id}
-                 className="relative group border-[1px] border-[#e5e5e5] rounded-sm hover:border-white transition-colors overflow-hidden bg-zinc-900" /* Light grey theme border: #e5e5e5 */
+                 className="relative group"
                  style={{
                     width: `${finalHeight * img.aspectRatio}px`,
-                    // For the last row, if we capped height, items should NOT grow to fill?
-                    // "Justified Grid" usually means left-aligned last row.
                     flexGrow: 0, 
                     flexShrink: 0,
                  }}
@@ -168,8 +156,14 @@ const JustifiedGrid = ({ images, targetRowHeight = 300 }: JustifiedGridProps) =>
                   <img
                     src={img.src}
                     alt={img.alt}
-                    className="h-full w-full"
-                    // Since we computed exact width/height from aspect ratio, standard img behavior is fine.
+                    className="w-full h-auto rounded-lg shadow-sm border border-gray-200"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.src.includes("&t=")) {
+                        target.src = target.src + "&t=" + Date.now();
+                      }
+                    }}
                   />
                </div>
             ))}
