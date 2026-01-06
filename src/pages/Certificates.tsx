@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import JustifiedGrid from "@/components/JustifiedGrid";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 
 // CONFIGURATION
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3gvm-IhQKnIPfxoxYw7yxqLrPGcq02iyBhTrnAXJTD38-v7O6c2THItokLe4m92Fv/exec";
