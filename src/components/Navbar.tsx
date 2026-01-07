@@ -39,7 +39,7 @@ const CTA_TEXT_COLOR = "text-black";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isDarkPage = location.pathname === "/get-in-touch" || location.pathname === "/certificates";
+  const isDarkPage = location.pathname === "/get-in-touch" || location.pathname === "/certificates" || location.pathname === "/resume";
 
   /* ---------- Navigation Helpers ---------- */
 

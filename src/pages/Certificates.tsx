@@ -102,6 +102,8 @@ const Certificates = () => {
     fetchCertificates();
     
     // Background sync: Check freshness on window focus? 
+    // For now, the prompt asks for "every time the user visits the page", which useEffect [] covers for navigation.
+    // To cover tab switching, we can listen to focus event.
     const handleFocus = () => {
         // Check if cache is stale without clearing it first
         const cachedData = localStorage.getItem(CACHE_KEY);
@@ -145,7 +147,7 @@ const Certificates = () => {
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
       <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
 
-      <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl flex flex-col items-center">
+      <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl">
         
         {/* Header */}
         <div className="text-center space-y-6 mb-20 animate-fade-in relative">
@@ -197,8 +199,6 @@ const Certificates = () => {
                   images={images} 
                   targetRowHeight={280} 
                   onImageClick={(img) => setSelectedImage(img as GridImage)}
-                  className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto"
-                  style={{ justifyItems: "center" }}
                 />
             )}
 
@@ -231,7 +231,7 @@ const Certificates = () => {
             <img 
               src={selectedImage.src} 
               alt={selectedImage.alt}
-              className="max-h-[90vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
+              className="max-h-[100vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
               onClick={(e) => e.stopPropagation()} 
             />
           </div>
