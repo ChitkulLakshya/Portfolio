@@ -1,125 +1,27 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2, X, RotateCcw } from "lucide-react";
-
-// CONFIGURATION
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3gvm-IhQKnIPfxoxYw7yxqLrPGcq02iyBhTrnAXJTD38-v7O6c2THItokLe4m92Fv/exec";
-const CACHE_KEY = "certificates_cache_v2";
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
-interface DriveFile {
-  data: string;
-  name: string;
-}
-
-interface GridImage {
-  id: string;
-  src: string;
-  alt: string;
-}
+import { useCertificates, GridImage } from "@/hooks/useCertificates";
 
 const Certificates = () => {
-  const [images, setImages] = useState<GridImage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { images, isLoading, error, fetchCertificates } = useCertificates();
   const [selectedImage, setSelectedImage] = useState<GridImage | null>(null);
-
-  const fetchCertificates = useCallback(async (forceRefresh = false) => {
-    setIsLoading(true);
-    setError(null);
-
-    // If forcing refresh, clear cache immediately
-    if (forceRefresh) {
-        localStorage.removeItem(CACHE_KEY);
-        setImages([]);
-    }
-
-    try {
-      // 1. Check Local Cache
-      const cachedData = localStorage.getItem(CACHE_KEY);
-
-      if (cachedData && !forceRefresh) {
-        try {
-          const { data, timestamp } = JSON.parse(cachedData);
-          const isFresh = Date.now() - timestamp < CACHE_DURATION;
-
-          if (isFresh && Array.isArray(data) && data.length > 0) {
-            // Validate that the cache actually has the new data structure (with 'data' property for base64)
-            const isValidCache = data.every((item: any) => item.data && typeof item.data === 'string');
-            
-            if (isValidCache) {
-              console.log("Using cached certificates:", data.length);
-              setImages(transformData(data));
-              setIsLoading(false);
-              return; // Exit if cache is valid
-            } else {
-              console.log("Detail: Cache structure mismatch (v1 vs v2). invalidating.");
-              localStorage.removeItem(CACHE_KEY);
-            }
-          } else {
-             console.log("Cache invalid or empty");
-          }
-        } catch (e) {
-          console.error("Cache parsing error", e);
-          localStorage.removeItem(CACHE_KEY);
-        }
-      }
-
-      // 2. Fetch from Network if cache miss
-      console.log("Fetching certificates from script:", GOOGLE_SCRIPT_URL);
-      const response = await fetch(GOOGLE_SCRIPT_URL);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log("Raw API Response:", data);
-
-      if (Array.isArray(data)) {
-        // 3. Save to Cache
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          data: data,
-          timestamp: Date.now()
-        }));
-        
-        setImages(transformData(data));
-      } else {
-           console.error("Invalid data format:", data);
-          throw new Error("Invalid data format received from script. Expected Array.");
-      }
-
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "Unknown error");
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
     fetchCertificates();
     
-    // Background sync: Check freshness on window focus? 
-    // For now, the prompt asks for "every time the user visits the page", which useEffect [] covers for navigation.
-    // To cover tab switching, we can listen to focus event.
     const handleFocus = () => {
-        // Check if cache is stale without clearing it first
-        const cachedData = localStorage.getItem(CACHE_KEY);
-        if (cachedData) {
-            const { timestamp } = JSON.parse(cachedData);
-            if (Date.now() - timestamp > CACHE_DURATION) {
-                console.log("Cache expired during session, refreshing...");
-                fetchCertificates();
-            }
-        }
+       // Optional: could trigger a soft refresh check here using the hook logic if exposed
+       // or just rely on the hook's internal logic if we call fetchCertificates again
+       fetchCertificates(); 
     };
 
     window.addEventListener("focus", handleFocus);
     return () => window.removeEventListener("focus", handleFocus);
 
   }, [fetchCertificates]);
+
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -129,14 +31,6 @@ const Certificates = () => {
       document.body.style.overflow = "unset";
     }
   }, [selectedImage]);
-
-  const transformData = (files: DriveFile[]): GridImage[] => {
-    return files.map((file, index) => ({
-      id: `cert-${index}`,
-      src: file.data, // Use base64 string directly
-      alt: file.name.replace(/\.[^/.]+$/, "") // Remove extension
-    }));
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-white/20">
@@ -231,7 +125,7 @@ const Certificates = () => {
             <img 
               src={selectedImage.src} 
               alt={selectedImage.alt}
-              className="max-h-[100vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
+              className="max-h-[90vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
               onClick={(e) => e.stopPropagation()} 
             />
           </div>
