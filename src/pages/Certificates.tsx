@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2, X, RotateCcw } from "lucide-react";
-import { useCertificates, GridImage } from "@/hooks/useCertificates";
+import { useCertificates, GridImage, CACHE_KEY } from "@/hooks/useCertificates";
 
 const Certificates = () => {
+  const gridOffsetX = -190; // Adjust horizontal grid offset (px)
   const { images, isLoading, error, fetchCertificates } = useCertificates();
   const [selectedImage, setSelectedImage] = useState<GridImage | null>(null);
 
@@ -89,11 +90,13 @@ const Certificates = () => {
 
             {/* Success State */}
             {!isLoading && !error && images.length > 0 && (
+              <div style={{ marginLeft: `${gridOffsetX}px` }}>
                 <JustifiedGrid 
                   images={images} 
                   targetRowHeight={280} 
                   onImageClick={(img) => setSelectedImage(img as GridImage)}
                 />
+              </div>
             )}
 
             {/* Empty State */}
