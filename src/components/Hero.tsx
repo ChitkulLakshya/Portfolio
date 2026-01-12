@@ -3,7 +3,7 @@ import HeroMobile from "./HeroMobile";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
-const HeroDesktop = () => {
+export const HeroDesktop = () => {
   return (
     <section
       id="home"

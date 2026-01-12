@@ -1,11 +1,6 @@
-import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Services from "@/components/Services";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import { useEffect, useState } from "react";
+import DesktopView from "@/components/DesktopView";
+import MobileView from "@/components/MobileView";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "@/lib/api";
 import { useCertificates } from "@/hooks/useCertificates";
@@ -20,12 +15,23 @@ const Index = () => {
 
   const { preloadCertificates } = useCertificates();
 
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768; // 768px break point
+  });
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Preload project images and certificates in the background
   useEffect(() => {
     // 1. Preload certificates (Huge JSON from Google Script)
     // We use a timeout to let the main thread render the hero section first
     const timer = setTimeout(() => {
-        preloadCertificates();
+      preloadCertificates();
     }, 2000);
 
     // 2. Preload project images
@@ -41,19 +47,7 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [projects, preloadCertificates]);
 
-  return (
-    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
-      <Navbar />
-      <main className="overflow-x-hidden">
-        <Hero />
-        <Skills />
-        <About />
-        <Services />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
+  return isMobile ? <MobileView /> : <DesktopView />;
 };
 
 export default Index;

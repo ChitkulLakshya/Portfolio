@@ -30,60 +30,45 @@ const HeroMobile = () => {
           }}
         />
 
-<div className="relative w-full h-full z-10">
+        <div className="relative w-full h-full z-10">
 
-{/* Available for new opportunities */}
-<div
-  className="absolute flex items-center gap-2 px-3 py-1.5 bg-black/20 rounded-full w-fit"
-  style={{
-    top: "-310px",     // <-- move up/down
-    left: "140px",      // <-- move left/right (FULL CONTROL)
-    fontSize: "12px",  // <-- control text size
-  }}
->
-  <div className="w-2 h-2 bg-black rounded-full"></div>
-  <span className="text-black font-medium">
-    Available for new opportunities
-  </span>
-</div>
-
+          {/* Available for new opportunities */}
           <div
-            className="absolute text-black"
+            className="absolute flex items-center gap-2 px-3 py-1.5 bg-black/20 rounded-full w-fit"
             style={{
-              fontFamily: "cursive",
-              fontStyle: "italic",
-              fontWeight: "200",
-              top: "-350px",
-              left: "-2px",
-              fontSize: "clamp(40px, 15vw, 80px)",
-              width: "fit-content",
+              top: "-350px",     // <-- move up/down
+              left: "100px",      // <-- move left/right (FULL CONTROL)
+              fontSize: "12px",  // <-- control text size
             }}
           >
-            Hey,
+            <div className="w-2 h-2 bg-black rounded-full"></div>
+            <span className="text-black font-medium">
+              Available for new opportunities
+            </span>
           </div>
 
           <div
             className="absolute text-black"
             style={{
               fontFamily: "cursive",
-              fontStyle: "italic",
+              fontStyle: "normal",
               fontWeight: "200",
-              top: "-250px",
-              left: "5px",
-              fontSize: "clamp(20px, 8vw, 40px)",
+              top: "-260px",
+              left: "17px",
+              fontSize: "clamp(20px, 8vw, 29px)",
               letterSpacing: "5px",
               width: "fit-content",
             }}
           >
-            I'm
+            I AM
           </div>
 
           <div className="absolute font-sixcaps text-black">
             <div
               className="font-black"
               style={{
-                top: "-220px",
-                left: "50%",
+                top: "-240px",
+                left: "70%",
                 transform: "translateX(-50%)",
                 fontSize: "70px",
                 position: "absolute",
@@ -98,7 +83,7 @@ const HeroMobile = () => {
           <div
             className="absolute font-sixcaps font-bold leading-tight"
             style={{
-              top: "-130px",
+              top: "-165px",
               left: "125%",
               transform: "translateX(-50%)",
               width: "min(600px, 85vw)",
@@ -118,7 +103,7 @@ const HeroMobile = () => {
           <div
             className="absolute text-black font-light leading-relaxed"
             style={{
-              bottom: "50px",
+              bottom: "70px",
               left: "-17px",
               width: "min(500px, 90vw)",
               maxWidth: "100%",
@@ -134,7 +119,7 @@ const HeroMobile = () => {
             </p>
           </div>
         </div>
-        
+
         {/* ✅ THIS WAS MISSING — added now */}
       </div>
     </section>

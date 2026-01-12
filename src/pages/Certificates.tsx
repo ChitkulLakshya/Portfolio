@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
+import PageLayout from "@/components/PageLayout";
 import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2, X, RotateCcw } from "lucide-react";
 import { useCertificates, GridImage, CACHE_KEY } from "@/hooks/useCertificates";
@@ -11,11 +11,11 @@ const Certificates = () => {
 
   useEffect(() => {
     fetchCertificates();
-    
+
     const handleFocus = () => {
-       // Optional: could trigger a soft refresh check here using the hook logic if exposed
-       // or just rely on the hook's internal logic if we call fetchCertificates again
-       fetchCertificates(); 
+      // Optional: could trigger a soft refresh check here using the hook logic if exposed
+      // or just rely on the hook's internal logic if we call fetchCertificates again
+      fetchCertificates();
     };
 
     window.addEventListener("focus", handleFocus);
@@ -34,21 +34,20 @@ const Certificates = () => {
   }, [selectedImage]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-white/20">
-      <Navbar />
-      
+    <PageLayout className="min-h-screen bg-background text-foreground selection:bg-white/20">
+
       {/* Background Ambience */}
       <div className="fixed inset-0 bg-gradient-to-b from-transparent via-background to-background z-0 pointer-events-none" />
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
       <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
 
       <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl">
-        
+
         {/* Header */}
         <div className="text-center space-y-6 mb-20 animate-fade-in relative">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-silver flex items-center justify-center gap-4">
             Certificates
-            <button 
+            <button
               onClick={() => fetchCertificates(true)}
               className="p-2 rounded-full hover:bg-white/10 transition-colors"
               title="Refresh Certificates"
@@ -65,76 +64,76 @@ const Certificates = () => {
 
         {/* Content Area */}
         <div className="animate-fade-in pl-4 pr-4">
-            
-            {/* Error State */}
-            {error && (
-                <div className="text-center py-12 text-red-400 max-w-lg mx-auto border border-red-500/20 bg-red-500/10 rounded-xl p-6">
-                    <p className="font-semibold mb-2">Unavailable to load certificates</p>
-                    <p className="text-sm opacity-80">{error}</p>
-                    <button 
-                        onClick={() => { localStorage.removeItem(CACHE_KEY); window.location.reload(); }}
-                        className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded text-sm transition-colors"
-                    >
-                        Clear Cache & Retry
-                    </button>
-                </div>
-            )}
 
-            {/* Loading State */}
-            {isLoading && (
-                <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                    <Loader2 className="h-10 w-10 animate-spin text-silver" />
-                    <p className="text-silver/50 animate-pulse">Scanning Drive...</p>
-                </div>
-            )}
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12 text-red-400 max-w-lg mx-auto border border-red-500/20 bg-red-500/10 rounded-xl p-6">
+              <p className="font-semibold mb-2">Unavailable to load certificates</p>
+              <p className="text-sm opacity-80">{error}</p>
+              <button
+                onClick={() => { localStorage.removeItem(CACHE_KEY); window.location.reload(); }}
+                className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded text-sm transition-colors"
+              >
+                Clear Cache & Retry
+              </button>
+            </div>
+          )}
 
-            {/* Success State */}
-            {!isLoading && !error && images.length > 0 && (
-              <div style={{ marginLeft: `${gridOffsetX}px` }}>
-                <JustifiedGrid 
-                  images={images} 
-                  targetRowHeight={280} 
-                  onImageClick={(img) => setSelectedImage(img as GridImage)}
-                />
-              </div>
-            )}
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <Loader2 className="h-10 w-10 animate-spin text-silver" />
+              <p className="text-silver/50 animate-pulse">Scanning Drive...</p>
+            </div>
+          )}
 
-            {/* Empty State */}
-            {!isLoading && !error && images.length === 0 && (
-                <div className="text-center py-20 text-silver/50">
-                    <p>No certificates found in the folder.</p>
-                </div>
-            )}
+          {/* Success State */}
+          {!isLoading && !error && images.length > 0 && (
+            <div style={{ marginLeft: `${gridOffsetX}px` }}>
+              <JustifiedGrid
+                images={images}
+                targetRowHeight={280}
+                onImageClick={(img) => setSelectedImage(img as GridImage)}
+              />
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && !error && images.length === 0 && (
+            <div className="text-center py-20 text-silver/50">
+              <p>No certificates found in the folder.</p>
+            </div>
+          )}
         </div>
 
       </main>
 
       {/* Lightbox Modal */}
       {selectedImage && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setSelectedImage(null)}
         >
-          <button 
+          <button
             onClick={() => setSelectedImage(null)}
             className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-50 rounded-full hover:bg-white/10"
           >
             <X className="w-8 h-8 md:w-10 md:h-10" />
           </button>
-          
-          <div 
+
+          <div
             className="relative max-w-7xl w-full max-h-screen p-4 flex items-center justify-center pointer-events-none"
           >
-            <img 
-              src={selectedImage.src} 
+            <img
+              src={selectedImage.src}
               alt={selectedImage.alt}
               className="max-h-[90vh] w-auto max-w-full rounded-md shadow-2xl scale-100 animate-in zoom-in-95 duration-300 pointer-events-auto select-none"
-              onClick={(e) => e.stopPropagation()} 
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 };
 

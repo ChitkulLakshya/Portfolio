@@ -1,8 +1,7 @@
 import { ExternalLink, Github, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import PageLayout from "@/components/PageLayout";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { fetchProjects } from "@/lib/api";
@@ -20,8 +19,7 @@ const Projects = () => {
   if (isError) toast.error("Failed to load projects. Please check your configuration.");
 
   return (
-    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
-      <Navbar />
+    <PageLayout className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
       <main className="pt-20 pb-20 px-4">
         <div className="mx-auto w-full px-4">
 
@@ -135,8 +133,7 @@ const Projects = () => {
           )}
         </div>
       </main>
-      <Footer />
-    </div>
+    </PageLayout>
   );
 };
 
