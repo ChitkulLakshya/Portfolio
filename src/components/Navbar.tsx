@@ -36,7 +36,7 @@ const CTA_TEXT_COLOR = "text-black";
    🚀 NAVBAR COMPONENT
 ================================ */
 
-const Navbar = () => {
+const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isDarkPage = location.pathname === "/get-in-touch" || location.pathname === "/certificates" || location.pathname === "/resume";
@@ -100,20 +100,29 @@ const Navbar = () => {
 
   return (
     <>
-          {/* LOGO */}
+      {/* LOGO */}
+
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');`}
+      </style>
       <button
         onClick={navigateHome}
         className={cn(
-          "fixed top-6 left-6 z-50 font-script tracking-wide transition-opacity hover:opacity-80",
+          "fixed top-6 left-6 z-50 tracking-wide transition-opacity hover:opacity-80",
           LOGO_SIZE,
-          isDarkPage ? "text-silver" : "mix-blend-difference text-white"
+          isDarkPage ? "text-silver" : "mix-blend-difference text-white",
+          isLoading ? "opacity-0 pointer-events-none" : "opacity-100 duration-300"
         )}
+        style={{ fontFamily: "'Great Vibes', cursive" }}
       >
         {LOGO_TEXT}
       </button>
 
       {/* NAVBAR */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+      <div className={cn(
+        "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-700 delay-500",
+        isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
+      )}>
         <nav
           className={cn(
             "flex items-center gap-1 rounded-full border",
@@ -130,7 +139,7 @@ const Navbar = () => {
               className={cn(
                 "relative px-2 py-2 font-medium transition-colors duration-200",
                 NAV_TEXT_SIZE,
-                item.active 
+                item.active
                   ? (isDarkPage ? ACTIVE_TEXT_DARK : ACTIVE_TEXT_LIGHT)
                   : (isDarkPage ? INACTIVE_TEXT_DARK : INACTIVE_TEXT_LIGHT)
               )}
@@ -141,9 +150,9 @@ const Navbar = () => {
 
           {/* Divider */}
           <div className={cn(
-              "mx-2 h-4 w-[1px]", 
-              isDarkPage ? "bg-silver opacity-50" : "bg-black/20"
-            )} 
+            "mx-2 h-4 w-[1px]",
+            isDarkPage ? "bg-silver opacity-50" : "bg-black/20"
+          )}
           />
 
           {/* CTA */}

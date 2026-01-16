@@ -26,6 +26,7 @@ const Projects = () => {
           {/* Header */}
           <div className="text-center space-y-4 mb-16 animate-fade-in">
             <p className="text-black text-lg max-w-2xl mx-auto">
+              <br />
               Explore interactive previews of my work in web development, AI integration, and automation.
             </p>
           </div>

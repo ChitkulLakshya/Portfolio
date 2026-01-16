@@ -7,12 +7,12 @@ import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
-const DesktopView = () => {
+const DesktopView = ({ isLoading = false }: { isLoading?: boolean }) => {
     return (
         <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
-            <Navbar />
+            <Navbar isLoading={isLoading} />
             <main className="overflow-x-hidden">
-                <HeroDesktop />
+                <HeroDesktop isLoading={isLoading} />
                 <Skills />
                 <About />
                 <Services />
