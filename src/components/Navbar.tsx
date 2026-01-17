@@ -109,7 +109,7 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
         key={isLoading ? "loading" : "loaded"} // Force remount to prevent opacity transition
         onClick={navigateHome}
         className={cn(
-          "fixed top-6 left-6 z-50 tracking-wide transition-opacity hover:opacity-80",
+          "fixed top-6 left-6 z-50 tracking-wide transition-opacity hover:opacity-80 whitespace-nowrap", // Added whitespace-nowrap
           LOGO_SIZE,
           isDarkPage ? "text-silver" : "mix-blend-difference text-white",
           isLoading ? "opacity-0 pointer-events-none" : "opacity-100 duration-300"
@@ -119,10 +119,10 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
         {LOGO_TEXT}
       </button>
 
-      {/* NAVBAR */}
+      {/* NAVBAR (Hidden on Home Page as requested) */}
       <div className={cn(
         "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-700 delay-500",
-        isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
+        isLoading || location.pathname === "/" ? "opacity-0 pointer-events-none" : "opacity-100" // Hide on Home
       )}>
         <nav
           className={cn(

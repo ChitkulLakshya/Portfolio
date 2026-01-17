@@ -260,7 +260,7 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
                 bottom: px(-120),
                 left: px(70),
                 width: px(500),
-                fontSize: px(18),
+                fontSize: px(17),
                 perspective: "1000px" // 3D Perspective
               }}
             >

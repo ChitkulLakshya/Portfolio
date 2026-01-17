@@ -47,7 +47,7 @@ const Index = ({ isLoading = false }: { isLoading?: boolean }) => {
     return () => clearTimeout(timer);
   }, [projects, preloadCertificates]);
 
-  return isMobile ? <MobileView /> : <DesktopView isLoading={isLoading} />;
+  return isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} />;
 };
 
 export default Index;

@@ -47,10 +47,10 @@ const HeroMobile = () => {
     <section
       ref={containerRef}
       id="home"
-      className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-x-hidden"
+      className="min-h-screen flex items-center justify-center pt-20 relative overflow-x-hidden" // Removed px-4 for full width
     >
       <div
-        className="w-full rounded-lg relative flex items-center justify-center overflow-hidden"
+        className="w-full relative flex items-center justify-center overflow-hidden" // Removed rounded-lg
         style={{
           backgroundColor: "transparent",
           minHeight: "80vh",
@@ -66,8 +66,8 @@ const HeroMobile = () => {
             top: "10%",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "min(750px, 90vw)",
-            maxWidth: "100%",
+            width: "100%", // Full width
+            maxWidth: "none", // Allow exceeding standard limits if needed
             height: "auto",
             objectFit: "contain",
             pointerEvents: "none",
@@ -181,8 +181,6 @@ const HeroMobile = () => {
           </motion.div>
 
         </div>
-
-        {/* ✅ THIS WAS MISSING — added now */}
       </div>
     </section>
   );

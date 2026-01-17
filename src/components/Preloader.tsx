@@ -127,7 +127,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-0 m-0"
+            className="fixed inset-0 z-[9999] overflow-hidden flex items-center justify-center p-0 m-0" // Increased Z-Index to cover Navbar
         >
             <style>
                 {`

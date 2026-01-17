@@ -18,7 +18,7 @@ import Preloader from "./components/Preloader";
 import MobilePreloader from "./components/MobilePreloader";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Preloader enabled again
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
