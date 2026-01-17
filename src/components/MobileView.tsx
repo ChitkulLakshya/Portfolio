@@ -25,12 +25,27 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
     // CONFIGURATION: BIO TEXT POSITION & SIZE
     // Change these values to manually adjust the text!
     // =========================================================================
-    const BIO_POSITION_TOP = "-110px";      // Vertical Position
-    const BIO_POSITION_LEFT = "200px";     // Horizontal Position
+    const BIO_POSITION_TOP = "-100px";      // Vertical Position
+    const BIO_POSITION_LEFT = "195px";     // Horizontal Position
     const BIO_TRANSFORM = "translate(-50%, -50%)"; // Center anchor. Change to "none" if you want exact x,y
     const BIO_WIDTH = "90vw";            // Width of text block
     const BIO_FONT_SIZE = "11px";        // Size of text
     const BIO_TEXT_ALIGN = "left";     // "center", "left", or "right"
+
+    // =========================================================================
+    // CONFIGURATION: LAKSHYA TEXT POSITION & SIZE
+    // =========================================================================
+    const LAKSHYA_POSITION_TOP = "-290px";   // Vertical Position
+    const LAKSHYA_POSITION_LEFT = "10px";    // Horizontal Position
+    const LAKSHYA_TRANSFORM = "translateX(-50%)"; // Center alignment offset
+    const LAKSHYA_FONT_SIZE = "80px";        // Font Size
+
+    // =========================================================================
+    // CONFIGURATION: HEY I'M TEXT POSITION & SIZE
+    // =========================================================================
+    const HEY_IM_POSITION_TOP = "-320px";    // Vertical Position
+    const HEY_IM_POSITION_LEFT = "17px";     // Horizontal Position
+    const HEY_IM_FONT_SIZE = "clamp(20px, 8vw, 29px)"; // Font Size
     // =========================================================================
 
     const navigateHome = () => {
@@ -55,12 +70,8 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         let ctx = gsap.context(() => {
             // Ensure element exists before animating
             if (lakshyaTextRef.current) {
-                console.log("MobileView: animating LAKSHYA text");
-
-                // 1. Lakshya Text Animation (3D Flip) - Copied from Hero.tsx
                 const splitLakshya = new SplitType(lakshyaTextRef.current, { types: 'chars' });
 
-                // Ensure parent has perspective for 3D effect AND is visible
                 gsap.set(lakshyaTextRef.current, { perspective: 400, opacity: 1, autoAlpha: 1 });
 
                 // Animate characters
@@ -70,8 +81,8 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                     rotationX: -90,
                     opacity: 0,
                     stagger: 0.1,
-                    ease: "back.out(1.7)", // Bouncy flip feel
-                    transformOrigin: "50% 50% -50", // Pivot point
+                    ease: "back.out(1.7)",
+                    transformOrigin: "50% 50% -50",
                 });
             }
         }, containerRef); // Scope to container
@@ -79,18 +90,13 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         return () => ctx.revert(); // Cleanup
     }, [containerRef, isLoading]);
 
-    // Element A: Moves upward at 0.5x speed (y becomes negative as scrollY increases)
+
+
     const yA = useTransform(scrollY, [0, 500], [0, -250]);
-
-    // Element B: Moves downward at 0.2x speed (y becomes positive)
     const yB = useTransform(scrollY, [0, 500], [0, 100]);
-
-    // Element C: Fades out linearly by 300px
     const opacityC = useTransform(scrollY, [0, 300], [1, 0]);
 
-    // =========================================================================
-    // TEXT ANIMATION VARIANTS (Copied from Hero.tsx)
-    // =========================================================================
+
     const containerVariants = {
         hidden: { opacity: 1 },
         visible: {
@@ -121,7 +127,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         }
     };
 
-    // Helper to split text into characters
+
     const AnimatedText = ({ text, className = "" }: { text: string, className?: string }) => (
         <span className={`inline-block whitespace-wrap ${className}`}>
             {text.split(" ").map((word, i) => (
@@ -218,9 +224,9 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                         fontFamily: "cursive",
                                         fontStyle: "normal",
                                         fontWeight: "200",
-                                        top: "-260px",
-                                        left: "17px",
-                                        fontSize: "clamp(20px, 8vw, 29px)",
+                                        top: HEY_IM_POSITION_TOP,
+                                        left: HEY_IM_POSITION_LEFT,
+                                        fontSize: HEY_IM_FONT_SIZE,
                                         letterSpacing: "5px",
                                         width: "fit-content",
                                         pointerEvents: "auto"
@@ -237,16 +243,16 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                     <div
                                         className="font-black"
                                         style={{
-                                            top: "-250px", // Adjusted to be visible but slightly above exact center
-                                            left: "20px", // Centered horizontally
-                                            transform: "translateX(-50%)",
-                                            fontSize: "70px",
+                                            top: LAKSHYA_POSITION_TOP,
+                                            left: LAKSHYA_POSITION_LEFT,
+                                            transform: LAKSHYA_TRANSFORM,
+                                            fontSize: LAKSHYA_FONT_SIZE,
                                             position: "absolute",
                                             width: "min(500px, 90vw)",
                                             maxWidth: "100%",
-                                            overflow: "visible", // Changed from hidden to visible just in case
-                                            textAlign: "center", // Ensure text center aligns within
-                                            whiteSpace: "nowrap" // FORCE SINGLE LINE
+                                            overflow: "visible",
+                                            textAlign: "center",
+                                            whiteSpace: "nowrap"
                                         }}
                                     >
                                         {/* Use a wrapper to target split types chars if needed, but whiteSpace usually handles it */}
@@ -309,16 +315,17 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                             <AnimatedText text="I’m a passionate" />
                                             <b className="font-bold"><AnimatedText text="UI/UX" /></b>
                                             <br />
-                                            <AnimatedText text="Designer who loves crafting modern, " />
+                                            <AnimatedText text="Designer who loves crafting" />
                                             <br />
-                                            <AnimatedText text="user-friendly web and app interfaces." />
+                                            <AnimatedText text="modern, user-friendly web " />
                                             <br />
-                                            <AnimatedText text="I enjoy building interactive digital websites" />
+                                            <AnimatedText text="and app interfaces. I enjoy" />
                                             <br />
-                                            <AnimatedText text="exploring new creative tools" />
-                                            <AnimatedText text="that push" />
+                                            <AnimatedText text="building interactive digital websites " />
                                             <br />
-                                            <AnimatedText text="design and technology together." />
+                                            <AnimatedText text="exploring new creative" />
+                                            <br />
+                                            <AnimatedText text=" tools together" />
                                         </div>
                                     </motion.div>
                                 </div>

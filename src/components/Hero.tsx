@@ -15,13 +15,10 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
 
   const { scrollY, scrollYProgress } = useScroll();
 
-  // Parallax effects
-  const yA = useTransform(scrollY, [0, 800], [0, -300]); // Moves up faster
-  const yB = useTransform(scrollY, [0, 800], [0, 150]);  // Moves down slower
+  const yA = useTransform(scrollY, [0, 800], [0, -300]);
+  const yB = useTransform(scrollY, [0, 800], [0, 150]);
+  const opacityC = useTransform(scrollY, [0, 400], [1, 0]);
 
-  const opacityC = useTransform(scrollY, [0, 400], [1, 0]); // Fades out
-
-  // Scroll-linked letter spacing & blur
   const letterSpacingBio = useTransform(scrollY, [0, 400], ["0px", "20px"]);
   const filterBio = useTransform(scrollY, [0, 400], ["blur(0px)", "blur(5px)"]);
 
@@ -29,15 +26,9 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
     if (isLoading) return;
 
     let ctx = gsap.context(() => {
-      // 1. Lakshya Text Animation (3D Flip)
       if (lakshyaTextRef.current) {
-        // Split text into characters
         const splitLakshya = new SplitType(lakshyaTextRef.current, { types: 'chars' });
-
-        // Ensure parent has perspective for 3D effect AND is visible
         gsap.set(lakshyaTextRef.current, { perspective: 400, opacity: 1 });
-
-        // Animate characters
         gsap.from(splitLakshya.chars, {
           duration: 1.5,
           y: 100,
@@ -60,8 +51,8 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.03, // Faster stagger for text
-        delayChildren: 0.1 // Start almost immediately after load
+        staggerChildren: 0.03,
+        delayChildren: 0.1
       }
     }
   };
@@ -131,7 +122,7 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
           {/* Group A: Badge + Hey I'm (Moves Upward) */}
           <motion.div style={{ y: yA }} className="absolute inset-0 pointer-events-none">
 
-            {/* Availability Badge */}
+
             <div
               className="absolute flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-1 custom-pointer-events-auto"
               style={{
@@ -146,7 +137,6 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
               </span>
             </div>
 
-            {/* Hey I'm (Split Animation) */}
             <div
               className="absolute text-black flex gap-4"
               style={{
@@ -248,12 +238,11 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
             </motion.p>
           </div>
 
-          {/* Group C: Fading Text */}
+
+
+
+
           <motion.div style={{ opacity: opacityC }} className="absolute inset-0 pointer-events-none">
-
-
-
-            {/* About Text */}
             <div
               className="absolute text-black font-light leading-relaxed"
               style={{
@@ -289,7 +278,7 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
 
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
