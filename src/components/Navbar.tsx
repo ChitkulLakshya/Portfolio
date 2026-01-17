@@ -122,7 +122,7 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
       {/* NAVBAR (Hidden on Home Page as requested) */}
       <div className={cn(
         "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-700 delay-500",
-        isLoading || location.pathname === "/" ? "opacity-0 pointer-events-none" : "opacity-100" // Hide on Home
+        isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
       )}>
         <nav
           className={cn(

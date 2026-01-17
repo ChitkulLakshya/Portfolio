@@ -25,12 +25,12 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
     // CONFIGURATION: BIO TEXT POSITION & SIZE
     // Change these values to manually adjust the text!
     // =========================================================================
-    const BIO_POSITION_TOP = "50%";      // Vertical Position
-    const BIO_POSITION_LEFT = "120px";     // Horizontal Position
+    const BIO_POSITION_TOP = "-110px";      // Vertical Position
+    const BIO_POSITION_LEFT = "200px";     // Horizontal Position
     const BIO_TRANSFORM = "translate(-50%, -50%)"; // Center anchor. Change to "none" if you want exact x,y
     const BIO_WIDTH = "90vw";            // Width of text block
     const BIO_FONT_SIZE = "11px";        // Size of text
-    const BIO_TEXT_ALIGN = "center";     // "center", "left", or "right"
+    const BIO_TEXT_ALIGN = "left";     // "center", "left", or "right"
     // =========================================================================
 
     const navigateHome = () => {
@@ -307,10 +307,11 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                     >
                                         <div className="leading-relaxed">
                                             <AnimatedText text="I’m a passionate" />
-                                            <b className="font-bold"><AnimatedText text="UI/UX Designer" /></b>
-                                            <AnimatedText text="who loves crafting" />
+                                            <b className="font-bold"><AnimatedText text="UI/UX" /></b>
                                             <br />
-                                            <AnimatedText text="modern, user-friendly web and app interfaces." />
+                                            <AnimatedText text="Designer who loves crafting modern, " />
+                                            <br />
+                                            <AnimatedText text="user-friendly web and app interfaces." />
                                             <br />
                                             <AnimatedText text="I enjoy building interactive digital websites" />
                                             <br />
