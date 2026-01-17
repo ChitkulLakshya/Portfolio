@@ -7,7 +7,7 @@ interface PreloaderProps {
 
 const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const textPathRef = useRef<SVGTextElement>(null);
+    const textGroupRef = useRef<SVGTextElement>(null); // Ref for the text group
     const svgRef = useRef<SVGSVGElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
 
@@ -19,11 +19,16 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 },
             });
 
-            // Initial setup for the stroke animation
-            const textPath = textPathRef.current;
-            if (textPath) {
-                const length = textPath.getComputedTextLength();
-                gsap.set(textPath, {
+            // Target TSpan elements or the text element
+            // Note: getComputedTextLength on the parent <text> includes all tspans usually, 
+            // but stroke-dasharray on the parent text works for all valid child tspans in many browsers.
+            // Safe bet: animate the stroke on the parent <text> element.
+
+            const textEl = textGroupRef.current;
+            if (textEl) {
+                const length = textEl.getComputedTextLength();
+                // Set initial stroke state
+                gsap.set(textEl, {
                     strokeDasharray: length,
                     strokeDashoffset: length,
                     fill: "transparent",
@@ -33,14 +38,14 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 });
 
                 // 1. Handwriting Effect (Stroke Draw)
-                tl.to(textPath, {
+                tl.to(textEl, {
                     strokeDashoffset: 0,
-                    duration: 2.5, // Slightly faster on mobile?
+                    duration: 3,
                     ease: "power1.inOut",
                 });
 
                 // 2. Fill In
-                tl.to(textPath, {
+                tl.to(textEl, {
                     fill: "#1a1a1a",
                     duration: 1,
                     ease: "power2.out"
@@ -48,19 +53,14 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             }
 
             // 3. Minimize Logic (Mobile Specific)
-            // Mobile Navbar Logo might be centered or sized differently.
-            // For now, keeping similar logic but likely needs tuning for mobile screens.
-            // Assuming mobile logo is smaller or centered? 
-            // User requested separate file to edit differently later.
-
             tl.to(svgRef.current, {
-                top: "10px",
-                left: "10px", // Mobile margins usually smaller
+                top: "15px",
+                left: "-50px", // Adjust for center anchor compensation
                 xPercent: 0,
                 yPercent: 0,
                 x: 0,
                 y: 0,
-                scale: 0.25, // Smaller scale for mobile
+                scale: 0.25,
                 transformOrigin: "left center",
                 position: "fixed",
                 duration: 1.2,
@@ -69,7 +69,7 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
             // 4. Reveal Homepage
             tl.to(bgRef.current, {
-                clipPath: "circle(0% at 50px 30px)", // Adjusted for mobile minimizing
+                clipPath: "circle(0% at 75px 40px)",
                 duration: 1.5,
                 ease: "power2.inOut",
                 onComplete: onComplete
@@ -101,7 +101,7 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             {/* SVG Text Layer */}
             <svg
                 ref={svgRef}
-                viewBox="0 0 800 200"
+                viewBox="0 0 800 400" // Increased height to accommodate 2 lines
                 className="absolute z-60"
                 style={{
                     width: "800px",
@@ -114,7 +114,7 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 }}
             >
                 <text
-                    ref={textPathRef}
+                    ref={textGroupRef}
                     x="50%"
                     y="50%"
                     dominantBaseline="middle"
@@ -126,7 +126,8 @@ const MobilePreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         letterSpacing: "2px"
                     }}
                 >
-                    Chitkul Lakshya
+                    <tspan x="50%" dy="-0.6em">Chitkul</tspan>
+                    <tspan x="50%" dy="1.2em">Lakshya</tspan>
                 </text>
             </svg>
         </div>

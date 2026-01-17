@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import HeroMobile from "./HeroMobile";
+import TextReveal from "./TextReveal";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
@@ -198,9 +199,8 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
                   width: px(100000),
                 }}
               >
-                WEB & APP
-                <br />
-                DEVELOPER
+                <TextReveal text="WEB & APP" trigger={!isLoading} />
+                <TextReveal text="DEVELOPER" delay={0.2} trigger={!isLoading} />
               </div>
             </div>
 
@@ -218,9 +218,7 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
                 zIndex: 20,
               }}
             >
-              WEB & APP
-              <br />
-              DEVELOPER
+              <TextReveal text="WEB & APP DEVELOPER" trigger={!isLoading} />
             </div>
           </motion.div>
 

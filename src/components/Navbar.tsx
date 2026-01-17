@@ -106,6 +106,7 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
         {`@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');`}
       </style>
       <button
+        key={isLoading ? "loading" : "loaded"} // Force remount to prevent opacity transition
         onClick={navigateHome}
         className={cn(
           "fixed top-6 left-6 z-50 tracking-wide transition-opacity hover:opacity-80",
