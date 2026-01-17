@@ -6,8 +6,8 @@ import SplitType from "split-type";
 // CONFIGURATION: FINAL POSITION
 // Change these values to adjust where the text lands!
 // ==================================================================================
-const TARGET_LEFT_X = -1530;  // Horizontal Position (px from left edge)
-const TARGET_TOP_Y = -980;   // Vertical Position (px from top edge)
+const TARGET_LEFT_X = -1520;  // Horizontal Position (px from left edge)
+const TARGET_TOP_Y = -985;   // Vertical Position (px from top edge)
 // ==================================================================================
 
 interface PreloaderProps {
