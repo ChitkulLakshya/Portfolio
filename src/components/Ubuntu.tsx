@@ -6,6 +6,12 @@ import TextReveal from "./TextReveal";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
+// ==================================================================================
+// CONFIGURATION: ZOOM LEVEL
+// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
+// ==================================================================================
+const ZOOM_LEVEL = 0.9;
+
 const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const lakshyaTextRef = useRef<HTMLDivElement>(null);
@@ -116,7 +122,7 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
                     width: "100vw",
                     marginLeft: "calc(50% - 50vw)",
                     marginRight: "calc(50% - 50vw)",
-                    transform: "scale(0.9)",
+                    transform: `scale(${ZOOM_LEVEL})`,
                 }}
             >
                 <div className="relative w-full h-full">

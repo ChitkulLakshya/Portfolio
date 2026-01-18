@@ -10,6 +10,12 @@ const TARGET_LEFT_X = -1520;  // Horizontal Position (px from left edge)
 const TARGET_TOP_Y = -985;   // Vertical Position (px from top edge)
 // ==================================================================================
 
+// ==================================================================================
+// CONFIGURATION: ZOOM LEVEL
+// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
+// ==================================================================================
+const ZOOM_LEVEL = 0.9;
+
 interface PreloaderProps {
     onComplete: () => void;
 }
@@ -128,6 +134,10 @@ const UbuntuPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         <div
             ref={containerRef}
             className="fixed inset-0 z-[9999] overflow-hidden flex items-center justify-center p-0 m-0" // Increased Z-Index to cover Navbar
+            style={{
+                transform: `scale(${ZOOM_LEVEL})`,
+                transformOrigin: "center center"
+            }}
         >
             <style>
                 {`
