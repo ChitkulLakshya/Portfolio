@@ -1,6 +1,6 @@
 
 import Navbar from "@/components/Navbar";
-import { HeroDesktop } from "@/components/Hero";
+import Ubuntu from "@/components/Ubuntu";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Services from "@/components/Services";
@@ -9,10 +9,10 @@ import Footer from "@/components/Footer";
 
 const DesktopView = ({ isLoading = false }: { isLoading?: boolean }) => {
     return (
-        <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#D3D3D3' }}>
+        <div className="min-h-screen overflow-x-hidden relative" style={{ backgroundColor: '#D3D3D3' }}>
             <Navbar isLoading={isLoading} />
-            <main className="overflow-x-hidden">
-                <HeroDesktop isLoading={isLoading} />
+            <main className="overflow-x-hidden relative">
+                <Ubuntu isLoading={isLoading} />
                 <Skills />
                 <About />
                 <Services />

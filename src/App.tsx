@@ -65,7 +65,7 @@ const App = () => {
             opacity: 1,
           }}
         >
-          <BrowserRouter>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
               <Route path="/" element={<Index isLoading={isLoading} />} />
               <Route path="/projects" element={<Projects />} />

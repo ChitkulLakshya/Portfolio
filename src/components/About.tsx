@@ -17,7 +17,7 @@ const About = () => {
     <section
       ref={containerRef}
       id="about"
-      className="py-32 px-4 border-t border-black/10"
+      className="py-32 px-4 border-t border-black/10 relative"
       style={{ backgroundColor: '#D3D3D3' }}
     >
       <div className="container mx-auto max-w-7xl">

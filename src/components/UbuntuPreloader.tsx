@@ -1,7 +1,6 @@
-import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
-import UbuntuPreloader from "./UbuntuPreloader";
 
 // ==================================================================================
 // CONFIGURATION: FINAL POSITION
@@ -15,7 +14,7 @@ interface PreloaderProps {
     onComplete: () => void;
 }
 
-const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
+const UbuntuPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const textPathRef = useRef<SVGTextElement>(null);
     const svgRef = useRef<SVGSVGElement>(null);
@@ -197,27 +196,4 @@ const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     );
 };
 
-const Preloader: React.FC<PreloaderProps> = (props) => {
-    const [isUbuntu, setIsUbuntu] = useState<boolean>(false);
-    const [checked, setChecked] = useState(false);
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            if (userAgent.indexOf("ubuntu") > -1 || userAgent.indexOf("linux") > -1) {
-                setIsUbuntu(true);
-            }
-            setChecked(true);
-        }
-    }, []);
-
-    if (!checked) return null; // or a simple loading spinner if detection is slow (it's instant usually)
-
-    if (isUbuntu) {
-        return <UbuntuPreloader {...props} />;
-    }
-
-    return <DefaultPreloader {...props} />;
-};
-
-export default Preloader;
+export default UbuntuPreloader;
