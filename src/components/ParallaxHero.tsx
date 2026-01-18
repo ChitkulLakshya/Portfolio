@@ -46,7 +46,7 @@ const ParallaxHero = () => {
                     <div className="relative w-64 h-64 md:w-96 md:h-96 bg-black rounded-lg overflow-hidden shadow-2xl mb-8">
                         {/* Placeholder for Profile Image */}
                         <img
-                            src="/image/pro.png"
+                            src="/image/pro.webp"
                             alt="Profile"
                             className="w-full h-full object-cover"
                             onError={(e) => {

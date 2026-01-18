@@ -106,7 +106,7 @@ export const HeroDesktop = ({ isLoading = false }: { isLoading?: boolean }) => {
       <div
         className={`w-full max-w-7xl mx-auto rounded-lg overflow-hidden relative flex items-center justify-center transition-opacity duration-1000 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
         style={{
-          backgroundImage: "url('/image/pro.png')",
+          backgroundImage: "url('/image/pro.webp')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center top",
           backgroundSize: "cover",
