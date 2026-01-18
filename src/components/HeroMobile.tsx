@@ -59,7 +59,7 @@ const HeroMobile = () => {
         }}
       >
         <img
-          src="/image/profile.png"
+          src="/image/pro.webp"
           alt="Chitkul Lakshya"
           style={{
             position: "absolute",

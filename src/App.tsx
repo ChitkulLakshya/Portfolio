@@ -16,10 +16,25 @@ const queryClient = new QueryClient();
 import { useState, useEffect } from "react";
 import Preloader from "./components/Preloader";
 import MobilePreloader from "./components/MobilePreloader";
+import WindowsPreloader from "./components/windowspreloader";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true); // Preloader enabled again
   const [isMobile, setIsMobile] = useState(false);
+
+  // Initialize based on userAgent to prevent double-rendering/logging
+  const [isWindows, setIsWindows] = useState(() => {
+    if (typeof window !== "undefined") {
+      return navigator.userAgent.indexOf("Windows") !== -1;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isWindows) {
+      console.log("Running in windows (OS Detected)");
+    }
+  }, [isWindows]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -53,6 +68,8 @@ const App = () => {
         {isLoading && (
           isMobile ? (
             <MobilePreloader onComplete={() => setIsLoading(false)} />
+          ) : isWindows ? (
+            <WindowsPreloader onComplete={() => setIsLoading(false)} />
           ) : (
             <Preloader onComplete={() => setIsLoading(false)} />
           )
@@ -67,7 +84,7 @@ const App = () => {
         >
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
-              <Route path="/" element={<Index isLoading={isLoading} />} />
+              <Route path="/" element={<Index isLoading={isLoading} isWindows={isWindows} />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/get-in-touch" element={<GetInTouch />} />
               <Route path="/resume" element={<Resume />} />

@@ -3,9 +3,24 @@ import PageLayout from "@/components/PageLayout";
 import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2, X, RotateCcw } from "lucide-react";
 import { useCertificates, GridImage, CACHE_KEY } from "@/hooks/useCertificates";
+// CONFIGURATION: ZOOM LEVELS
+// Adjust these values to scale the page content for each OS
+const ZOOM_WINDOWS = 0.9;
+const ZOOM_UBUNTU = 1.0;
+
+// CONFIGURATION: GRID POSITION (px)
+const GRID_X_WINDOWS = -150;
+const GRID_Y_WINDOWS = 0;
+
+const GRID_X_UBUNTU = -190;
+const GRID_Y_UBUNTU = 0;
 
 const Certificates = () => {
-  const gridOffsetX = -190; // Adjust horizontal grid offset (px)
+  const isWindows = navigator.userAgent.indexOf("Windows") !== -1;
+  const currentZoom = isWindows ? ZOOM_WINDOWS : ZOOM_UBUNTU;
+  const currentGridX = isWindows ? GRID_X_WINDOWS : GRID_X_UBUNTU;
+  const currentGridY = isWindows ? GRID_Y_WINDOWS : GRID_Y_UBUNTU;
+
   const { images, isLoading, error, fetchCertificates } = useCertificates();
   const [selectedImage, setSelectedImage] = useState<GridImage | null>(null);
 
@@ -41,7 +56,13 @@ const Certificates = () => {
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
       <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
 
-      <main className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl">
+      <main
+        className="relative z-10 pt-32 pb-20 px-4 min-h-screen container mx-auto max-w-7xl"
+        style={{
+          transform: `scale(${currentZoom})`,
+          transformOrigin: "top center",
+        }}
+      >
 
         {/* Header */}
         <div className="text-center space-y-6 mb-20 animate-fade-in relative">
@@ -89,7 +110,7 @@ const Certificates = () => {
 
           {/* Success State */}
           {!isLoading && !error && images.length > 0 && (
-            <div style={{ marginLeft: `${gridOffsetX}px` }}>
+            <div style={{ transform: `translate(${currentGridX}px, ${currentGridY}px)` }}>
               <JustifiedGrid
                 images={images}
                 targetRowHeight={280}

@@ -1,7 +1,7 @@
-import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
+
+import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
-import UbuntuPreloader from "./UbuntuPreloader";
 
 // ==================================================================================
 // CONFIGURATION: FINAL POSITION
@@ -10,17 +10,21 @@ import UbuntuPreloader from "./UbuntuPreloader";
 // CONFIGURATION: FINAL POSITION
 // Change these values to adjust where the text lands! (0, 0 is center)
 // ==================================================================================
-const TARGET_OFFSET_X = -450;   // Horizontal Offset from Center (Negative=Left, Positive=Right)
-const TARGET_OFFSET_Y = -350;   // Vertical Offset from Center (Negative=Up, Positive=Down)
+const TARGET_OFFSET_X = -1520;   // Horizontal Offset from Center (Negative=Left, Positive=Right)
+const TARGET_OFFSET_Y = -1080;   // Vertical Offset from Center (Negative=Up, Positive=Down)
+// ==================================================================================
+
 // ==================================================================================
 // CONFIGURATION: ZOOM LEVEL
+// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
+// ==================================================================================
 const ZOOM_LEVEL = 1.0;
 
 interface PreloaderProps {
     onComplete: () => void;
 }
 
-const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
+const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const textPathRef = useRef<SVGTextElement>(null);
     const svgRef = useRef<SVGSVGElement>(null);
@@ -84,8 +88,8 @@ const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 const initialCenterY = window.innerHeight / 2;
 
                 // Final Position Logic (Relative to Center)
-                const FinalXFromCenter = TARGET_OFFSET_X;
-                const FinalYFromCenter = TARGET_OFFSET_Y;
+                const finalXFromCenter = TARGET_OFFSET_X;
+                const finalYFromCenter = TARGET_OFFSET_Y;
 
                 // 3. INSTANT SWAP
                 // Hide SVG completely, Show HTML completely.
@@ -107,8 +111,8 @@ const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
                 // Animate Characters (Move to Corner)
                 tl.to(chars, {
-                    x: FinalXFromCenter,
-                    y: FinalYFromCenter,
+                    x: finalXFromCenter,
+                    y: finalYFromCenter,
                     duration: 1.2,
                     ease: "power3.inOut",
                     stagger: 0.05
@@ -124,6 +128,9 @@ const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 ease: "power2.inOut",
                 onComplete: onComplete
             }, "-=0.8");
+
+            // FADE OUT TEXT - REMOVED (Clipping handles it now)
+            // if (htmlText) { ... }
 
         }, containerRef);
 
@@ -205,27 +212,4 @@ const DefaultPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     );
 };
 
-const Preloader: React.FC<PreloaderProps> = (props) => {
-    const [isUbuntu, setIsUbuntu] = useState<boolean>(false);
-    const [checked, setChecked] = useState(false);
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            if (userAgent.indexOf("ubuntu") > -1 || userAgent.indexOf("linux") > -1) {
-                setIsUbuntu(true);
-            }
-            setChecked(true);
-        }
-    }, []);
-
-    if (!checked) return null; // or a simple loading spinner if detection is slow (it's instant usually)
-
-    if (isUbuntu) {
-        return <UbuntuPreloader {...props} />;
-    }
-
-    return <DefaultPreloader {...props} />;
-};
-
-export default Preloader;
+export default WindowsPreloader;

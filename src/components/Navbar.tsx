@@ -20,6 +20,7 @@ const CTA_TEXT_SIZE = "text-sm";
 const NAVBAR_PADDING = "px-5 py-1";
 const NAVBAR_BORDER = "border border-neutral-700/30";
 const NAVBAR_BG = "bg-transparent backdrop-blur-md";
+const NAV_SCALE = 0.8; // Adjust this to scale the navbar (e.g., 0.8 = 80%, 1.2 = 120%)
 
 // Active / inactive colors
 const ACTIVE_TEXT_DARK = "text-silver hover:opacity-80";
@@ -131,6 +132,10 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
             NAVBAR_BORDER,
             NAVBAR_BG
           )}
+          style={{
+            transform: `scale(${NAV_SCALE})`,
+            transformOrigin: "top center"
+          }}
         >
           {/* Nav Items */}
           {navItems.map((item) => (

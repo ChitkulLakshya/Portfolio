@@ -169,7 +169,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                         }}
                     >
                         <img
-                            src="/image/profile.png"
+                            src="/image/profile.webp"
                             alt="Chitkul Lakshya"
                             style={{
                                 position: "absolute",

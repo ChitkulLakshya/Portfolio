@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "@/lib/api";
 import { useCertificates } from "@/hooks/useCertificates";
 
-const Index = ({ isLoading = false }: { isLoading?: boolean }) => {
+const Index = ({ isLoading = false, isWindows = false }: { isLoading?: boolean; isWindows?: boolean }) => {
   // Prefetch projects data to warm up the cache
   const { data: projects } = useQuery({
     queryKey: ["projects"],
@@ -47,7 +47,7 @@ const Index = ({ isLoading = false }: { isLoading?: boolean }) => {
     return () => clearTimeout(timer);
   }, [projects, preloadCertificates]);
 
-  return isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} />;
+  return isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} isWindows={isWindows} />;
 };
 
 export default Index;
