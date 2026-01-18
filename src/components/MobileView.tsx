@@ -21,32 +21,22 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
     const LOGO_TEXT = "Chitkul Lakshya";
     const LOGO_SIZE = "text-3xl";
 
-    // =========================================================================
-    // CONFIGURATION: BIO TEXT POSITION & SIZE
-    // Change these values to manually adjust the text!
-    // =========================================================================
-    const BIO_POSITION_TOP = "-100px";      // Vertical Position
+
+    const BIO_POSITION_TOP = "-95px";      // Vertical Position
     const BIO_POSITION_LEFT = "195px";     // Horizontal Position
     const BIO_TRANSFORM = "translate(-50%, -50%)"; // Center anchor. Change to "none" if you want exact x,y
     const BIO_WIDTH = "90vw";            // Width of text block
     const BIO_FONT_SIZE = "11px";        // Size of text
     const BIO_TEXT_ALIGN = "left";     // "center", "left", or "right"
 
-    // =========================================================================
-    // CONFIGURATION: LAKSHYA TEXT POSITION & SIZE
-    // =========================================================================
     const LAKSHYA_POSITION_TOP = "-290px";   // Vertical Position
     const LAKSHYA_POSITION_LEFT = "10px";    // Horizontal Position
     const LAKSHYA_TRANSFORM = "translateX(-50%)"; // Center alignment offset
     const LAKSHYA_FONT_SIZE = "80px";        // Font Size
 
-    // =========================================================================
-    // CONFIGURATION: HEY I'M TEXT POSITION & SIZE
-    // =========================================================================
     const HEY_IM_POSITION_TOP = "-320px";    // Vertical Position
     const HEY_IM_POSITION_LEFT = "17px";     // Horizontal Position
     const HEY_IM_FONT_SIZE = "clamp(20px, 8vw, 29px)"; // Font Size
-    // =========================================================================
 
     const navigateHome = () => {
         if (location.pathname === "/") {
@@ -57,9 +47,6 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         }
     };
 
-    // =========================================================================
-    // INLINED HERO MOBILE LOGIC
-    // =========================================================================
     const containerRef = useRef<HTMLDivElement>(null);
     const lakshyaTextRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
