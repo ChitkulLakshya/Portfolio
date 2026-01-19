@@ -156,7 +156,7 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
                 <div className="relative w-full h-full">
 
                     {/* MAIN IMAGE - Wrapped for Scroll Animation */}
-                    <motion.div style={{ y: yA, opacity: opacityA }} className="absolute inset-0 pointer-events-none z-0">
+                    <motion.div className="absolute inset-0 pointer-events-none z-0">
                         <img
                             src={IMG_URL}
                             alt="Background"
@@ -173,7 +173,7 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
                     </motion.div>
 
                     {/* Group A: Badge + Hey I'm (Moves Upward) */}
-                    <motion.div style={{ y: yA, opacity: opacityA }} className="absolute inset-0 pointer-events-none">
+                    <motion.div className="absolute inset-0 pointer-events-none">
 
 
                         <div
@@ -227,7 +227,7 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
 
 
                     {/* Group B: WEB & APP + Description (Moves Downward) */}
-                    <motion.div style={{ y: yB, opacity: opacityB }} className="absolute inset-0 pointer-events-none">
+                    <motion.div className="absolute inset-0 pointer-events-none">
 
                         {/* WEB & APP DEVELOPER Top Right (Horizontal Scroll) */}
                         <div className="absolute font-sixcaps text-black">
@@ -251,8 +251,7 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
                     </motion.div>
 
 
-
-                    <motion.div style={{ y: yA, opacity: opacityC }} className="absolute inset-0 pointer-events-none">
+                    <motion.div className="absolute inset-0 pointer-events-none">
                         <div
                             className="absolute text-black font-light leading-relaxed"
                             style={{

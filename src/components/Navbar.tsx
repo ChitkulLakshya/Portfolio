@@ -81,17 +81,17 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
 
   const navItems = [
     {
-      name: "Home",
+      name: "HOME",
       onClick: navigateHome,
       active: location.pathname === "/",
     },
     {
-      name: "Skills",
+      name: "SKILLS",
       onClick: handleSkillsClick,
       active: false,
     },
     {
-      name: "Projects",
+      name: "PROJECTS",
       onClick: handleProjectsClick,
       active: location.pathname === "/projects",
     },

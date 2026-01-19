@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Html } from '@react-three/drei';
+import * as THREE from 'three';
 
-const Skills = () => {
-  const skills = [
-    // Languages
+// Skills Data
+const skills = [
     { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
     { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
     { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
@@ -25,8 +27,6 @@ const Skills = () => {
     { name: "Haskell", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/haskell/haskell-original.svg" },
     { name: "Elixir", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elixir/elixir-original.svg" },
     { name: "Scala", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg" },
-
-    // Frontend
     { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
     { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
     { name: "Vue.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" },
@@ -45,8 +45,6 @@ const Skills = () => {
     { name: "jQuery", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg" },
     { name: "Electron", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/electron/electron-original.svg" },
     { name: "Flutter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" },
-
-    // Backend
     { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
     { name: "Express", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
     { name: "NestJS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" },
@@ -60,8 +58,6 @@ const Skills = () => {
     { name: "GraphQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
     { name: "Nginx", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" },
     { name: "Apache", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" },
-
-    // DB & Cloud
     { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
     { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
     { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
@@ -77,8 +73,6 @@ const Skills = () => {
     { name: "Heroku", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg" },
     { name: "Vercel", icon: "https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" },
     { name: "Netlify", icon: "https://www.vectorlogo.zone/logos/netlify/netlify-icon.svg" },
-
-    // Tools
     { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
     { name: "Kubernetes", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" },
     { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
@@ -98,162 +92,165 @@ const Skills = () => {
     { name: "Illustrator", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" },
     { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
     { name: "IntelliJ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" },
-  ];
+];
 
-  // ==========================================
-  // CONFIGURATION: CUSTOMIZE POSITION & SIZE
-  // ==========================================
-  const GLOBE_POSITION_TOP = "50%";   // Vertical position (e.g. "50%", "100px", "40vh")
-  const GLOBE_POSITION_LEFT = "50%";  // Horizontal position (e.g. "50%", "200px")
-  const LOGO_SIZE_PX = 35;            // Size of the logos in pixels
-  const SPHERE_RADIUS = 300;          // Radius of the sphere in pixels
+// Configuration for Manual Control
+const LAYOUT_CONFIG = {
+    // Line Spacing / Sphere Radius (Increase = longer lines, spread out icons)
+    RADIUS: 11,
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+    // Icon Size in Pixels
+    ICON_SIZE: 30, // Slightly larger for clarity
 
-  // Calculate initial positions (OCTAHEDRON)
-  const initialPositions = useMemo(() => {
-    const phi = Math.PI * (3 - Math.sqrt(5));
-    const n = skills.length;
+    // Manual Object Positioning
+    POSITION_X: 0, // Left/Right (Negative = Left, Positive = Right)
+    POSITION_Y: -1, // Up/Down (Negative = Down, Positive = Up)
 
-    return skills.map((skill, i) => {
-      // 1. First, get Sphere points
-      const y = 1 - (i / (n - 1)) * 2;
-      const radiusAtY = Math.sqrt(1 - y * y);
-      const theta = phi * i;
-
-      const x = Math.cos(theta) * radiusAtY;
-      const z = Math.sin(theta) * radiusAtY;
-
-      // 2. Project onto Octahedron: |x| + |y| + |z| = 1
-      // We normalize the sphere vector by the sum of absolute values.
-      const sum = Math.abs(x) + Math.abs(y) + Math.abs(z);
-      const factor = 1 / sum;
-
-      return {
-        ...skill,
-        x: x * factor,
-        y: y * factor,
-        z: z * factor
-      };
-    });
-  }, [skills.length]);
-
-  // Mouse Control Logic
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const rotationRef = useRef({ x: 0, y: 0 }); // Use ref for smoother animation loop reading
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse position from -1 to 1 based on window size
-      const normX = (e.clientX / window.innerWidth) * 2 - 1;
-      const normY = (e.clientY / window.innerHeight) * 2 - 1;
-
-      mouseRef.current = { x: normX, y: normY };
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Animation Loop
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const animate = () => {
-      // Update rotation speed based on mouse position
-      // Sensitivity factor: 0.05
-      const targetSpeedX = mouseRef.current.y * 0.05; // Mouse Y controls Rotation X (tilting up/down)
-      const targetSpeedY = mouseRef.current.x * 0.05; // Mouse X controls Rotation Y (spinning left/right)
-
-      rotationRef.current.x += targetSpeedX;
-      rotationRef.current.y += targetSpeedY;
-
-      setRotation({ x: rotationRef.current.x, y: rotationRef.current.y });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  return (
-    <section id="stack" className="py-20 px-4 overflow-hidden relative" style={{ backgroundColor: '#D3D3D3' }}>
-      <div
-        ref={containerRef}
-        className="w-full h-[600px] relative flex items-center justify-center overflow-hidden"
-      >
-        {initialPositions.map((item, index) => {
-          // 3D Rotation Math
-          // We rotate the POINT, not the element. The element stays flat (billboard).
-
-          const R = SPHERE_RADIUS;
-
-          // Rotate around Y axis
-          let x = item.x;
-          let z = item.z;
-          let tempX = x * Math.cos(rotation.y) - z * Math.sin(rotation.y);
-          let tempZ = x * Math.sin(rotation.y) + z * Math.cos(rotation.y);
-          x = tempX;
-          z = tempZ;
-
-          // Rotate around X axis
-          let y = item.y;
-          let tempY = y * Math.cos(rotation.x) - z * Math.sin(rotation.x);
-          let tempZ2 = y * Math.sin(rotation.x) + z * Math.cos(rotation.x);
-          y = tempY;
-          z = tempZ2; // Final Z
-
-          // Projection (Perspective)
-          // Simple perspective projection: scale = d / (d - z)
-          const perspective = 1000;
-          const scale = perspective / (perspective - (z * R));
-
-          // Only render if it's not too close (clipping)
-          if (scale < 0) return null;
-
-          // Calculate visual properties
-          const opacity = Math.min(1, Math.max(0.2, (scale - 0.5) * 1.5));
-          const zIndex = Math.floor(z * 100);
-
-          return (
-            <div
-              key={index}
-              className="absolute flex items-center justify-center transition-transform will-change-transform"
-              style={{
-                top: GLOBE_POSITION_TOP,
-                left: GLOBE_POSITION_LEFT,
-                width: `${LOGO_SIZE_PX}px`,
-                height: `${LOGO_SIZE_PX}px`,
-                transform: `translate3d(-50%, -50%, 0) translate3d(${x * R}px, ${y * R}px, 0) scale(${scale})`,
-                zIndex: zIndex + 1000,
-                opacity: opacity,
-              }}
-            >
-              <img
-                src={item.icon}
-                alt={item.name}
-                className="w-full h-full object-contain drop-shadow"
-                style={{ pointerEvents: 'none' }}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Mobile adjustments */}
-      <style>{`
-        @media (max-width: 768px) {
-           #stack .absolute {
-             width: 40px !important;
-             height: 40px !important;
-           }
-        }
-      `}</style>
-    </section>
-  );
+    // Partition Line Height (Thickness in px)
+    SEPARATOR_HEIGHT: 1,
 };
 
-export default Skills;
+// Component to Render a Single Icon
+function CloudIcon({ position, icon, name }: { position: THREE.Vector3, icon: string, name: string }) {
+    const ref = useRef<THREE.Group>(null);
+    const [hovered, setHovered] = useState(false);
+
+    // Slight random offset for organic float
+    const randomOffset = useMemo(() => Math.random() * 100, []);
+
+    useFrame((state) => {
+        if (ref.current) {
+            const time = state.clock.elapsedTime;
+            // Tiny organic float
+            const yOffset = Math.sin(time * 0.5 + randomOffset) * 0.1;
+            ref.current.position.y = position.y + yOffset;
+        }
+    });
+
+    return (
+        <group ref={ref} position={position}>
+            <Html
+                center
+                transform={false}
+                style={{ pointerEvents: 'none' }}
+                zIndexRange={[100, 0]}
+            >
+                <div
+                    className={`transition-all duration-300 flex flex-col items-center justify-center gap-1 ${hovered ? 'z-50' : 'z-0'}`}
+                    onMouseEnter={() => setHovered(true)}
+                    onMouseLeave={() => setHovered(false)}
+                    style={{
+                        pointerEvents: 'auto',
+                        cursor: 'pointer',
+                        width: `${LAYOUT_CONFIG.ICON_SIZE}px`,
+                        height: `${LAYOUT_CONFIG.ICON_SIZE}px`
+                    }}
+                >
+                    <img
+                        src={icon}
+                        alt={name}
+                        className="object-contain drop-shadow-md w-full h-full"
+                        style={{
+                            // No filters - Original Colors
+                            opacity: 1
+                        }}
+                    />
+
+                </div>
+            </Html>
+        </group>
+    );
+}
+
+function Cloud() {
+    const groupRef = useRef<THREE.Group>(null);
+
+    // 1. Generate Uniform Geodesic Geometry for the Perfect Grid Look
+    const geometry = useMemo(() => {
+        // Icosahedron with Detail=1 creates 42 vertices - Much faster performance
+        return new THREE.IcosahedronGeometry(LAYOUT_CONFIG.RADIUS, 1);
+    }, []);
+
+    // 2. Map Skills to the Geodesic Vertices (Unique positions only)
+    const particles = useMemo(() => {
+        const positions = geometry.getAttribute('position');
+        const uniquePoints = [];
+        const pointSet = new Set();
+
+        for (let i = 0; i < positions.count; i++) {
+            const p = new THREE.Vector3().fromBufferAttribute(positions, i);
+            // Create a key to check for duplicates (precision handling)
+            const key = `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)}`;
+
+            if (!pointSet.has(key)) {
+                pointSet.add(key);
+                uniquePoints.push(p);
+            }
+        }
+
+        const temp = [];
+        // Only use as many skills as we have unique points (avoid overflow/overlap)
+        const limit = Math.min(uniquePoints.length, skills.length);
+
+        for (let i = 0; i < limit; i++) {
+            temp.push({
+                pos: uniquePoints[i],
+                skill: skills[i]
+            });
+        }
+        return temp;
+    }, [geometry]);
+
+    useFrame((state, delta) => {
+        if (!groupRef.current) return;
+        // Constant slow spin
+        groupRef.current.rotation.y += delta * 0.1;
+        groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.05;
+    });
+
+    return (
+        <group ref={groupRef}>
+            {/* The Wireframe Mesh - Creates the ordered "Molecule" lines */}
+            <lineSegments>
+                <wireframeGeometry args={[geometry]} />
+                <lineBasicMaterial color="#000000" transparent opacity={0.15} />
+            </lineSegments>
+
+            {/* Icons at Vertices */}
+            {particles.map((p, i) => (
+                <CloudIcon key={i} position={p.pos} icon={p.skill.icon} name={p.skill.name} />
+            ))}
+        </group>
+    );
+}
+
+export default function Skills() {
+    return (
+        <section
+            id="stack"
+            className="py-10 px-0 w-full relative overflow-hidden"
+            style={{
+                backgroundColor: '#D3D3D3',
+                height: '80vh',
+                minHeight: '600px'
+            }}
+        >
+            {/* Separator Line - Changed to black/10 to match other partitions */}
+            <div
+                className="absolute top-0 left-0 w-full bg-black/10 z-10"
+                style={{ height: `${LAYOUT_CONFIG.SEPARATOR_HEIGHT}px` }}
+            />
+
+            <div className="absolute inset-0">
+                <Canvas camera={{ position: [0, 0, 35], fov: 50 }}>
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[10, 10, 10]} />
+                    {/* Shifted Cloud position up slightly */}
+                    <group position={[LAYOUT_CONFIG.POSITION_X, LAYOUT_CONFIG.POSITION_Y, 0]}>
+                        <Cloud />
+                    </group>
+                </Canvas>
+            </div>
+        </section>
+    );
+}

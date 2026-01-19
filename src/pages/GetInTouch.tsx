@@ -2,6 +2,18 @@ import { Github, Linkedin, Mail, FileText, Award } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import ResumeButton from "@/components/ResumeButton";
+
+// ==================================================================================
+// CONFIGURATION: BUTTON POSITIONING
+// Offsets are relative to their natural centered position or a specific anchor.
+// Values can be "0px", "50px", "-100px", "10%", etc.
+// ==================================================================================
+const RESUME_BTN_X = "110px";    // Horizontal offset
+const RESUME_BTN_Y = "-210px";    // Vertical offset
+
+const CERT_BTN_X = "-140px";   // Horizontal offset
+const CERT_BTN_Y = "30px";   // Vertical offset
 
 const GetInTouch = () => {
   const navigate = useNavigate();
@@ -13,7 +25,7 @@ const GetInTouch = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background to-background z-0 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] -z-10 opacity-20" />
 
-        <div className="container mx-auto max-w-4xl text-center space-y-16 z-10">
+        <div className="container mx-auto max-w-4xl text-center space-y-16 z-10 relative">
           <div className="space-y-6 animate-fade-in">
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-silver">
               Let's Work
@@ -25,28 +37,44 @@ const GetInTouch = () => {
               Crafting digital experiences with precision and passion.
               <br className="hidden md:block" />
               Open for opportunities and collaborations.
+              <br />
+              <br />
+              <br />
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button
-              size="lg"
-              onClick={() => navigate("/resume")}
-              className="h-14 px-8 text-lg font-medium bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-full group min-w-[180px]"
-            >
-              <FileText className="mr-2 h-5 w-5 opacity-70 group-hover:opacity-100 transition-opacity" />
-              Resume
-            </Button>
 
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => navigate("/certificates")}
-              className="h-14 px-8 text-lg font-medium rounded-full min-w-[180px] bg-white text-black hover:bg-gray-200 transition-colors"
+          <div className="relative h-40 w-full flex justify-center items-center">
+            {/* Animated Resume Button */}
+            <div
+              className="scale-75 sm:scale-100 absolute"
+              style={{
+                transform: `translate(calc(-50% + ${RESUME_BTN_X}), ${RESUME_BTN_Y})`,
+                left: '35%', // Initial anchor
+                top: '50%'
+              }}
             >
-              <Award className="mr-2 h-5 w-5" />
-              Certificates
-            </Button>
+              <ResumeButton />
+            </div>
+
+            <div
+              className="absolute"
+              style={{
+                transform: `translate(calc(-50% + ${CERT_BTN_X}), ${CERT_BTN_Y})`,
+                left: '65%', // Initial anchor
+                top: '50%'
+              }}
+            >
+              <Button
+                size="lg"
+                variant="secondary"
+                onClick={() => navigate("/certificates")}
+                className="h-14 px-8 text-lg font-medium rounded-full min-w-[180px] bg-white text-black hover:bg-gray-200 transition-colors"
+              >
+                <Award className="mr-2 h-5 w-5" />
+                Certificates
+              </Button>
+            </div>
           </div>
 
           {/* Contact Links */}
