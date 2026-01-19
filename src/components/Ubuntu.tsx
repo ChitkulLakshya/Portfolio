@@ -17,23 +17,23 @@ const ZOOM_LEVEL = 0.9;
 // ==================================================================================
 const IMG_URL = "/image/pro.webp";
 const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
-const IMG_OFFSET_Y = "0px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
-const IMG_SCALE = 1.0;    // Zoom level of the image
+const IMG_OFFSET_Y = "-550px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
+const IMG_SCALE = 0.7;    // Zoom level of the image
 
 // ==================================================================================
 // CONFIGURATION: TEXT POSITIONING (All values in PX relative to center/hero container)
 // ==================================================================================
 // Group A: "Hey I'm"
 const POS_HEY_IM_X = 150;
-const POS_HEY_IM_Y = -480;
+const POS_HEY_IM_Y = -370;
 
 // Group A: "LAKSHYA"
 const POS_LAKSHYA_X = 150;
 const POS_LAKSHYA_Y = -300;
 
 // Group B: "WEB & APP" (Top Right)
-const POS_WEB_APP_TOP_X = 1020;
-const POS_WEB_APP_TOP_Y = 130;
+const POS_WEB_APP_TOP_X = 1060;
+const POS_WEB_APP_TOP_Y = 180;
 
 // Group C: "WEB & APP DEVELOPER" (Bottom Left)
 const POS_WEB_APP_BOTTOM_X = 120;
@@ -42,6 +42,10 @@ const POS_WEB_APP_BOTTOM_Y = 600;
 // Bio Text (Right aligned)
 const POS_BIO_RIGHT = 50;
 const POS_BIO_TOP = 400;
+
+// Bio Text (Bottom Left)
+const POS_BIO_LEFT_X = 70;
+const POS_BIO_BOTTOM_Y = -120;
 
 const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -251,39 +255,13 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
 
                     </motion.div>
 
-                    {/* Full Stack Developer Text (Independent of Group C Fade) */}
-                    <div
-                        className="absolute text-right"
-                        style={{
-                            top: px(POS_BIO_TOP),
-                            right: px(POS_BIO_RIGHT),
-                            width: px(350),
-                        }}
-                    >
-                        <motion.p
-                            className="text-black font-light leading-relaxed"
-                            style={{
-                                fontSize: px(18),
-                                fontWeight: 500,
-                                letterSpacing: letterSpacingBio,
-                                filter: filterBio
-                            }}
-                        >
-                            Full Stack Developer
-                            <br />
-                            Passionate about
-                            <br />
-                            building digital solutions
-                        </motion.p>
-                    </div>
-
 
                     <motion.div style={{ y: yA, opacity: opacityC }} className="absolute inset-0 pointer-events-none">
                         <div
                             className="absolute text-black font-light leading-relaxed"
                             style={{
-                                bottom: px(-120),
-                                left: px(70),
+                                bottom: px(POS_BIO_BOTTOM_Y),
+                                left: px(POS_BIO_LEFT_X),
                                 width: px(500),
                                 fontSize: px(17),
                                 perspective: "1000px" // 3D Perspective

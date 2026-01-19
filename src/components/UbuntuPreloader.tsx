@@ -4,17 +4,17 @@ import SplitType from "split-type";
 
 // ==================================================================================
 // CONFIGURATION: FINAL POSITION
-// Change these values to adjust where the text lands!
+// Change these values to adjust where the text lands! (0, 0 is center)
 // ==================================================================================
-const TARGET_LEFT_X = -1520;  // Horizontal Position (px from left edge)
-const TARGET_TOP_Y = -985;   // Vertical Position (px from top edge)
+const TARGET_OFFSET_X = -2150;   // Horizontal Offset from Center (Negative=Left, Positive=Right)
+const TARGET_OFFSET_Y = -1300;   // Vertical Offset from Center (Negative=Up, Positive=Down)
 // ==================================================================================
 
 // ==================================================================================
 // CONFIGURATION: ZOOM LEVEL
 // Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
 // ==================================================================================
-const ZOOM_LEVEL = 0.9;
+const ZOOM_LEVEL = 1.0;
 
 interface PreloaderProps {
     onComplete: () => void;
@@ -83,9 +83,9 @@ const UbuntuPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 const initialCenterX = window.innerWidth / 2;
                 const initialCenterY = window.innerHeight / 2;
 
-                // Final Position Logic
-                const finalXFromCenter = -initialCenterX + TARGET_LEFT_X + (htmlTextRect.width * 0.3 / 2);
-                const finalYFromCenter = -initialCenterY + TARGET_TOP_Y;
+                // Final Position Logic (Relative to Center)
+                const finalXFromCenter = TARGET_OFFSET_X;
+                const finalYFromCenter = TARGET_OFFSET_Y;
 
                 // 3. INSTANT SWAP
                 // Hide SVG completely, Show HTML completely.
