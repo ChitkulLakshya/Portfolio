@@ -6,13 +6,13 @@ import { useCertificates, GridImage, CACHE_KEY } from "@/hooks/useCertificates";
 // CONFIGURATION: ZOOM LEVELS
 // Adjust these values to scale the page content for each OS
 const ZOOM_WINDOWS = 0.9;
-const ZOOM_UBUNTU = 1.0;
+const ZOOM_UBUNTU = 0.9;
 
 // CONFIGURATION: GRID POSITION (px)
 const GRID_X_WINDOWS = -150;
 const GRID_Y_WINDOWS = 0;
 
-const GRID_X_UBUNTU = -190;
+const GRID_X_UBUNTU = -330;
 const GRID_Y_UBUNTU = 0;
 
 const Certificates = () => {

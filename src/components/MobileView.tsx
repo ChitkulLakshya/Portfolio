@@ -21,9 +21,16 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
     const LOGO_TEXT = "Chitkul Lakshya";
     const LOGO_SIZE = "text-3xl";
 
+    // ==================================================================================
+    // CONFIGURATION: IMAGE POSITIONING
+    // ==================================================================================
+    const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
+    const IMG_OFFSET_Y = "0px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
+    const IMG_SCALE = 0.9;    // Zoom level of the image
 
-    const BIO_POSITION_TOP = "-95px";      // Vertical Position
-    const BIO_POSITION_LEFT = "195px";     // Horizontal Position
+
+    const BIO_POSITION_TOP = "-72px";      // Vertical Position
+    const BIO_POSITION_LEFT = "185px";     // Horizontal Position
     const BIO_TRANSFORM = "translate(-50%, -50%)"; // Center anchor. Change to "none" if you want exact x,y
     const BIO_WIDTH = "90vw";            // Width of text block
     const BIO_FONT_SIZE = "11px";        // Size of text
@@ -175,7 +182,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                 position: "absolute",
                                 top: "10%",
                                 left: "50%",
-                                transform: "translateX(-50%)",
+                                transform: `translate(calc(-50% + ${IMG_OFFSET_X}), ${IMG_OFFSET_Y}) scale(${IMG_SCALE})`,
                                 width: "100%", // Full width
                                 maxWidth: "none", // Allow exceeding standard limits if needed
                                 height: "auto",
