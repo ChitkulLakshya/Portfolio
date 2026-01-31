@@ -10,7 +10,7 @@ const LOGO_TEXT = "Chitkul Lakshya";
 const LOGO_SIZE = "text-3xl"; // Increased size for Script readability
 
 // Nav item text size
-const NAV_TEXT_SIZE = "text-base"; // text-xs | text-sm | text-base | text-lg
+const NAV_TEXT_SIZE = "text-sm"; // text-xs | text-sm | text-base | text-lg
 
 // Get in Touch button
 const CTA_TEXT = "Get in Touch";
