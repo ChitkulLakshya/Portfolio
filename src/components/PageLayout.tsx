@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
 import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 
 interface PageLayoutProps {
     children: ReactNode;
@@ -13,6 +14,7 @@ interface PageLayoutProps {
 
 const PageLayout = ({ children, className, style }: PageLayoutProps) => {
     const isMobile = useIsMobile();
+    const location = useLocation();
 
     return (
         <div className={className} style={style}>

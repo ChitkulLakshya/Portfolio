@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import Preloader from "./components/Preloader";
 import MobilePreloader from "./components/MobilePreloader";
 import WindowsPreloader from "./components/windowspreloader";
+import MacPreloader from "./components/MacPreloader";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true); // Preloader enabled again
@@ -26,6 +27,13 @@ const App = () => {
   const [isWindows, setIsWindows] = useState(() => {
     if (typeof window !== "undefined") {
       return navigator.userAgent.indexOf("Windows") !== -1;
+    }
+    return false;
+  });
+
+  const [isMac, setIsMac] = useState(() => {
+    if (typeof window !== "undefined") {
+      return navigator.userAgent.indexOf("Mac") !== -1;
     }
     return false;
   });
@@ -70,6 +78,8 @@ const App = () => {
             <MobilePreloader onComplete={() => setIsLoading(false)} />
           ) : isWindows ? (
             <WindowsPreloader onComplete={() => setIsLoading(false)} />
+          ) : isMac ? (
+            <MacPreloader onComplete={() => setIsLoading(false)} />
           ) : (
             <Preloader onComplete={() => setIsLoading(false)} />
           )
@@ -84,7 +94,7 @@ const App = () => {
         >
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
-              <Route path="/" element={<Index isLoading={isLoading} isWindows={isWindows} />} />
+              <Route path="/" element={<Index isLoading={isLoading} isWindows={isWindows} isMac={isMac} />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/get-in-touch" element={<GetInTouch />} />
               <Route path="/resume" element={<Resume />} />
