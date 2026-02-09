@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Skills Data
+
 const skills = [
     { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
     { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
@@ -94,34 +94,34 @@ const skills = [
     { name: "IntelliJ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" },
 ];
 
-// Configuration for Manual Control
+
 const LAYOUT_CONFIG = {
-    // Line Spacing / Sphere Radius (Increase = longer lines, spread out icons)
+
     RADIUS: 11,
 
-    // Icon Size in Pixels
+
     ICON_SIZE: 30, // Slightly larger for clarity
 
-    // Manual Object Positioning
+
     POSITION_X: 0, // Left/Right (Negative = Left, Positive = Right)
     POSITION_Y: -1, // Up/Down (Negative = Down, Positive = Up)
 
-    // Partition Line Height (Thickness in px)
+
     SEPARATOR_HEIGHT: 1,
 };
 
-// Component to Render a Single Icon
+
 function CloudIcon({ position, icon, name }: { position: THREE.Vector3, icon: string, name: string }) {
     const ref = useRef<THREE.Group>(null);
     const [hovered, setHovered] = useState(false);
 
-    // Slight random offset for organic float
+
     const randomOffset = useMemo(() => Math.random() * 100, []);
 
     useFrame((state) => {
         if (ref.current) {
             const time = state.clock.elapsedTime;
-            // Tiny organic float
+
             const yOffset = Math.sin(time * 0.5 + randomOffset) * 0.1;
             ref.current.position.y = position.y + yOffset;
         }
@@ -151,7 +151,7 @@ function CloudIcon({ position, icon, name }: { position: THREE.Vector3, icon: st
                         alt={name}
                         className="object-contain drop-shadow-md w-full h-full"
                         style={{
-                            // No filters - Original Colors
+
                             opacity: 1
                         }}
                     />
@@ -165,13 +165,13 @@ function CloudIcon({ position, icon, name }: { position: THREE.Vector3, icon: st
 function Cloud() {
     const groupRef = useRef<THREE.Group>(null);
 
-    // 1. Generate Uniform Geodesic Geometry for the Perfect Grid Look
+
     const geometry = useMemo(() => {
-        // Icosahedron with Detail=1 creates 42 vertices - Much faster performance
+
         return new THREE.IcosahedronGeometry(LAYOUT_CONFIG.RADIUS, 1);
     }, []);
 
-    // 2. Map Skills to the Geodesic Vertices (Unique positions only)
+
     const particles = useMemo(() => {
         const positions = geometry.getAttribute('position');
         const uniquePoints = [];
@@ -179,7 +179,7 @@ function Cloud() {
 
         for (let i = 0; i < positions.count; i++) {
             const p = new THREE.Vector3().fromBufferAttribute(positions, i);
-            // Create a key to check for duplicates (precision handling)
+
             const key = `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)}`;
 
             if (!pointSet.has(key)) {
@@ -189,7 +189,7 @@ function Cloud() {
         }
 
         const temp = [];
-        // Only use as many skills as we have unique points (avoid overflow/overlap)
+
         const limit = Math.min(uniquePoints.length, skills.length);
 
         for (let i = 0; i < limit; i++) {
@@ -203,7 +203,7 @@ function Cloud() {
 
     useFrame((state, delta) => {
         if (!groupRef.current) return;
-        // Constant slow spin
+
         groupRef.current.rotation.y += delta * 0.1;
         groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.05;
     });

@@ -6,15 +6,15 @@ const ParallaxHero = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
 
-    // Element A: Moves upward at 0.5x speed
-    // as user scrolls down (scrollY increases), y becomes negative (moves up)
+
+
     const yA = useTransform(scrollY, [0, 1000], [0, -500]);
 
-    // Element B: Moves downward at 0.2x speed
-    // as user scrolls down, y becomes positive (moves down)
+
+
     const yB = useTransform(scrollY, [0, 1000], [0, 200]);
 
-    // Element C: Fades out completely by 300px
+
     const opacityC = useTransform(scrollY, [0, 300], [1, 0]);
 
     return (

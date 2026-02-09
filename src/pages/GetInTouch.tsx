@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import ResumeButton from "@/components/ResumeButton";
 
-// ==================================================================================
-// CONFIGURATION: BUTTON POSITIONING
-// Offsets are relative to their natural centered position or a specific anchor.
-// Values can be "0px", "50px", "-100px", "10%", etc.
-// ==================================================================================
+
+
+
+
+
 const RESUME_BTN_X = "110px";    // Horizontal offset
 const RESUME_BTN_Y = "-210px";    // Vertical offset
 

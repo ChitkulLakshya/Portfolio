@@ -6,44 +6,44 @@ import TextReveal from "./TextReveal";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
-// ==================================================================================
-// CONFIGURATION: ZOOM LEVEL
-// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
-// ==================================================================================
+
+
+
+
 const ZOOM_LEVEL = 0.9;
 
-// ==================================================================================
-// CONFIGURATION: IMAGE POSITIONING (macOS Specific)
-// ==================================================================================
+
+
+
 const IMG_URL = "/image/pro.webp";
 const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
 const IMG_OFFSET_Y = "-400px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
 const IMG_SCALE = 0.9;    // Zoom level of the image
 
-// ==================================================================================
-// CONFIGURATION: TEXT POSITIONING (All values in PX relative to center/hero container)
-// ==================================================================================
-// Group A: "Hey I'm"
+
+
+
+
 const POS_HEY_IM_X = 150;
 const POS_HEY_IM_Y = -370;
 
-// Group A: "LAKSHYA"
+
 const POS_LAKSHYA_X = 150;
 const POS_LAKSHYA_Y = -300;
 
-// Group B: "WEB & APP" (Top Right)
+
 const POS_WEB_APP_TOP_X = 1050;
 const POS_WEB_APP_TOP_Y = 210;
 
-// Group C: "WEB & APP DEVELOPER" (Bottom Left)
+
 const POS_WEB_APP_BOTTOM_X = 120;
 const POS_WEB_APP_BOTTOM_Y = 600;
 
-// Bio Text (Right aligned)
+
 const POS_BIO_RIGHT = 50;
 const POS_BIO_TOP = 400;
 
-// Bio Text (Bottom Left)
+
 const POS_BIO_LEFT_X = 70;
 const POS_BIO_BOTTOM_Y = -120;
 
@@ -70,14 +70,14 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
         if (isLoading) return;
 
         const ctx = gsap.context(() => {
-            // Wait for fonts to be ready to ensure SplitType works correctly
+
             document.fonts.ready.then(() => {
                 if (lakshyaTextRef.current) {
-                    // Revert any previous split to avoid duplication if effect re-runs
+
                     if (lakshyaTextRef.current.classList.contains('is-splitted')) {
-                        // Optional: manual revert if you were storing the instance, 
-                        // but standard SplitType doesn't have a static revert on element easily without instance.
-                        // But since we are inside useEffect with [] dependency on isLoading change, it should be fresh.
+
+
+
                         lakshyaTextRef.current.innerHTML = "LAKSHYA";
                     }
 
@@ -95,7 +95,7 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
                             transformOrigin: "50% 50% -50", // Pivot point
                         });
                     } else {
-                        // Fallback
+
                         gsap.set(lakshyaTextRef.current, { opacity: 1 });
                     }
                 }
@@ -104,7 +104,7 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
         return () => ctx.revert();
     }, [containerRef, isLoading]);
 
-    // Framer Motion Variants for 3D Flutter
+
     const containerVariants = {
         hidden: { opacity: 1 },
         visible: {
@@ -135,7 +135,7 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
         }
     };
 
-    // Helper to split text into characters
+
     const AnimatedText = ({ text, className = "" }: { text: string, className?: string }) => (
         <span className={`inline-block whitespace-wrap ${className}`}>
             {text.split(" ").map((word, i) => (

@@ -23,7 +23,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
-  // 1. Load images to get dimensions
+
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -36,7 +36,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
           image.onload = () => {
              const width = image.naturalWidth || 1;
              const height = image.naturalHeight || 1;
-             // console.log(`Loaded image ${img.id}: ${width}x${height}`);
+
             resolve({
               ...img,
               width: width,
@@ -58,7 +58,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
           if (img.src) {
               image.src = img.src;
           } else {
-             // Handle missing src gracefully
+
              resolve({
               ...img,
               width: 300,
@@ -88,7 +88,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
     };
   }, [images]);
 
-  // 2. Measure container
+
   useEffect(() => {
     if (!containerRef.current) return;
     
@@ -104,9 +104,9 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
     return () => resizeObserver.disconnect();
   }, []);
 
-  // 3. Compute Rows
+
   const rows: ProcessedImage[][] = [];
-  // Fallback to window width if containerWidth is 0 (e.g. initial render issue)
+
   const effectiveWidth = containerWidth > 0 ? containerWidth : (typeof window !== 'undefined' ? window.innerWidth - 48 : 1000);
 
   if (processedImages.length > 0 && effectiveWidth > 0) {
@@ -115,10 +115,10 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
 
     processedImages.forEach((img) => {
       currentRow.push(img);
-      // Theoretical width if height is targetRowHeight
+
       currentWidth += img.aspectRatio * targetRowHeight;
 
-      // If the row is wider than container, break it
+
       if (currentWidth >= effectiveWidth) {
         rows.push(currentRow);
         currentRow = [];
@@ -126,7 +126,7 @@ const JustifiedGrid = ({ images, targetRowHeight = 300, onImageClick }: Justifie
       }
     });
 
-    // Add last row if not empty
+
     if (currentRow.length > 0) {
       rows.push(currentRow);
     }

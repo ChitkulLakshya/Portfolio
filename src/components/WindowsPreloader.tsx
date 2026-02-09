@@ -3,21 +3,21 @@ import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
 
-// ==================================================================================
-// CONFIGURATION: FINAL POSITION
-// Change these values to adjust where the text lands!
-// ==================================================================================
-// CONFIGURATION: FINAL POSITION
-// Change these values to adjust where the text lands! (0, 0 is center)
-// ==================================================================================
+
+
+
+
+
+
+
 const TARGET_OFFSET_X = -1520;   // Horizontal Offset from Center (Negative=Left, Positive=Right)
 const TARGET_OFFSET_Y = -1080;   // Vertical Offset from Center (Negative=Up, Positive=Down)
-// ==================================================================================
 
-// ==================================================================================
-// CONFIGURATION: ZOOM LEVEL
-// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
-// ==================================================================================
+
+
+
+
+
 const ZOOM_LEVEL = 1.0;
 
 interface PreloaderProps {
@@ -34,17 +34,17 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         let ctx = gsap.context(() => {
             const tl = gsap.timeline({
                 onComplete: () => {
-                    // Animation finished
+
                 },
             });
 
-            // ===========================================================================
-            // PHASE 1: SVG HANDWRITING
-            // ===========================================================================
+
+
+
             const textPath = textPathRef.current;
             if (textPath) {
                 const length = textPath.getComputedTextLength();
-                // Initialize SVG Stroke State
+
                 gsap.set(textPath, {
                     strokeDasharray: length,
                     strokeDashoffset: length,
@@ -56,14 +56,14 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     opacity: 1
                 });
 
-                // 1. Draw Stroke
+
                 tl.to(textPath, {
                     strokeDashoffset: 0,
                     duration: 3,
                     ease: "power1.inOut",
                 });
 
-                // 2. Fill Color
+
                 tl.to(textPath, {
                     fill: "#1a1a1a",
                     duration: 1,
@@ -71,37 +71,37 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 }, "-=1");
             }
 
-            // ===========================================================================
-            // PHASE 2: SWAP & MOVE (HTML)
-            // ===========================================================================
 
-            // Prepare HTML Overlay
+
+
+
+
             const htmlText = containerRef.current?.querySelector(".html-text") as HTMLElement;
             if (htmlText) {
                 const split = new SplitType(htmlText, { types: "chars" });
                 const chars = split.chars as HTMLElement[];
 
-                // INITIAL CALCULATION
-                // Determine offsets for animation
+
+
                 const htmlTextRect = htmlText.getBoundingClientRect();
                 const initialCenterX = window.innerWidth / 2;
                 const initialCenterY = window.innerHeight / 2;
 
-                // Final Position Logic (Relative to Center)
+
                 const finalXFromCenter = TARGET_OFFSET_X;
                 const finalYFromCenter = TARGET_OFFSET_Y;
 
-                // 3. INSTANT SWAP
-                // Hide SVG completely, Show HTML completely.
-                // No fade overlap to avoid "rewriting" double vision.
+
+
+
                 tl.add(() => {
                     if (svgRef.current) svgRef.current.style.opacity = "0";
                     htmlText.style.opacity = "1";
                     htmlText.style.pointerEvents = "auto";
                 }, ">"); // Occurs immediately after fill finishes
 
-                // 4. Staggered Move
-                // Animate Container Scale (Shrink)
+
+
                 tl.to(htmlText, {
                     scale: 0.3,
                     duration: 1.2,
@@ -109,7 +109,7 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     transformOrigin: "left center"
                 }, "move");
 
-                // Animate Characters (Move to Corner)
+
                 tl.to(chars, {
                     x: finalXFromCenter,
                     y: finalYFromCenter,
@@ -119,9 +119,9 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 }, "move");
             }
 
-            // ===========================================================================
-            // PHASE 3: REVEAL CONTENT
-            // ===========================================================================
+
+
+
             tl.to(bgRef.current, {
                 clipPath: "circle(0% at 75px 40px)", // Matches final text position approximately
                 duration: 1.5,
@@ -129,8 +129,8 @@ const WindowsPreloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 onComplete: onComplete
             }, "-=0.8");
 
-            // FADE OUT TEXT - REMOVED (Clipping handles it now)
-            // if (htmlText) { ... }
+
+
 
         }, containerRef);
 

@@ -19,7 +19,7 @@ export const fetchProjects = async (): Promise<Project[]> => {
     const csvText = await response.text();
 
     const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const projects: Project[] = parsed.data.map((row: any, index: number) => ({
       id: index + 1,
       title: row.title || "",

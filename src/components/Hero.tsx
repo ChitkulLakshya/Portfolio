@@ -9,12 +9,12 @@ const Hero = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Mobile Check
+
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize(); // Initial check
     window.addEventListener("resize", handleResize);
 
-    // OS Check
+
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isUbuntuOS = userAgent.indexOf("ubuntu") > -1 || userAgent.indexOf("linux") > -1;
 
@@ -31,9 +31,9 @@ const Hero = () => {
     return <HeroMobile />;
   }
 
-  // If Ubuntu or simply defaulting to Ubuntu for desktop
-  // Use Ubuntu component for Linux/Ubuntu users, and currently for all other desktop users too
-  // as per current architecture where 'HeroDesktop' was the only desktop view.
+
+
+
   return <Ubuntu />;
 };
 

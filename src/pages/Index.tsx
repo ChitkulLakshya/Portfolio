@@ -6,7 +6,7 @@ import { fetchProjects } from "@/lib/api";
 import { useCertificates } from "@/hooks/useCertificates";
 
 const Index = ({ isLoading = false, isWindows = false, isMac = false }: { isLoading?: boolean; isWindows?: boolean; isMac?: boolean }) => {
-  // Prefetch projects data to warm up the cache
+
   const { data: projects } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProjects,
@@ -26,15 +26,15 @@ const Index = ({ isLoading = false, isWindows = false, isMac = false }: { isLoad
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Preload project images and certificates in the background
+
   useEffect(() => {
-    // 1. Preload certificates (Huge JSON from Google Script)
-    // We use a timeout to let the main thread render the hero section first
+
+
     const timer = setTimeout(() => {
       preloadCertificates();
     }, 2000);
 
-    // 2. Preload project images
+
     if (projects && projects.length > 0) {
       projects.forEach((project) => {
         if (project.image) {

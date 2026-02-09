@@ -3,9 +3,9 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 
-// Register the plugin
-// Note: ScrambleTextPlugin is a Club GreenSock benefit. 
-// If this throws an error, it means the plugin is not installed/licensed.
+
+
+
 try {
     console.log("TextReveal: Registering plugin...");
     gsap.registerPlugin(ScrambleTextPlugin);
@@ -31,12 +31,12 @@ const TextReveal = ({ text, className = "", style = {}, delay = 0, trigger = tru
     useEffect(() => {
         if (!containerRef.current || !textRef.current) return;
 
-        // Reset content for fresh split
+
         textRef.current.innerHTML = text;
         const split = new SplitType(textRef.current, { types: "chars" });
         const chars = split.chars as HTMLElement[]; // Array of DOM elements for each character
 
-        // LOCK WIDTHS to prevent shaking during scramble
+
         if (chars) {
             chars.forEach(char => {
                 const w = char.offsetWidth;
@@ -49,7 +49,7 @@ const TextReveal = ({ text, className = "", style = {}, delay = 0, trigger = tru
         const ctx = gsap.context(() => {
             if (!chars) return;
 
-            // Set Initial State Immediately
+
             gsap.set(chars, {
                 z: 500,
                 rotationX: -90,
@@ -58,9 +58,9 @@ const TextReveal = ({ text, className = "", style = {}, delay = 0, trigger = tru
                 y: -50
             });
 
-            // Only run animation if triggered
+
             if (trigger) {
-                // Animate each character individually
+
                 gsap.to(chars,
                     {
                         delay: delay, // Global start delay
@@ -74,21 +74,21 @@ const TextReveal = ({ text, className = "", style = {}, delay = 0, trigger = tru
                             amount: 0.8, // Total time to spread starts across
                             from: "end"  // Right to Left
                         },
-                        // We can use scrambleText on each char, but often it looks cleaner
-                        // to just have the 3D fall. Let's try to KEEP scrambleText if possible,
-                        // but ScrambleText on single chars usually just cycles chars.
-                        // Let's rely on the TextPlugin 'text' or just the scramble effect on content?
-                        // Actually, ScrambleTextPlugin replaces content.
-                        // Let's try applying ScrambleText to each char to resolve to its ORIGINAL content.
-                        // But SplitType chars contain the letter.
-                        // We need to tell ScrambleText what the FINAL text is.
-                        // Since 'chars' is an array, we can't easily pass the specific final char for EACH execution in a single tween
-                        // UNLESS we use function-based values or a loop.
-                        // Loop is safer for explicit target.
+
+
+
+
+
+
+
+
+
+
+
                     }
                 );
 
-                // Loop for ScrambleText content targeting (since simple tween can't map 'text' per element easily)
+
                 chars.forEach((char, i) => {
                     const originalChar = char.textContent || "";
                     gsap.to(char, {

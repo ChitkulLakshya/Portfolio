@@ -5,31 +5,31 @@ import { cn } from "@/lib/utils";
    🔧 NAVBAR CONFIG (EDIT HERE)
 ================================ */
 
-// Logo
+
 const LOGO_TEXT = "Chitkul Lakshya";
 const LOGO_SIZE = "text-3xl"; // Increased size for Script readability
 
-// Nav item text size
+
 const NAV_TEXT_SIZE = "text-xs"; // text-xs | text-sm | text-base | text-lg
 
-// Get in Touch button
+
 const CTA_TEXT = "Get in Touch";
 const CTA_TEXT_SIZE = "text-sm";
 
-// Navbar styling
+
 const NAVBAR_PADDING = "px-5 py-1";
 const NAVBAR_BORDER = "border border-neutral-700/30";
 const NAVBAR_BG = "bg-transparent backdrop-blur-md";
 const NAV_SCALE = 0.8; // Adjust this to scale the navbar (e.g., 0.8 = 80%, 1.2 = 120%)
 
-// Active / inactive colors
+
 const ACTIVE_TEXT_DARK = "text-silver hover:opacity-80";
 const INACTIVE_TEXT_DARK = "text-silver opacity-70 hover:opacity-100";
 
 const ACTIVE_TEXT_LIGHT = "text-black hover:opacity-80";
 const INACTIVE_TEXT_LIGHT = "text-black/60 hover:text-black";
 
-// Button styles
+
 const CTA_BG = "bg-white hover:bg-neutral-200";
 const CTA_TEXT_COLOR = "text-black";
 

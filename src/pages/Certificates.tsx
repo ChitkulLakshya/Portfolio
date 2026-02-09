@@ -3,12 +3,12 @@ import PageLayout from "@/components/PageLayout";
 import JustifiedGrid from "@/components/JustifiedGrid";
 import { Loader2, X, RotateCcw } from "lucide-react";
 import { useCertificates, GridImage, CACHE_KEY } from "@/hooks/useCertificates";
-// CONFIGURATION: ZOOM LEVELS
-// Adjust these values to scale the page content for each OS
+
+
 const ZOOM_WINDOWS = 0.9;
 const ZOOM_UBUNTU = 0.9;
 
-// CONFIGURATION: GRID POSITION (px)
+
 const GRID_X_WINDOWS = -150;
 const GRID_Y_WINDOWS = 0;
 
@@ -28,8 +28,8 @@ const Certificates = () => {
     fetchCertificates();
 
     const handleFocus = () => {
-      // Optional: could trigger a soft refresh check here using the hook logic if exposed
-      // or just rely on the hook's internal logic if we call fetchCertificates again
+
+
       fetchCertificates();
     };
 
@@ -39,7 +39,7 @@ const Certificates = () => {
   }, [fetchCertificates]);
 
 
-  // Disable scrolling when modal is open
+
   useEffect(() => {
     if (selectedImage) {
       document.body.style.overflow = "hidden";

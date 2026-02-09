@@ -31,9 +31,9 @@ const BottomNav = () => {
                     }
                 } else {
                     navigate("/#stack");
-                    // Dispatch a custom event or check on mount to scroll? 
-                    // For simplicity, just navigating to hash might rely on browser behavior or extra logic in Index.
-                    // Let's rely on standard hash navigation for now or useEffect in Index.
+
+
+
                     setTimeout(() => {
                         const skillsSection = document.getElementById("stack");
                         if (skillsSection) skillsSection.scrollIntoView({ behavior: "smooth" });

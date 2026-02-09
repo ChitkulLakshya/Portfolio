@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-// CONFIGURATION
+
 export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3gvm-IhQKnIPfxoxYw7yxqLrPGcq02iyBhTrnAXJTD38-v7O6c2THItokLe4m92Fv/exec";
 export const CACHE_KEY = "certificates_cache_v2";
 export const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -23,15 +23,15 @@ export const useCertificates = () => {
 
   const transformData = useCallback((files: DriveFile[]): GridImage[] => {
     return files.map((file, index) => {
-       // Check if data is already a Base64 string or a valid URL
+
        let src = file.data;
        
-       // Optimization: If the user provides a raw Drive File ID in the future, 
-       // or if the script is updated to return IDs instead of Base64, 
-       // we can handle the direct download link format here:
-       // if (!file.data.startsWith('data:') && !file.data.startsWith('http')) {
-       //    src = `https://drive.google.com/uc?export=view&id=${file.data}`;
-       // }
+
+
+
+
+
+
        
        return {
         id: `cert-${index}`,
@@ -45,14 +45,14 @@ export const useCertificates = () => {
     setIsLoading(true);
     setError(null);
 
-    // If forcing refresh, clear cache immediately
+
     if (forceRefresh) {
         localStorage.removeItem(CACHE_KEY);
         setImages([]);
     }
 
     try {
-      // 1. Check Local Cache
+
       const cachedData = localStorage.getItem(CACHE_KEY);
 
       if (cachedData && !forceRefresh) {
@@ -71,10 +71,10 @@ export const useCertificates = () => {
         }
       }
 
-      // 2. Fetch from Network if cache miss
-      // Use low priority if supported (browsers might ignore this in fetch options but it's good intent)
-      // Note: 'priority' property is not standard in fetch Init yet for all browsers, but some support it.
-      // We can use a request object or just fetch.
+
+
+
+
       const response = await fetch(GOOGLE_SCRIPT_URL);
 
       if (!response.ok) {
@@ -84,7 +84,7 @@ export const useCertificates = () => {
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        // 3. Save to Cache
+
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           data: data,
           timestamp: Date.now()
@@ -103,10 +103,10 @@ export const useCertificates = () => {
     }
   }, [transformData]);
 
-  // A light version just for pre-fetching/caching without state updates if needed,
-  // but using fetchCertificates is fine as it updates state which might not be mounted.
-  // Actually, we should separate the "fetch & cache" logic from "set state" logic 
-  // if we want to use it in a background component that doesn't display images.
+
+
+
+
   
   const preloadCertificates = useCallback(async () => {
       try {

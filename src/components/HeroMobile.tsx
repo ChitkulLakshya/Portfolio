@@ -8,19 +8,19 @@ const HeroMobile = () => {
   const { scrollY } = useScroll();
 
   useEffect(() => {
-    // Basic cleanup logic if needed, but we use useLayoutEffect for GSAP
+
   }, []);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      // Ensure element exists before animating
+
       if (lakshyaTextRef.current) {
         console.log("HeroMobile: animating LAKSHYA text");
 
-        // Use a timeline for robustness
+
         const tl = gsap.timeline();
 
-        // Start from hidden/offset state
+
         tl.set(lakshyaTextRef.current, { yPercent: 100, autoAlpha: 1 })
           .to(lakshyaTextRef.current, {
             yPercent: 0,
@@ -34,13 +34,13 @@ const HeroMobile = () => {
     return () => ctx.revert(); // Cleanup
   }, [containerRef]);
 
-  // Element A: Moves upward at 0.5x speed (y becomes negative as scrollY increases)
+
   const yA = useTransform(scrollY, [0, 500], [0, -250]);
 
-  // Element B: Moves downward at 0.2x speed (y becomes positive)
+
   const yB = useTransform(scrollY, [0, 500], [0, 100]);
 
-  // Element C: Fades out linearly by 300px
+
   const opacityC = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (

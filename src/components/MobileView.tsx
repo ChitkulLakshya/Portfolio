@@ -21,9 +21,9 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
     const LOGO_TEXT = "Chitkul Lakshya";
     const LOGO_SIZE = "text-3xl";
 
-    // ==================================================================================
-    // CONFIGURATION: IMAGE POSITIONING
-    // ==================================================================================
+
+
+
     const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
     const IMG_OFFSET_Y = "0px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
     const IMG_SCALE = 0.9;    // Zoom level of the image
@@ -62,13 +62,13 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         if (isLoading) return; // Wait until preloader is done
 
         let ctx = gsap.context(() => {
-            // Ensure element exists before animating
+
             if (lakshyaTextRef.current) {
                 const splitLakshya = new SplitType(lakshyaTextRef.current, { types: 'chars' });
 
                 gsap.set(lakshyaTextRef.current, { perspective: 400, opacity: 1, autoAlpha: 1 });
 
-                // Animate characters
+
                 gsap.from(splitLakshya.chars, {
                     duration: 1.5,
                     y: 100,

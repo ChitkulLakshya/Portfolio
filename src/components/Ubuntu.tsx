@@ -6,44 +6,44 @@ import TextReveal from "./TextReveal";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
-// ==================================================================================
-// CONFIGURATION: ZOOM LEVEL
-// Adjust this value to scale the entire component! (e.g., 0.9 = 90%)
-// ==================================================================================
+
+
+
+
 const ZOOM_LEVEL = 0.9;
 
-// ==================================================================================
-// CONFIGURATION: IMAGE POSITIONING
-// ==================================================================================
+
+
+
 const IMG_URL = "/image/pro.webp";
 const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
 const IMG_OFFSET_Y = "-550px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
 const IMG_SCALE = 0.7;    // Zoom level of the image
 
-// ==================================================================================
-// CONFIGURATION: TEXT POSITIONING (All values in PX relative to center/hero container)
-// ==================================================================================
-// Group A: "Hey I'm"
+
+
+
+
 const POS_HEY_IM_X = 150;
 const POS_HEY_IM_Y = -370;
 
-// Group A: "LAKSHYA"
+
 const POS_LAKSHYA_X = 150;
 const POS_LAKSHYA_Y = -300;
 
-// Group B: "WEB & APP" (Top Right)
+
 const POS_WEB_APP_TOP_X = 1060;
 const POS_WEB_APP_TOP_Y = 180;
 
-// Group C: "WEB & APP DEVELOPER" (Bottom Left)
+
 const POS_WEB_APP_BOTTOM_X = 120;
 const POS_WEB_APP_BOTTOM_Y = 600;
 
-// Bio Text (Right aligned)
+
 const POS_BIO_RIGHT = 50;
 const POS_BIO_TOP = 400;
 
-// Bio Text (Bottom Left)
+
 const POS_BIO_LEFT_X = 70;
 const POS_BIO_BOTTOM_Y = -120;
 
@@ -81,7 +81,7 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
                     stagger: 0.1,
                     ease: "back.out(1.7)", // Bouncy flip feel
                     transformOrigin: "50% 50% -50", // Pivot point
-                    // delay: 0.2 // REMOVED for immediate start
+
                 });
             }
 
@@ -89,7 +89,7 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
         return () => ctx.revert();
     }, [containerRef, isLoading]);
 
-    // Framer Motion Variants for 3D Flutter
+
     const containerVariants = {
         hidden: { opacity: 1 },
         visible: {
@@ -120,7 +120,7 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
         }
     };
 
-    // Helper to split text into characters
+
     const AnimatedText = ({ text, className = "" }: { text: string, className?: string }) => (
         <span className={`inline-block whitespace-wrap ${className}`}>
             {text.split(" ").map((word, i) => (

@@ -16,33 +16,38 @@ const queryClient = new QueryClient();
 import { useState, useEffect } from "react";
 import Preloader from "./components/Preloader";
 import MobilePreloader from "./components/MobilePreloader";
-import WindowsPreloader from "./components/windowspreloader";
+import WindowsPreloader from "./components/WindowsPreloader";
 import MacPreloader from "./components/MacPreloader";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true); // Preloader enabled again
   const [isMobile, setIsMobile] = useState(false);
 
-  // Initialize based on userAgent to prevent double-rendering/logging
+
   const [isWindows, setIsWindows] = useState(() => {
     if (typeof window !== "undefined") {
-      return navigator.userAgent.indexOf("Windows") !== -1;
+      return navigator.userAgent.toLowerCase().indexOf("windows") !== -1;
     }
     return false;
   });
 
   const [isMac, setIsMac] = useState(() => {
     if (typeof window !== "undefined") {
-      return navigator.userAgent.indexOf("Mac") !== -1;
+      const ua = navigator.userAgent.toLowerCase();
+
+      return ua.indexOf("mac") !== -1 || (navigator.platform && navigator.platform.toLowerCase().indexOf("mac") !== -1);
     }
     return false;
   });
 
   useEffect(() => {
-    if (isWindows) {
-      console.log("Running in windows (OS Detected)");
+    if (isWindows) console.log("Running in Windows (OS Detected)");
+    if (isMac) console.log("Running in MacOS (OS Detected)");
+
+    if (typeof window !== "undefined") {
+      console.log("OS Detection Debug:", { ua: navigator.userAgent, platform: navigator.platform });
     }
-  }, [isWindows]);
+  }, [isWindows, isMac]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -54,7 +59,7 @@ const App = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Prevent scroll restoration and force top on mount
+
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -87,8 +92,8 @@ const App = () => {
 
         <div
           style={{
-            // Removed opacity/transform transition to prevent layout shifts/scroll issues.
-            // The Preloader handles the visual reveal via clip-path now.
+
+
             opacity: 1,
           }}
         >
