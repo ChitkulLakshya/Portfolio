@@ -1,21 +1,13 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-/* ===============================
-   🔧 NAVBAR CONFIG (EDIT HERE)
-================================ */
-
-
 const LOGO_TEXT = "Chitkul Lakshya";
-const LOGO_SIZE = "text-3xl"; // Increased size for Script readability
+const LOGO_SIZE = "text-3xl"; 
 
-
-const NAV_TEXT_SIZE = "text-xs"; // text-xs | text-sm | text-base | text-lg
-
+const NAV_TEXT_SIZE = "text-xs"; 
 
 const CTA_TEXT = "Get in Touch";
 const CTA_TEXT_SIZE = "text-sm";
-
 
 const NAVBAR_PADDING = "px-5 py-1";
 const NAVBAR_BORDER = "border border-neutral-700/30";

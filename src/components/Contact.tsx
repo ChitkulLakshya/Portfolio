@@ -33,7 +33,7 @@ const Contact = () => {
                 <span className="font-light">GitHub</span>
               </a>
               <a
-                href="https://www.linkedin.com/in/chitkul-lakshya"
+                href="https://www.linkedin.com/in/chitkullakshya"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-black hover:opacity-70 transition-opacity"
