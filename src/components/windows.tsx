@@ -2,7 +2,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import gsap from "gsap";
-$import SplitType from "split-type";
+import SplitType from "split-type";
 import TextReveal from "./TextReveal";
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
