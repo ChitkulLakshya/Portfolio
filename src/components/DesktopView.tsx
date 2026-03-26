@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 
 const DesktopView = ({ isLoading = false, isWindows = false, isMac = false }: { isLoading?: boolean; isWindows?: boolean; isMac?: boolean }) => {
     return (
-        <div className="min-h-screen overflow-x-hidden relative" style={{ backgroundColor: '#D3D3D3' }}>
+        <div className="min-h-screen overflow-x-hidden relative bg-transparent">
             <Navbar isLoading={isLoading} />
             <main className="overflow-x-hidden relative">
                 {isWindows ? (

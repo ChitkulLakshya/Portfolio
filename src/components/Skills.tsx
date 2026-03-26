@@ -230,7 +230,7 @@ export default function Skills() {
             id="stack"
             className="py-10 px-0 w-full relative overflow-hidden"
             style={{
-                backgroundColor: '#D3D3D3',
+                backgroundColor: 'transparent',
                 height: '80vh',
                 minHeight: '600px'
             }}

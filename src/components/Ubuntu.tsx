@@ -15,10 +15,7 @@ const ZOOM_LEVEL = 0.9;
 
 
 
-const IMG_URL = "/image/pro.webp";
-const IMG_OFFSET_X = "0px"; // Move Left/Right (e.g. "0px", "50px", "-100px")
-const IMG_OFFSET_Y = "-550px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
-const IMG_SCALE = 0.7;    // Zoom level of the image
+// Profile image removed (replaced by Spline background layer)
 
 
 
@@ -159,23 +156,6 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
                 }}
             >
                 <div className="relative w-full h-full">
-
-                    {/* MAIN IMAGE - Wrapped for Scroll Animation */}
-                    <motion.div className="absolute inset-0 pointer-events-none z-0">
-                        <img
-                            src={IMG_URL}
-                            alt="Background"
-                            className="absolute max-w-none"
-                            style={{
-                                left: "50%",
-                                top: "0px",
-                                transform: `translate(calc(-50% + ${IMG_OFFSET_X}), ${IMG_OFFSET_Y}) scale(${IMG_SCALE})`,
-                                width: "100vw", // Ensure it covers width
-                                height: "auto",
-                                minHeight: "80vh",
-                            }}
-                        />
-                    </motion.div>
 
                     {/* Group A: Badge + Hey I'm (Moves Upward) */}
                     <motion.div className="absolute inset-0 pointer-events-none">

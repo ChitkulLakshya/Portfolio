@@ -46,7 +46,7 @@ const Navbar = ({ isLoading = false }: { isLoading?: boolean }) => {
   };
 
   const scrollToSkillsSection = () => {
-    const section = document.getElementById("skills");
+    const section = document.getElementById("stack") || document.getElementById("skills");
     if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 

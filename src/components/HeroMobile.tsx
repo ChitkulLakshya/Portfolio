@@ -58,23 +58,6 @@ const HeroMobile = () => {
           width: "100%",
         }}
       >
-        <img
-          src="/image/pro.webp"
-          alt="Chitkul Lakshya"
-          style={{
-            position: "absolute",
-            top: "10%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "100%", // Full width
-            maxWidth: "none", // Allow exceeding standard limits if needed
-            height: "auto",
-            objectFit: "contain",
-            pointerEvents: "none",
-            zIndex: 5,
-          }}
-        />
-
         <div className="relative w-full h-full z-10">
 
           {/* Group A: Badge + Hey I'm (Moves Upward 0.5x) */}

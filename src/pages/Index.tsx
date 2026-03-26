@@ -4,6 +4,7 @@ import MobileView from "@/components/MobileView";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "@/lib/api";
 import { useCertificates } from "@/hooks/useCertificates";
+import SplineHero from "@/components/SplineHero";
 
 const Index = ({ isLoading = false, isWindows = false, isMac = false }: { isLoading?: boolean; isWindows?: boolean; isMac?: boolean }) => {
 
@@ -47,7 +48,20 @@ const Index = ({ isLoading = false, isWindows = false, isMac = false }: { isLoad
     return () => clearTimeout(timer);
   }, [projects, preloadCertificates]);
 
-  return isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} isWindows={isWindows} isMac={isMac} />;
+  return (
+    <div className="relative min-h-screen" style={{ backgroundColor: '#D3D3D3' }}>
+      {/* Global 3D Model Background Track */}
+      <div className="absolute inset-0 z-[-1] pointer-events-none overflow-hidden">
+        <div className="sticky top-0 h-screen w-full">
+          <SplineHero />
+        </div>
+      </div>
+      
+      <div className="relative z-10">
+        {isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} isWindows={isWindows} isMac={isMac} />}
+      </div>
+    </div>
+  );
 };
 
 export default Index;

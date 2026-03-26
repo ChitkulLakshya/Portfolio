@@ -5,8 +5,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-32 px-4 border-t border-black/10 relative"
-      style={{ backgroundColor: '#D3D3D3' }}
+      className="py-32 px-4 border-t border-black/10 relative bg-transparent"
     >
       <div className="container mx-auto max-w-7xl">
         <div className="text-center space-y-8 px-4 overflow-hidden">
