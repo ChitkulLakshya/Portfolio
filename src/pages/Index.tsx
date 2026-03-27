@@ -49,14 +49,7 @@ const Index = ({ isLoading = false, isWindows = false, isMac = false }: { isLoad
   }, [projects, preloadCertificates]);
 
   return (
-    <div className="relative min-h-screen" style={{ backgroundColor: '#D3D3D3' }}>
-      {/* Global 3D Model Background Track */}
-      <div className="absolute inset-0 z-[-1] pointer-events-none overflow-hidden">
-        <div className="sticky top-0 h-screen w-full">
-          <SplineHero />
-        </div>
-      </div>
-      
+    <div className="relative min-h-screen" style={{ backgroundColor: "#D3D3D3" }}>
       <div className="relative z-10">
         {isMobile ? <MobileView isLoading={isLoading} /> : <DesktopView isLoading={isLoading} isWindows={isWindows} isMac={isMac} />}
       </div>

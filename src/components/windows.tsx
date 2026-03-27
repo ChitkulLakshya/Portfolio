@@ -17,10 +17,7 @@ const ZOOM_LEVEL = 0.7;
 
 
 
-const IMG_URL = "/image/pro.webp";
-const IMG_OFFSET_X = "0px";     // Move Left/Right (e.g. "0px", "50px", "-100px")
-const IMG_OFFSET_Y = "-400px"; // Move Up/Down (e.g. "0px", "-50px", "100px")
-const IMG_SCALE = 0.9;    // Zoom level of the image
+// Profile image removed (replaced by SplineHero layer)
 
 
 
@@ -135,42 +132,20 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
         </span>
     );
 
+    // ── HERO SLOT ──────────────────────────────────────────────────────────
+    // Renders hero UI only. Section wrapper + 3D background owned by
+    // <SplineScrollTrack> in DesktopView.tsx.
+    // ──────────────────────────────────────────────────────────────────────────
     return (
-        <section
+        <div
             ref={containerRef}
-            id="home"
-            className="min-h-screen flex items-center justify-center pt-20 px-4 relative"
+            className={`w-full h-full relative transition-opacity duration-1000 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
+            style={{
+                transform: `scale(${ZOOM_LEVEL})`,
+                transformOrigin: "center center",
+            }}
         >
-            {/* Hero Box - Removed overflow-hidden to allow free positioning */}
-            <div
-                className={`w-full max-w-7xl mx-auto rounded-lg relative flex items-center justify-center transition-opacity duration-1000 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
-                style={{
-                    backgroundColor: "transparent",
-                    minHeight: "80vh",
-                    width: "100vw",
-                    marginLeft: "calc(50% - 50vw)",
-                    marginRight: "calc(50% - 50vw)",
-                    transform: `scale(${ZOOM_LEVEL})`,
-                }}
-            >
-                <div className="relative w-full h-full">
-
-                    {/* MAIN IMAGE - Wrapped for Scroll Animation */}
-                    <motion.div className="absolute inset-0 pointer-events-none z-0">
-                        <img
-                            src={IMG_URL}
-                            alt="Background"
-                            className="absolute max-w-none"
-                            style={{
-                                left: "50%",
-                                top: "0px",
-                                transform: `translate(calc(-50% + ${IMG_OFFSET_X}), ${IMG_OFFSET_Y}) scale(${IMG_SCALE})`,
-                                width: "100vw", // Ensure it covers width
-                                height: "auto",
-                                minHeight: "80vh",
-                            }}
-                        />
-                    </motion.div>
+            <div className="relative w-full h-full">
 
                     {/* Group A: Badge + Hey I'm (Moves Upward) */}
                     <motion.div className="absolute inset-0 pointer-events-none">
@@ -286,8 +261,7 @@ const Windows = ({ isLoading = false }: { isLoading?: boolean }) => {
                     </motion.div>
 
                 </div>
-            </div>
-        </section >
+        </div>
     );
 };
 

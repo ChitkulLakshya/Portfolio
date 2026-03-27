@@ -7,8 +7,6 @@ import SplitType from "split-type";
 import TextReveal from "@/components/TextReveal"; // Import TextReveal
 
 import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
@@ -312,9 +310,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                     </div>
                 </section>
 
-                <Skills />
                 <About />
-                <Services />
                 <Contact />
             </main>
             <Footer />

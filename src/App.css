@@ -1,6 +1,9 @@
 #root {
   /* Removed restrictive defaults to allow full-screen layout */
   width: 100%;
+  /* overflow-x clipped here (not on html/body) so Spline's window.scroll
+     listener isn't shadowed by a new scroll-containing block */
+  overflow-x: hidden;
 }
 
 .logo {

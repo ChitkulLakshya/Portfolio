@@ -3,7 +3,7 @@ import ResumeButton from "./ResumeButton";
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-32 px-4 border-t border-black/10 bg-transparent">
+    <section id="contact" className="py-32 px-4 border-t border-black/10 bg-white">
       <div className="container mx-auto max-w-5xl">
         <div className="text-center space-y-12">
           <h2 className="text-5xl md:text-7xl font-light text-black leading-tight">
