@@ -29,10 +29,10 @@ const DesktopView = ({
     );
 
     return (
-        <div className="min-h-screen overflow-x-hidden relative bg-transparent">
+        <div className="min-h-screen relative bg-transparent">
             <Navbar isLoading={isLoading} />
 
-            <main className="overflow-x-hidden relative">
+            <main className="relative">
                 {/* ────────────────────────────────────────────────────────────
                   SCROLL TRACK  (0 → 200vh)
                   The Spline 3D scene is pinned (sticky) behind the page for

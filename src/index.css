@@ -62,16 +62,23 @@ All colors MUST be HSL.
     @apply text-black;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: #D3D3D3;
-    /* overflow-x: hidden removed from body — it creates a new scroll container
-       on Safari/Firefox, which breaks Spline's window.scroll listener.
-       Horizontal overflow clipping is handled on #root in App.css instead. */
+    /* clip (not hidden) — prevents horizontal scrollbars without creating
+       a new scroll container, so sticky children and Spline's window.scrollY
+       listener are never shadowed. */
+    overflow-x: clip;
+    /* Explicit auto heights: prevent any implicit 100vh cap that would
+       stop the page growing to 200vh and freeze Spline's scroll engine. */
+    height: auto;
+    min-height: auto;
   }
 
   html {
     scroll-behavior: smooth;
-    /* overflow-x: hidden removed from html — same reason as body above.
-       Setting overflow on the root element can create a containing block
-       that shadows window.scrollY, confusing Spline's internal timeline. */
+    /* Same as body — clip instead of hidden. */
+    overflow-x: clip;
+    /* Prevent implicit 100vh cap from freezing Spline's scroll measurement. */
+    height: auto;
+    min-height: auto;
   }
 
   h1, h2, h3, h4, h5, h6 {
