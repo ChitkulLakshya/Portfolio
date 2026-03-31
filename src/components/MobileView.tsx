@@ -126,7 +126,6 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
             <main className="overflow-x-hidden">
                 {/* HERO SECTION (INLINED) */}
                 <section
-                    ref={containerRef}
                     id="home"
                     className="min-h-screen flex items-center justify-center pt-20 relative overflow-x-hidden"
                 >
@@ -146,21 +145,6 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
 
                             {/* Group A: Badge + Hey I'm (Moves Upward 0.5x) */}
                             <motion.div style={{ y: yA }} className="absolute inset-0 pointer-events-none">
-                                {/* Available for new opportunities */}
-                                <div
-                                    className="absolute flex items-center gap-2 px-3 py-1.5 bg-black/20 rounded-full w-fit custom-pointer-events-auto"
-                                    style={{
-                                        top: "-350px",
-                                        left: "100px",
-                                        fontSize: "12px",
-                                        pointerEvents: "auto"
-                                    }}
-                                >
-                                    <div className="w-2 h-2 bg-black rounded-full"></div>
-                                    <span className="text-black font-medium">
-                                        Available for new opportunities
-                                    </span>
-                                </div>
 
                             </motion.div>
 
