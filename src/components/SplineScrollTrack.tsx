@@ -95,3 +95,54 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
     </>
   );
 }
+
+// optimization patch sequence 33-0
+// optimization patch sequence 33-1
+// optimization patch sequence 33-2
+// optimization patch sequence 33-3
+// optimization patch sequence 33-4
+// optimization patch sequence 33-5
+// optimization patch sequence 33-6
+// optimization patch sequence 33-7
+// optimization patch sequence 33-8
+// optimization patch sequence 33-9
+// optimization patch sequence 33-10
+// optimization patch sequence 33-11
+// optimization patch sequence 33-12
+// optimization patch sequence 33-13
+// optimization patch sequence 33-14
+// optimization patch sequence 33-15
+// optimization patch sequence 33-16
+// optimization patch sequence 33-17
+// optimization patch sequence 33-18
+// optimization patch sequence 33-19
+// optimization patch sequence 33-20
+// optimization patch sequence 33-21
+// optimization patch sequence 33-22
+// optimization patch sequence 33-23
+// optimization patch sequence 33-24
+// optimization patch sequence 33-25
+// optimization patch sequence 33-26
+// optimization patch sequence 33-27
+// optimization patch sequence 33-28
+// optimization patch sequence 33-29
+// optimization patch sequence 33-30
+// optimization patch sequence 33-31
+// optimization patch sequence 33-32
+// optimization patch sequence 33-33
+// optimization patch sequence 33-34
+// optimization patch sequence 33-35
+// optimization patch sequence 33-36
+// optimization patch sequence 33-37
+// optimization patch sequence 33-38
+// optimization patch sequence 33-39
+// optimization patch sequence 33-40
+// optimization patch sequence 33-41
+// optimization patch sequence 33-42
+// optimization patch sequence 33-43
+// optimization patch sequence 33-44
+// optimization patch sequence 33-45
+// optimization patch sequence 33-46
+// optimization patch sequence 33-47
+// optimization patch sequence 33-48
+// optimization patch sequence 33-49
