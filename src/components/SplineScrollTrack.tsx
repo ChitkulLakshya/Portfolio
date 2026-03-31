@@ -11,6 +11,12 @@ declare global {
   }
 }
 
+interface SplineViewerElement extends HTMLElement {
+  spline?: {
+    emitEvent: (eventName: string, targetName: string) => void;
+  };
+}
+
 interface SplineScrollTrackProps {
   heroSlot?: React.ReactNode;
 }
@@ -27,6 +33,23 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
 
     return () => {
       document.body.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
+    const viewer = document.querySelector('spline-viewer') as SplineViewerElement;
+    if (!viewer) return;
+
+    const playStartAnimation = () => {
+      if (viewer.spline) {
+        viewer.spline.emitEvent('keyDown', 'OPEN LAPTOP');
+      }
+    };
+
+    viewer.addEventListener('load-complete', playStartAnimation);
+
+    return () => {
+      viewer.removeEventListener('load-complete', playStartAnimation);
     };
   }, []);
 
