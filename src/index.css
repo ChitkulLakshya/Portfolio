@@ -86,6 +86,16 @@ All colors MUST be HSL.
   }
 }
 
+/* Spline: lock canvas to the measured container (pairs with Application.setSize in SplineScrollTrack). */
+.spline-viewport-lock canvas,
+.spline-viewport-canvas canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -112,4 +122,11 @@ All colors MUST be HSL.
   .glow-secondary {
     box-shadow: var(--glow-secondary);
   }
+}
+
+spline-viewer {
+  width: 100vw !important;
+  height: 100vh !important;
+  all: unset;
+  display: block;
 }
