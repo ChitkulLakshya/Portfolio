@@ -124,20 +124,6 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
                     <motion.div className="absolute inset-0 pointer-events-none" style={{ y: yA, opacity: opacityA }}>
 
 
-                        <div
-                            className="absolute flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-1 custom-pointer-events-auto"
-                            style={{
-                                top: px(150),
-                                left: px(60),
-                                pointerEvents: "auto"
-                            }}
-                        >
-                            <div className="w-2 h-2 bg-black rounded-full"></div>
-                            <span className="text-sm text-black font-medium">
-                                Available for new opportunities
-                            </span>
-                        </div>
-
                     </motion.div>
 
 
