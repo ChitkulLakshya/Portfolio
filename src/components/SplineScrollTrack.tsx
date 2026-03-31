@@ -95,5 +95,3 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
     </>
   );
 }
-
-// commit padding 3
