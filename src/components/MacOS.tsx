@@ -1,8 +1,5 @@
-import { useRef, useLayoutEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import gsap from "gsap";
-import SplitType from "split-type";
-import TextReveal from "./TextReveal";
+// Desktop hero text removed (Hey I'm / LAKSHYA / WEB & APP DEVELOPER) to leave room for the Spline laptop.
 
 const px = (value: number) => `${value / 16}rem`; // convert px→rem
 
@@ -45,14 +42,7 @@ const POS_BIO_LEFT_X = 70;
 const POS_BIO_BOTTOM_Y = -120;
 
 const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const lakshyaTextRef = useRef<HTMLDivElement>(null);
-
     const { scrollY } = useScroll();
-
-    useLayoutEffect(() => {
-        console.log("Running MacOS Display (MacOS.tsx)");
-    }, []);
 
     const yA = useTransform(scrollY, [0, 800], [0, -300]);
     const opacityA = useTransform(scrollY, [0, 300], [1, 0]); // Fade out Group A
@@ -63,43 +53,7 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
     const letterSpacingBio = useTransform(scrollY, [0, 400], ["0px", "20px"]);
     const filterBio = useTransform(scrollY, [0, 400], ["blur(0px)", "blur(5px)"]);
 
-    useLayoutEffect(() => {
-        if (isLoading) return;
-
-        const ctx = gsap.context(() => {
-
-            document.fonts.ready.then(() => {
-                if (lakshyaTextRef.current) {
-
-                    if (lakshyaTextRef.current.classList.contains('is-splitted')) {
-
-
-
-                        lakshyaTextRef.current.innerHTML = "LAKSHYA";
-                    }
-
-                    const splitLakshya = new SplitType(lakshyaTextRef.current, { types: 'chars' });
-
-                    if (splitLakshya.chars && splitLakshya.chars.length > 0) {
-                        gsap.set(lakshyaTextRef.current, { perspective: 400, opacity: 1 });
-                        gsap.from(splitLakshya.chars, {
-                            duration: 1.5,
-                            y: 100,
-                            rotationX: -90,
-                            opacity: 0,
-                            stagger: 0.1,
-                            ease: "back.out(1.7)", // Bouncy flip feel
-                            transformOrigin: "50% 50% -50", // Pivot point
-                        });
-                    } else {
-
-                        gsap.set(lakshyaTextRef.current, { opacity: 1 });
-                    }
-                }
-            });
-        }, containerRef);
-        return () => ctx.revert();
-    }, [containerRef, isLoading]);
+    // Removed LAKSHYA / Hey I'm / WEB & APP animations.
 
 
     const containerVariants = {
@@ -158,7 +112,6 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
     // ──────────────────────────────────────────────────────────────────────────
     return (
         <div
-            ref={containerRef}
             className={`w-full h-full relative transition-opacity duration-1000 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
             style={{
                 transform: `scale(${ZOOM_LEVEL})`,
@@ -185,67 +138,10 @@ const MacOS = ({ isLoading = false }: { isLoading?: boolean }) => {
                             </span>
                         </div>
 
-                        <div
-                            className="absolute text-black flex gap-4"
-                            style={{
-                                fontFamily: "cursive",
-                                fontStyle: "italic",
-                                fontWeight: "200",
-                                top: px(POS_HEY_IM_Y),
-                                left: px(POS_HEY_IM_X),
-                                fontSize: px(70),
-                                transform: "scaleX(1.0)",
-                                transformOrigin: "left",
-                            }}
-                        >
-                            <span className={`inline-block ${!isLoading ? "animate-slide-in-left" : "opacity-0"}`}>Hey,</span>
-                            <span className={`inline-block ${!isLoading ? "animate-slide-in-right" : "opacity-0"}`}>I'm</span>
-                        </div>
-
-                        {/* LAKSHYA (GSAP Animation) */}
-                        <div className="absolute font-sixcaps text-black">
-                            <div
-                                className="font-black"
-                                style={{
-                                    top: px(POS_LAKSHYA_Y),
-                                    left: px(POS_LAKSHYA_X),
-                                    fontSize: px(200),
-                                    position: "absolute",
-                                    width: px(800),
-                                    overflow: "hidden" // Mask wrapper
-                                }}
-                            >
-                                <div ref={lakshyaTextRef} style={{ opacity: 0 }}>LAKSHYA</div>
-                            </div>
-                        </div>
                     </motion.div>
 
 
-                    {/* Group B: WEB & APP + Description (Moves Downward) */}
-                    <motion.div className="absolute inset-0 pointer-events-none" style={{ y: yB, opacity: opacityB }}>
-
-                        {/* WEB & APP DEVELOPER Top Right (Horizontal Scroll) */}
-                        <div className="absolute font-sixcaps text-black">
-                            <div
-                                className="font-black"
-                                style={{
-                                    top: px(POS_WEB_APP_TOP_Y),
-                                    left: px(POS_WEB_APP_TOP_X),
-                                    fontSize: px(100),
-                                    position: "absolute",
-                                    lineHeight: "1",
-                                    width: px(100000),
-                                }}
-                            >
-                                <TextReveal text="WEB & APP" trigger={!isLoading} />
-                                <TextReveal text="DEVELOPER" delay={0.2} trigger={!isLoading} />
-                            </div>
-                        </div>
-
-
-                    </motion.div>
-
-
+                    
                     <motion.div className="absolute inset-0 pointer-events-none">
                         <div
                             className="absolute text-black font-light leading-relaxed"

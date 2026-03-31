@@ -1,38 +1,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useLayoutEffect } from "react";
-import gsap from "gsap";
+ 
 
 const HeroMobile = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const lakshyaTextRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-
-  }, []);
-
-  useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-
-      if (lakshyaTextRef.current) {
-        console.log("HeroMobile: animating LAKSHYA text");
-
-
-        const tl = gsap.timeline();
-
-
-        tl.set(lakshyaTextRef.current, { yPercent: 100, autoAlpha: 1 })
-          .to(lakshyaTextRef.current, {
-            yPercent: 0,
-            duration: 1.5,
-            ease: "power4.out",
-            delay: 0.2 // Small delay to allow layout stability
-          });
-      }
-    }, containerRef); // Scope to container
-
-    return () => ctx.revert(); // Cleanup
-  }, [containerRef]);
 
 
   const yA = useTransform(scrollY, [0, 500], [0, -250]);
@@ -45,7 +15,6 @@ const HeroMobile = () => {
 
   return (
     <section
-      ref={containerRef}
       id="home"
       className="min-h-screen flex items-center justify-center pt-20 relative overflow-x-hidden" // Removed px-4 for full width
     >
@@ -92,49 +61,6 @@ const HeroMobile = () => {
                 pointerEvents: "auto"
               }}
             >
-              <span className="animate-slide-in-left opacity-0 inline-block">Hey</span>
-              <span className="animate-slide-in-right opacity-0 inline-block">I'm</span>
-            </div>
-          </motion.div>
-
-          {/* Group B: Name + Title (Moves Downward 0.2x) */}
-          <motion.div style={{ y: yB }} className="absolute inset-0 pointer-events-none">
-            <div className="absolute font-sixcaps text-black">
-              <div
-                className="font-black"
-                style={{
-                  top: "-240px",
-                  left: "70%",
-                  transform: "translateX(-50%)",
-                  fontSize: "70px",
-                  position: "absolute",
-                  width: "min(500px, 90vw)",
-                  maxWidth: "100%",
-                  overflow: "hidden" // Mask container
-                }}
-              >
-                <div ref={lakshyaTextRef}>LAKSHYA</div>
-              </div>
-            </div>
-
-            <div
-              className="absolute font-sixcaps font-bold leading-tight"
-              style={{
-                top: "-165px",
-                left: "125%",
-                transform: "translateX(-50%)",
-                width: "min(600px, 85vw)",
-                maxWidth: "100%",
-                fontSize: "30px",
-                textAlign: "left",
-                color: "black",
-                lineHeight: "1.0",
-                zIndex: 20,
-              }}
-            >
-              WEB & APP
-              <br />
-              DEVELOPER
             </div>
           </motion.div>
 

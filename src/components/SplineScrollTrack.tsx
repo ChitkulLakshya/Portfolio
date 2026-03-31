@@ -40,6 +40,8 @@
  *      completely fresh WebGL context with no stale scroll memory.
  *   4. ResizeObserver confirms scrollHeight ≥ innerHeight*2 before unlock.
  *   5. MANUAL_DRIVE fallback for environments where native scroll still fails.
+ *   6. After onLoad, Key Down "A" is scheduled (rAF×2 + microtask) so the
+ *      laptop-open animation runs after the first canvas paint, not before.
  */
 
 import React, {
@@ -55,6 +57,61 @@ import type { Application } from "@splinetool/runtime";
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 
 const SPLINE_URL = "/scene.splinecode";
+
+/**
+ * Object **name or UUID** in the Spline scene that owns the **Key Down → "A"**
+ * interaction (must match the scene graph in the Spline editor exactly).
+ * Use `"Scene"` if the listener is on the scene root.
+ */
+const SPLINE_KEYDOWN_TARGET = "Scene";
+
+/**
+ * After `onLoad`, the WebGL frame may not be painted yet. We wait for the
+ * next animation frames (and a microtask) so the laptop “open on A” animation
+ * runs once the canvas is actually visible — not in the background.
+ */
+function scheduleLaptopKeyAAfterPaint(spline: Application) {
+  const fire = () => {
+    try {
+      spline.emitEvent("keyDown", SPLINE_KEYDOWN_TARGET);
+    } catch (e) {
+      console.warn("[Spline] emitEvent(keyDown) failed:", e);
+    }
+
+    const canvas = spline.canvas;
+    if (canvas) {
+      try {
+        canvas.focus?.();
+      } catch {
+        /* ignore */
+      }
+      // Spline’s key filter for “A” often follows the browser key path; this
+      // mirrors a real KeyA press on the canvas.
+      canvas.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "a",
+          code: "KeyA",
+          keyCode: 65,
+          which: 65,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+    }
+
+    try {
+      spline.requestRender?.();
+    } catch {
+      /* ignore */
+    }
+  };
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(fire, 0);
+    });
+  });
+}
 
 /**
  * Total scroll depth allocated to the Spline animation track.
@@ -266,7 +323,10 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
       // Snap the scene back to its absolute Base State (frame 0).
       // These calls override any editor-level "Start At" offset.
       try { spline.setVariable("scroll", 0); } catch (_) { }
-      try { spline.emitEvent("start", "Scene"); } catch (_) { }
+
+      // Laptop opening is driven by Key Down "A" in the Spline file (not Start).
+      // Fire after first paint so the animation isn’t consumed before the canvas is visible.
+      scheduleLaptopKeyAAfterPaint(spline);
 
       // Hand control to the ResizeObserver — isLoaded is NOT set here directly.
       attachResizeObserverUnlock();

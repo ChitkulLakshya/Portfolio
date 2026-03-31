@@ -1,10 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useLayoutEffect } from "react";
-import gsap from "gsap";
+import { useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import SplitType from "split-type";
-import TextReveal from "@/components/TextReveal"; // Import TextReveal
 
 import About from "@/components/About";
 import Contact from "@/components/Contact";
@@ -52,35 +49,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
         }
     };
 
-    const containerRef = useRef<HTMLDivElement>(null);
-    const lakshyaTextRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
-
-    useLayoutEffect(() => {
-        if (isLoading) return; // Wait until preloader is done
-
-        let ctx = gsap.context(() => {
-
-            if (lakshyaTextRef.current) {
-                const splitLakshya = new SplitType(lakshyaTextRef.current, { types: 'chars' });
-
-                gsap.set(lakshyaTextRef.current, { perspective: 400, opacity: 1, autoAlpha: 1 });
-
-
-                gsap.from(splitLakshya.chars, {
-                    duration: 1.5,
-                    y: 100,
-                    rotationX: -90,
-                    opacity: 0,
-                    stagger: 0.1,
-                    ease: "back.out(1.7)",
-                    transformOrigin: "50% 50% -50",
-                });
-            }
-        }, containerRef); // Scope to container
-
-        return () => ctx.revert(); // Cleanup
-    }, [containerRef, isLoading]);
 
 
 
@@ -193,71 +162,6 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                                     </span>
                                 </div>
 
-                                <div
-                                    className="absolute text-black flex gap-3 custom-pointer-events-auto"
-                                    style={{
-                                        fontFamily: "cursive",
-                                        fontStyle: "normal",
-                                        fontWeight: "200",
-                                        top: HEY_IM_POSITION_TOP,
-                                        left: HEY_IM_POSITION_LEFT,
-                                        fontSize: HEY_IM_FONT_SIZE,
-                                        letterSpacing: "5px",
-                                        width: "fit-content",
-                                        pointerEvents: "auto"
-                                    }}
-                                >
-                                    <span className={cn("inline-block opacity-0", !isLoading && "animate-slide-in-left")}>Hey</span>
-                                    <span className={cn("inline-block opacity-0", !isLoading && "animate-slide-in-right")}>I'm</span>
-                                </div>
-                            </motion.div>
-
-                            {/* Group B: Name + Title (Moves Downward 0.2x) */}
-                            <motion.div style={{ y: yB }} className="absolute inset-0 pointer-events-none">
-                                <div className="absolute font-sixcaps text-black">
-                                    <div
-                                        className="font-black"
-                                        style={{
-                                            top: LAKSHYA_POSITION_TOP,
-                                            left: LAKSHYA_POSITION_LEFT,
-                                            transform: LAKSHYA_TRANSFORM,
-                                            fontSize: LAKSHYA_FONT_SIZE,
-                                            position: "absolute",
-                                            width: "min(500px, 90vw)",
-                                            maxWidth: "100%",
-                                            overflow: "visible",
-                                            textAlign: "center",
-                                            whiteSpace: "nowrap"
-                                        }}
-                                    >
-                                        {/* Use a wrapper to target split types chars if needed, but whiteSpace usually handles it */}
-                                        <div ref={lakshyaTextRef} className="inline-block">LAKSHYA</div>
-                                        <style>{`
-                                            .char { display: inline-block; } 
-                                        `}</style>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className="absolute font-sixcaps font-bold leading-tight"
-                                    style={{
-                                        top: "-165px",
-                                        left: "495px",
-                                        transform: "translateX(-50%)",
-                                        width: "min(600px, 85vw)",
-                                        maxWidth: "100%",
-                                        fontSize: "40px",
-                                        textAlign: "left",
-                                        color: "black",
-                                        lineHeight: "1.0",
-                                        zIndex: 20,
-                                    }}
-                                >
-                                    {/* Using TextReveal for parity with Desktop Hero */}
-                                    {/* Splitting logic might be needed or just one block */}
-                                    <TextReveal text="WEB & APP" trigger={!isLoading} />
-                                    <TextReveal text="DEVELOPER" trigger={!isLoading} delay={0.2} />
-                                </div>
                             </motion.div>
 
                             {/* Group C: Bio (Fades out) */}
