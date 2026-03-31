@@ -116,7 +116,6 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
     // ──────────────────────────────────────────────────────────────────────────
     return (
         <div
-            ref={containerRef}
             className={`w-full h-full relative transition-opacity duration-1000 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
             style={{
                 transform: `scale(${ZOOM_LEVEL})`,
@@ -129,19 +128,6 @@ const Ubuntu = ({ isLoading = false }: { isLoading?: boolean }) => {
                     <motion.div className="absolute inset-0 pointer-events-none">
 
 
-                        <div
-                            className="absolute flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full w-fit scale-1 custom-pointer-events-auto"
-                            style={{
-                                top: px(150),
-                                left: px(60),
-                                pointerEvents: "auto"
-                            }}
-                        >
-                            <div className="w-2 h-2 bg-black rounded-full"></div>
-                            <span className="text-sm text-black font-medium">
-                                Available for new opportunities
-                            </span>
-                        </div>
                     </motion.div>
 
                     <motion.div className="absolute inset-0 pointer-events-none">
