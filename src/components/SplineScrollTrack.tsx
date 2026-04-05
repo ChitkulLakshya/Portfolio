@@ -23,7 +23,7 @@ interface SplineScrollTrackProps {
 
 export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) {
   const [canvasVisible, setCanvasVisible] = useState(true);
-  const trackRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -72,7 +72,7 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
     <>
       <div
         aria-hidden="true"
-        className="fixed inset-0 w-screen h-screen overflow-hidden z-[-10] bg-[#ebebeb] pointer-events-none"
+        className="fixed inset-0 w-screen h-screen overflow-hidden -z-10"
         style={{
           opacity: canvasVisible ? 1 : 0,
           transition: "opacity 0.4s ease",
@@ -81,40 +81,9 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
         <spline-viewer url={SPLINE_URL}></spline-viewer>
       </div>
 
-      <section
-        ref={trackRef}
-        aria-hidden="true"
-        className="relative w-full"
-        style={{ height: SCROLL_HEIGHT }}
-      >
-        {heroSlot && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100vh",
-              zIndex: 10,
-              pointerEvents: "none",
-              display: canvasVisible ? "block" : "none",
-            }}
-          >
-            {heroSlot}
-          </div>
-        )}
-
-        <div
-          id="stack"
-          aria-hidden="true"
-          className="absolute top-[100vh] left-0 w-0 h-0 pointer-events-none"
-        />
-        <div
-          id="skills"
-          aria-hidden="true"
-          className="absolute top-[100vh] left-0 w-0 h-0 pointer-events-none"
-        />
-      </section>
+      <div ref={trackRef} className="h-[3000px] w-full">
+        {/* Future portfolio sections will go here */}
+      </div>
     </>
   );
 }
