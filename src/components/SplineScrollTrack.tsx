@@ -23,17 +23,11 @@ interface SplineScrollTrackProps {
 
 export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) {
   const [canvasVisible, setCanvasVisible] = useState(true);
-  const trackRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js";
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    // Spline script is now loaded globally in main.tsx
+    // No per-component script injection needed
   }, []);
 
   useEffect(() => {
@@ -69,53 +63,24 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
   }, []);
 
   return (
-    <>
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 w-screen h-screen overflow-hidden z-[-10] bg-[#ebebeb] pointer-events-none"
-        style={{
-          opacity: canvasVisible ? 1 : 0,
-          transition: "opacity 0.4s ease",
-        }}
-      >
-        <spline-viewer url={SPLINE_URL}></spline-viewer>
-      </div>
-
-      <section
-        ref={trackRef}
-        aria-hidden="true"
-        className="relative w-full"
-        style={{ height: SCROLL_HEIGHT }}
-      >
-        {heroSlot && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100vh",
-              zIndex: 10,
-              pointerEvents: "none",
-              display: canvasVisible ? "block" : "none",
-            }}
-          >
-            {heroSlot}
-          </div>
-        )}
-
-        <div
-          id="stack"
-          aria-hidden="true"
-          className="absolute top-[100vh] left-0 w-0 h-0 pointer-events-none"
-        />
-        <div
-          id="skills"
-          aria-hidden="true"
-          className="absolute top-[100vh] left-0 w-0 h-0 pointer-events-none"
-        />
+    // CRITICAL: No overflow-hidden anywhere on this main tag or its parents!
+    <main className="w-full bg-[#D3D3D3]"> 
+      
+      {/* 1. THE SCROLL TRACK */}
+      <section className="relative w-full h-[1500px]">
+        
+        {/* 2. THE STICKY VIEWER */}
+        {/* z-0 keeps it below the next section, but sticky allows it to be pushed up */}
+        <div className="sticky top-0 w-full h-screen z-0 pointer-events-none">
+          <spline-viewer 
+            url="/scene.splinecode"
+            loading-anim-type="none"
+          ></spline-viewer>
+        </div>
+        
       </section>
-    </>
+
+    </main>
   );
 }
 

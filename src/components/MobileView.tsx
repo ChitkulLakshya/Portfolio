@@ -110,7 +110,7 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
 
 
     return (
-        <div className="min-h-screen overflow-x-hidden pb-20 bg-transparent">
+        <div className="min-h-screen pb-20 bg-transparent">
             {/* LOGO */}
             <button
                 onClick={navigateHome}
@@ -123,11 +123,11 @@ const MobileView = ({ isLoading = false }: { isLoading?: boolean }) => {
                 {LOGO_TEXT}
             </button>
 
-            <main className="overflow-x-hidden">
+            <main>
                 {/* HERO SECTION (INLINED) */}
                 <section
                     id="home"
-                    className="min-h-screen flex items-center justify-center pt-20 relative overflow-x-hidden"
+                    className="min-h-screen flex items-center justify-center pt-20 relative"
                 >
                     <div
                         className={cn(

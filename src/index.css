@@ -60,25 +60,32 @@ All colors MUST be HSL.
 
   body {
     @apply text-black;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #D3D3D3;
-    /* clip (not hidden) — prevents horizontal scrollbars without creating
-       a new scroll container, so sticky children and Spline's window.scrollY
-       listener are never shadowed. */
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #D3D3D3 !important;
     overflow-x: clip;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     /* Explicit auto heights: prevent any implicit 100vh cap that would
        stop the page growing to 200vh and freeze Spline's scroll engine. */
     height: auto;
     min-height: auto;
   }
 
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
   html {
     scroll-behavior: smooth;
-    /* Same as body — clip instead of hidden. */
     overflow-x: clip;
-    /* Prevent implicit 100vh cap from freezing Spline's scroll measurement. */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     height: auto;
     min-height: auto;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
