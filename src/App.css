@@ -1,10 +1,6 @@
 #root {
   /* Removed restrictive defaults to allow full-screen layout */
   width: 100%;
-  /* overflow-x: clip (not hidden) — clip is paint-only and does NOT create
-     a new scroll-containing block, so Spline's window.scrollY listener on
-     the main document is never shadowed. Using 'hidden' here was the
-     root cause of Spline always reading scrollY=0. */
   overflow-x: clip;
 }
 

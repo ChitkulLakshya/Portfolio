@@ -69,22 +69,28 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
   }, []);
 
   return (
-    <>
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 w-screen h-screen overflow-hidden -z-10"
-        style={{
-          opacity: canvasVisible ? 1 : 0,
-          transition: "opacity 0.4s ease",
-        }}
-      >
-        <spline-viewer url={SPLINE_URL}></spline-viewer>
-      </div>
+    // CRITICAL: No overflow-hidden anywhere on this main tag or its parents!
+    <main className="w-full bg-black"> 
+      
+      {/* 1. THE SCROLL TRACK */}
+      <section className="relative w-full h-[1500px]">
+        
+        {/* 2. THE STICKY VIEWER */}
+        {/* z-0 keeps it below the next section, but sticky allows it to be pushed up */}
+        <div className="sticky top-0 w-full h-screen z-0 pointer-events-none">
+          <spline-viewer url="/scene.splinecode"></spline-viewer>
+        </div>
+        
+      </section>
 
-      <div ref={trackRef} className="h-[3000px] w-full">
-        {/* Future portfolio sections will go here */}
-      </div>
-    </>
+      {/* 3. THE NEXT SECTION */}
+      {/* This must be a sibling to the 3000px section. It will naturally push the sticky viewer up and out of the way. */}
+      <section className="relative w-full min-h-screen bg-white z-10 pt-20">
+        <h2 className="text-center text-4xl text-black">Let's Work Together</h2>
+        {/* Rest of the content */}
+      </section>
+
+    </main>
   );
 }
 
