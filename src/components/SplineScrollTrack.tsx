@@ -26,14 +26,8 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js";
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    // Spline script is now loaded globally in main.tsx
+    // No per-component script injection needed
   }, []);
 
   useEffect(() => {
@@ -70,7 +64,7 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
 
   return (
     // CRITICAL: No overflow-hidden anywhere on this main tag or its parents!
-    <main className="w-full bg-black"> 
+    <main className="w-full bg-[#D3D3D3]"> 
       
       {/* 1. THE SCROLL TRACK */}
       <section className="relative w-full h-[1500px]">
@@ -78,16 +72,12 @@ export default function SplineScrollTrack({ heroSlot }: SplineScrollTrackProps) 
         {/* 2. THE STICKY VIEWER */}
         {/* z-0 keeps it below the next section, but sticky allows it to be pushed up */}
         <div className="sticky top-0 w-full h-screen z-0 pointer-events-none">
-          <spline-viewer url="/scene.splinecode"></spline-viewer>
+          <spline-viewer 
+            url="/scene.splinecode"
+            loading-anim-type="none"
+          ></spline-viewer>
         </div>
         
-      </section>
-
-      {/* 3. THE NEXT SECTION */}
-      {/* This must be a sibling to the 3000px section. It will naturally push the sticky viewer up and out of the way. */}
-      <section className="relative w-full min-h-screen bg-white z-10 pt-20">
-        <h2 className="text-center text-4xl text-black">Let's Work Together</h2>
-        {/* Rest of the content */}
       </section>
 
     </main>

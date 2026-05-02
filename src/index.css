@@ -60,8 +60,8 @@ All colors MUST be HSL.
 
   body {
     @apply text-black;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #D3D3D3;
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #D3D3D3 !important;
     overflow-x: clip;
     -ms-overflow-style: none;
     scrollbar-width: none;
